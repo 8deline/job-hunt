@@ -1,15 +1,43 @@
 import Company from './companies' 
+import {Droppable} from 'react-beautiful-dnd'
 
 function CategoriesColumn(props) {
-
+    const companiesList = props.companies
     return (
-        <div>
-            <h1>{props.title}</h1>
-            <Company companies={props.companies} />
-        </div>
+        <Droppable droppableId={props.dropid.toString()}>
+            {(provided)=>(
+                    <div ref={provided.innerRef} {...provided.droppableProps}>
+                        <h1>{props.title}</h1>
+                        {companiesList.map((company, index)=>{
+                            return (
+                                <div key={company.company_id}>
+                                    <Company  company={company} index={index} />
+                                </div>
+                            )
+                        })}
+                        {provided.placeholder}
+                    </div>
+                    
+                
+            )}
+
+         </Droppable>
+    )
+    // return (
+    //     <Droppable droppableId={props.dropid}>
+    //         {(provided)=>
+    //             <div ref={provided.innerRef} {...provided.droppableProps}>
+    //             <h1>{props.title}</h1>
+    //             <Company companies={props.companies} />
+    //             {provided.placeholder}
+    //         </div>
+    //         }
+            
+    //     </Droppable>
+        
         
         // <p>test</p>
-    )
+    
 
     // const categoriesList = props.categories
     // categoriesList.map(({category_id, category_name})=>{

@@ -1,6 +1,6 @@
 import './App.css';
 import CategoriesColumn from './components/categories'
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { DragDropContext} from 'react-beautiful-dnd';
 
 function App() {
  const companiesList = [
@@ -45,7 +45,7 @@ position: "Full-stack web developer"
     column_id: 2,
     column_title: 'Resume sent',
     jobs: [ {company_id: 3,
-      company_name: 'Thoughtworks',
+      company_name: 'NinjaVan',
       position: "Full-stack web developer"
       }]
   },
@@ -60,65 +60,25 @@ position: "Full-stack web developer"
     jobs: []
   }
  ]
-
-
-//  columns.map((column)=>{
-//    return (
-//     <div>
-//       {/* <p>{column.column_id}</p>
-//      <p>{column.column_title}</p> */}
-//      <p>test</p>
-//     </div>
-    
-//    )
-//  })
  
    return(
-    
+    <DragDropContext>
     <div className="entire-container">
      {columns.map((column)=>{
     
     return(
-      <div className="job-column">
-      <CategoriesColumn key={column.column_id} title={column.column_title} companies={column.jobs}  />
+        <div key={column.column_id} className="job-column">
+      <CategoriesColumn dropid={column.column_id} title={column.column_title} companies={column.jobs}  />
       </div>
+      
       )
 })}
 
 </div>
+</DragDropContext>
 
    )
  
-
-
-//  return (
-//    <DragDropContext>
-//      <Droppable droppableId="companies">
-//        {(provided)=>(
-//          <ul className="companies" {...provided.droppableProps} ref={provided.innerRef}>
-//          {companies.map(({company_name, position}, index)=>{
-//            return (
-//              <Draggable key={company_name} draggableId={company_name} index={index}>
-//                {(provided)=>(
-//                  <li ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} >
-//                  <div className="cards">
-//                  <p>company_name</p>
-//                  <p>position</p>
-//                  </div>
-                 
-//                </li>
-//                )}
-//              </Draggable>
-             
-//            )
-//          })}
-//        </ul>
-//        )}
-     
-//      </Droppable>
-     
-//    </DragDropContext>
-    // )
 }
 
 export default App;
