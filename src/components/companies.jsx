@@ -2,16 +2,21 @@
 
 function Company (props) {
     const companiesList = props.companies;
-        companiesList.map(({company_name, position, company_id})=>{
+    return(
+        <ul className="job-ul" >
+            {companiesList.map(({company_name, position, company_id})=>{
             return (
-                <li key={company_id}>
+                <li key={company_id} className="job-cards">
                 <p>{company_name}</p>
                 <p>{position}</p>
             </li>
             )
         }
 
-        )    
+        )}   
+        </ul>
+    )
+ 
     
 }
 

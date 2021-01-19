@@ -3,7 +3,12 @@ import Company from './companies'
 function CategoriesColumn(props) {
 
     return (
-        <Company companies="test" />
+        <div>
+            <h1>{props.title}</h1>
+            <Company companies={props.companies} />
+        </div>
+        
+        // <p>test</p>
     )
 
     // const categoriesList = props.categories
