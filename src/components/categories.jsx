@@ -12,9 +12,9 @@ function CategoriesColumn(props) {
                         <h1>{props.title}</h1>
                         {companiesList.map((company, index)=>{
                             return (
-                                <div key={company.company_id}>
-                                    <Company  company={company} index={index} />
-                                </div>
+                                
+                                    <Company key={company.company_id}  company={company} index={index} />
+                                
                             )
                         })}
                         {provided.placeholder}

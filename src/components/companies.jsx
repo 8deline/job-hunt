@@ -4,7 +4,7 @@ import {Draggable} from 'react-beautiful-dnd'
 function Company (props) {
     const company = props.company;
     return (
-        <Draggable draggableId={company.company_id.toString()} index={props.index}>
+        <Draggable draggableId={company.company_id} index={props.index}>
             {(provided)=> (
                     <div className="job-cards" ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
                     <p>{company.company_name}</p>
