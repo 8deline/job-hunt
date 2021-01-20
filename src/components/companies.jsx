@@ -1,16 +1,29 @@
 // import react from React
 import {Draggable} from 'react-beautiful-dnd'
+import NaturalDragAnimation from 'natural-drag-animation-rbdnd'
 
 function Company (props) {
     const company = props.company;
     return (
         <Draggable draggableId={company.company_id} index={props.index}>
-            {(provided)=> (
-                    <div className="job-cards" ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                    <p>{company.company_name}</p>
-                    <p>{company.position}</p>
-                </div>
-            )}
+            {(provided, snapshot)=> (
+                <NaturalDragAnimation  style={provided.draggableProps.style}
+                snapshot={snapshot}>
+                    {style => ( snapshot.draggingOver? (<div className="job-cards-moving" ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} style={style}>
+                <p>{company.company_name}</p>
+                <p>{company.position}</p>
+            </div>) : (
+               <div className="job-cards" ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} style={style}>
+               <p>{company.company_name}</p>
+               <p>{company.position}</p>
+           </div>))
+}
+                   
+                </NaturalDragAnimation>
+                
+            )
+                
+            }
         
         </Draggable>
         

@@ -21,6 +21,12 @@
   background-color: white;
 }
 
+.job-cards-moving {
+  border: 1px solid gray;
+  margin: 4px;
+  background-color: bisque;
+}
+
 .App {
   text-align: center;
 }
