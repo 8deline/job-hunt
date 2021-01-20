@@ -1,8 +1,10 @@
 import Company from './companies' 
 import {Droppable} from 'react-beautiful-dnd'
 
+
 function CategoriesColumn(props) {
     const companiesList = props.companies
+
     return (
         <Droppable droppableId={props.dropid.toString()}>
             {(provided)=>(
