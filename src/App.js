@@ -86,9 +86,15 @@ if (source.droppableId === destination.droppableId && source.index === destinati
 }
 
  const oldcolnewJobList = Array.from(colnList[source.droppableId].jobs)
- const newcolnewJobList = Array.from(colnList[destination.droppableId].jobs)
+ let newcolnewJobList = Array.from(colnList[destination.droppableId].jobs)
  const dragItem = oldcolnewJobList.splice(source.index,1) 
+
+ if (source.droppableId === destination.droppableId) {
+  newcolnewJobList = oldcolnewJobList
+ }
+
  newcolnewJobList.splice(destination.index,0, dragItem[0])
+
  const newoldColumn = {...colnList[source.droppableId], jobs: oldcolnewJobList}
  const newnewColumn = {...colnList[destination.droppableId], jobs: newcolnewJobList }
  setColnList(prev=>({
@@ -96,7 +102,6 @@ if (source.droppableId === destination.droppableId && source.index === destinati
    [source.droppableId]: newoldColumn,
    [destination.droppableId]: newnewColumn
 
-   
  }))
 
 }
