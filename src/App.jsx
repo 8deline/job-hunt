@@ -5,6 +5,8 @@ import Home from "./components/LandingPage/Home";
 import Inbox from "./components/Dashboard/inbox";
 import SignUp from "./components/LandingPage/SignUp";
 import About from "./components/LandingPage/About";
+import Login from "./components/LandingPage/Login";
+import HomePageContent from "./components/LandingPage/HomePageContent";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 class App extends React.Component {
@@ -23,13 +25,17 @@ class App extends React.Component {
               </Dashboard>
             )}
           />
-          <Route path="/register" component={SignUp} />
+          <Route path="/users/register" component={SignUp} />
+          <Route path="/users/login" component={Login} />
           <Route
             path="/"
             render={({ match: { path } }) => (
               <Home>
                 <Switch>
                   <Route path={`${path}about`} component={About} />
+                  <Route path={path + "home"} component={HomePageContent} />
+                  <Route path={path} component={HomePageContent} exact />
+                  <Redirect exact from={path + "*"} to={path} />
                 </Switch>
               </Home>
             )}

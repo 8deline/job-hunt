@@ -43,12 +43,12 @@ export default function ButtonAppBar() {
             </Link>
           </Typography>
           <Button>
-            <Link to={`${url}login`} className={classes.links}>
+            <Link to={`${url}users/login`} className={classes.links}>
               Login
             </Link>
           </Button>
           <Button>
-            <Link to={`${url}register`} className={classes.links}>
+            <Link to={`${url}users/register`} className={classes.links}>
               Sign Up
             </Link>
           </Button>
