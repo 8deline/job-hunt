@@ -8,6 +8,7 @@ import About from "./components/LandingPage/About";
 import Login from "./components/LandingPage/Login";
 import HomePageContent from "./components/LandingPage/HomePageContent";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import DashboardContent from "./components/Dashboard/DashboardContent";
 
 class App extends React.Component {
   render() {
@@ -20,6 +21,7 @@ class App extends React.Component {
               <Dashboard>
                 <Switch>
                   <Route path={`${path}/inbox`} component={Inbox} />
+                  <Route path={`${path}`} component={DashboardContent} />
                   <Redirect exact from={path + "/*"} to={path} />
                 </Switch>
               </Dashboard>
