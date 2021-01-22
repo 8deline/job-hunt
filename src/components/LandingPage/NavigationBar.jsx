@@ -11,21 +11,38 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
   },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
   title: {
     flexGrow: 1,
   },
+  titleLink: {
+    color: "black",
+    textDecoration: "none",
+    "&:hover": {
+      textDecoration: "none",
+    },
+  },
   header: {
-    background: "#512da8",
+    background: "#ffa000",
   },
   links: {
     textDecoration: "none",
-    "&&:hover": {
+    "&:hover": {
       textDecoration: "none",
+      color: "black",
     },
-    color: "white",
+  },
+  LoginButton: {
+    background: "#ffff00",
+    marginRight: theme.spacing(1),
+    "&:hover": {
+      background: "white",
+    },
+  },
+  SignUpButton: {
+    background: "#c6ff00",
+    "&:hover": {
+      background: "white",
+    },
   },
 }));
 
@@ -38,16 +55,16 @@ export default function ButtonAppBar() {
       <AppBar position="static" className={classes.header}>
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
-            <Link to={`${url}`} className={classes.links}>
+            <Link to={`${url}`} className={classes.titleLink}>
               JobsHunt
             </Link>
           </Typography>
-          <Button>
+          <Button className={classes.LoginButton}>
             <Link to={`${url}users/login`} className={classes.links}>
               Login
             </Link>
           </Button>
-          <Button>
+          <Button className={classes.SignUpButton}>
             <Link to={`${url}users/register`} className={classes.links}>
               Sign Up
             </Link>
