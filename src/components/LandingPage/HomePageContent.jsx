@@ -52,9 +52,14 @@ const useStyles = makeStyles((theme) => ({
   },
   card: {
     display: "flex",
+    height: "50vh",
   },
   cardDetails: {
     flex: 1,
+  },
+  cardcontentpara: {
+    marginBottom: "10%",
+    textAlign: "justify",
   },
   cardcontent: {
     marginBottom: "10%",
@@ -105,15 +110,15 @@ export default function MainFeaturedPost() {
                 <CardContent>
                   <Typography
                     component="h2"
-                    variant="h2"
+                    variant="h3"
                     className={classes.cardcontent}
                   >
-                    Information at your fingertips
+                    Info at your fingertips
                   </Typography>
                   <Typography
-                    variant="h4"
+                    variant="h5"
                     color="textSecondary"
-                    className={classes.cardcontent}
+                    className={classes.cardcontentpara}
                   >
                     Help yourself with jobs details by adding comments, due
                     dates and your personal experiences to help you make the
@@ -153,15 +158,15 @@ export default function MainFeaturedPost() {
                 <CardContent>
                   <Typography
                     component="h2"
-                    variant="h2"
+                    variant="h3"
                     className={classes.cardcontent}
                   >
                     Manage your applications
                   </Typography>
                   <Typography
-                    variant="h4"
+                    variant="h5"
                     color="textSecondary"
-                    className={classes.cardcontent}
+                    className={classes.cardcontentpara}
                   >
                     Whether it's for applications, interviews or your own
                     personal experiences, JobsHunt helps you to stay organized.
