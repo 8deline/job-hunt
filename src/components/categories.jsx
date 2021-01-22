@@ -4,6 +4,8 @@ import {Droppable} from 'react-beautiful-dnd'
 
 function CategoriesColumn(props) {
     const companiesList = props.companies
+    const coindex = props.index
+     
 
     return (
         <Droppable droppableId={props.dropid.toString()}>

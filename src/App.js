@@ -104,6 +104,17 @@ if (source.droppableId === destination.droppableId && source.index === destinati
 
  }))
 
+ //Make an api call to the backend to update when there is change in reordering
+ //the data that I would be posting
+//  current job status : colnList[destination.droppableID].column_title
+//  company_name being dragged : 
+//make an api call to the backend to obtain my columns, i.e. status model
+// retrieve all my total status and den display them using .map
+//also for each coln, need to obtain all the jobs that are with status 'column'
+//in addition we need to arrange the jobs based on the order id (using splice method)
+//for each coln I need a unique col id, title is the job status
+//and also the companies in the job status
+
 }
 
   
@@ -111,11 +122,11 @@ if (source.droppableId === destination.droppableId && source.index === destinati
    return(
     <DragDropContext onDragEnd={dragEnd}>
     <div className="entire-container">
-     {columns.map((column)=>{
+     {columns.map((column, index)=>{
     
     return(
         <div key={column} className="job-column">
-      <CategoriesColumn dropid={column} title={colnList[column].column_title} companies={colnList[column].jobs}  />
+      <CategoriesColumn dropid={column} title={colnList[column].column_title} companies={colnList[column].jobs} index={index}  />
       </div>
       
       )
