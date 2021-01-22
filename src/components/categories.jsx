@@ -7,16 +7,22 @@ function CategoriesColumn(props) {
 
     return (
         <Droppable droppableId={props.dropid.toString()}>
-            {(provided)=>(
+            {(provided, snapshot)=>(
                     <div ref={provided.innerRef} {...provided.droppableProps}>
-                        <h1>{props.title}</h1>
+                        <div className="title">
+                        <h1 >{props.title}</h1>
+                        </div>
+                        <div className={snapshot.isDraggingOver? "columndrag": "column-inside"}>   
                         {companiesList.map((company, index)=>{
                             return (
-                                
-                                    <Company key={company.company_id}  company={company} index={index} />
+                                    
+                                        <Company key={company.company_id}  company={company} index={index} />
+                                   
+                                    
                                 
                             )
                         })}
+                        </div>
                         {provided.placeholder}
                     </div>
                     
