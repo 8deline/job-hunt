@@ -2,8 +2,7 @@ import "./MainBoard.css";
 import CategoriesColumn from "./categories";
 import { DragDropContext } from "react-beautiful-dnd";
 import { useEffect, useState } from "react";
-
-import axios from "axios";
+import backendService from "../../services/backendAPI";
 
 export default function MainBoard() {
   //  const companiesList = {
@@ -78,8 +77,8 @@ export default function MainBoard() {
   const [allresult, setAllResult] = useState(null);
 
   useEffect(() => {
-    axios
-      .get("http://localhost:5000/api/v1/render")
+    backendService
+      .render() //boon xian: please input user email
       .then((result) => {
         setAllResult(result.data.allResult);
       })
