@@ -49,6 +49,16 @@ const backendAPI = {
       {}
     );
   },
+  updateJob: (_id,jobstatus) => {
+    return axiosInstance.post(
+      "/update/job",
+      qs.stringify({
+        _id: _id,
+        jobstatus:jobstatus
+      }),
+      {}
+    );
+  },
 };
 
 export default backendAPI;

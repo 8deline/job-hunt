@@ -80,48 +80,59 @@ export default function MainBoard() {
     backendService
       .render() //boon xian: please input user email
       .then((result) => {
+        // console.log(result)
         setAllResult(result.data.allResult);
+        console.log(result.data.allResult)
+        // console.log(allresult)
       })
       .catch((err) => console.log(err));
-  });
+  }, [allresult]);
 
-  const dragEnd = (result) => {
-    const { source, destination } = result;
+//useeffect will be called once again when there is a change in the result
 
-    if (!destination) {
-      return;
-    }
+   const dragEnd = (result) => {}
+  //   const { source, destination, draggableId } = result;
 
-    if (
-      source.droppableId === destination.droppableId &&
-      source.index === destination.index
-    ) {
-      return;
-    }
+  //   if (!destination) {
+  //     return;
+  //   }
 
-    const oldcolnewJobList = Array.from(colnList[source.droppableId].jobs);
-    let newcolnewJobList = Array.from(colnList[destination.droppableId].jobs);
-    const dragItem = oldcolnewJobList.splice(source.index, 1);
+  //   if (
+  //     source.droppableId === destination.droppableId &&
+  //     source.index === destination.index
+  //   ) {
+  //     return;
+  //   }
 
-    if (source.droppableId === destination.droppableId) {
-      newcolnewJobList = oldcolnewJobList;
-    }
+  //   backendService.updateJob(draggableId, destination.droppableId)
+  //   .then(result=> {console.log(result)
+  //   console.log(allresult)
+  //   })
+  //   .catch(err=> console.log(err))
 
-    newcolnewJobList.splice(destination.index, 0, dragItem[0]);
+    // const oldcolnewJobList = Array.from(colnList[source.droppableId].jobs);
+    // let newcolnewJobList = Array.from(colnList[destination.droppableId].jobs);
+    // const dragItem = oldcolnewJobList.splice(source.index, 1);
 
-    const newoldColumn = {
-      ...colnList[source.droppableId],
-      jobs: oldcolnewJobList,
-    };
-    const newnewColumn = {
-      ...colnList[destination.droppableId],
-      jobs: newcolnewJobList,
-    };
-    setColnList((prev) => ({
-      ...prev,
-      [source.droppableId]: newoldColumn,
-      [destination.droppableId]: newnewColumn,
-    }));
+    // if (source.droppableId === destination.droppableId) {
+    //   newcolnewJobList = oldcolnewJobList;
+    // }
+
+    // newcolnewJobList.splice(destination.index, 0, dragItem[0]);
+
+    // const newoldColumn = {
+    //   ...colnList[source.droppableId],
+    //   jobs: oldcolnewJobList,
+    // };
+    // const newnewColumn = {
+    //   ...colnList[destination.droppableId],
+    //   jobs: newcolnewJobList,
+    // };
+    // setColnList((prev) => ({
+    //   ...prev,
+    //   [source.droppableId]: newoldColumn,
+    //   [destination.droppableId]: newnewColumn,
+    // }));
 
     //Make an api call to the backend to update when there is change in reordering
     //the data that I would be posting
@@ -133,7 +144,7 @@ export default function MainBoard() {
     //in addition we need to arrange the jobs based on the order id (using splice method)
     //for each coln I need a unique col id, title is the job status
     //and also the companies in the job status
-  };
+  // };
 
   if (!allresult) {
     return null;
