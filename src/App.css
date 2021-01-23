@@ -1,3 +1,50 @@
+.entire-container {
+  display: flex;
+  align-items: flex-start;
+  background-color: pink;
+  /* flex-direction: column; */
+}
+.job-column {
+  display: inline-block;
+  margin: 8px;
+  border: 1px solid lightgray;
+  border-radius: 3px;
+  padding: 5px;
+  width: 300px;
+  min-height: 600px;
+  background-color: #61dafb;
+}
+
+.columndrag {
+  background-color: gold;
+  min-height: 500px;
+}
+
+.column-inside {
+  background-color: lightseagreen;
+  min-height: 500px;
+}
+.job-ul {
+  list-style-type: none;
+}
+
+.job-cards {
+  border: 1px solid gray;
+  margin: 4px;
+  background-color: white;
+}
+.job-cards-moving {
+  border: 1px solid gray;
+  margin: 4px;
+  background-color: bisque;
+}
+
+.title {
+  margin-bottom: 10px;
+  min-height: 100px;
+  background-color: ghostwhite;
+}
+
 .App {
   text-align: center;
 }
@@ -5,6 +52,11 @@
 .App-logo {
   height: 40vmin;
   pointer-events: none;
+}
+
+.cards {
+  background-color: aqua;
+  width: fit-content;
 }
 
 @media (prefers-reduced-motion: no-preference) {
