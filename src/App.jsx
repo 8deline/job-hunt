@@ -22,7 +22,6 @@ class App extends React.Component {
                 <Switch>
                   <Route path={`${path}/inbox`} component={Inbox} />
                   <Route path={`${path}`} component={DashboardContent} />
-                  <Redirect exact from={path + "/*"} to={path} />
                 </Switch>
               </Dashboard>
             )}
