@@ -1,10 +1,11 @@
 import './App.css';
-import CategoriesColumn from './components/categories'
+import CategoriesColumn from './categories'
 import { DragDropContext} from 'react-beautiful-dnd';
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
+// import backendService from ''
 
 
-function App() {
+export default function MainBoard() {
 //  const companiesList = {
 //   'company_id_1': { company_id: 'company_id_1',
 //     company_name: 'Zendesk',
@@ -73,6 +74,30 @@ function App() {
 //  const [comList, setComList] = useState(companiesList)
  const [colnList, setColnList] = useState(columnsList)
 //  const [colns, setColns]= useState(columns)
+const [result, setResult] = useState(null)
+
+useEffect(()=>{
+ //Make an api call to the backend to update when there is change in reordering
+ //the data that I would be posting
+//  current job status : colnList[destination.droppableID].column_title
+//  company_name being dragged : 
+//make an api call to the backend to obtain my columns, i.e. status model
+// call the status model
+// job status, i.e. the status title
+// retrieve all my total status and den display them using .map
+//also for each coln, need to obtain all the jobs that are with status 'column'
+//obtain all the jobs with the current job status
+//in addition we need to arrange the jobs based on the order id (using splice method)
+//for each coln I need a unique col id, title is the job status
+//and also the companies in the job status
+axios.get('http://localhost:5000/api/v1/render')
+.then(result =>{
+  setResult(result)
+  }
+  )
+  
+.catch(err= console.log(err))
+}, []) 
 
 const dragEnd = (result)=>{
 const {source, destination} = result
@@ -104,21 +129,15 @@ if (source.droppableId === destination.droppableId && source.index === destinati
 
  }))
 
- //Make an api call to the backend to update when there is change in reordering
- //the data that I would be posting
-//  current job status : colnList[destination.droppableID].column_title
-//  company_name being dragged : 
-//make an api call to the backend to obtain my columns, i.e. status model
-// retrieve all my total status and den display them using .map
-//also for each coln, need to obtain all the jobs that are with status 'column'
-//in addition we need to arrange the jobs based on the order id (using splice method)
-//for each coln I need a unique col id, title is the job status
-//and also the companies in the job status
+
 
 }
 
+
+if (!result) {
+  return null
+}
   
- 
    return(
     <DragDropContext onDragEnd={dragEnd}>
     <div className="entire-container">
@@ -139,4 +158,4 @@ if (source.droppableId === destination.droppableId && source.index === destinati
  
 }
 
-export default App;
+
