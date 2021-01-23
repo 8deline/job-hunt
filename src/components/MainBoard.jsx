@@ -1,8 +1,9 @@
-import './App.css';
+import '../App.css';
 import CategoriesColumn from './categories'
 import { DragDropContext} from 'react-beautiful-dnd';
 import {useState, useEffect} from 'react';
 // import backendService from ''
+import axios from 'axios'
 
 
 export default function MainBoard() {
@@ -74,7 +75,7 @@ export default function MainBoard() {
 //  const [comList, setComList] = useState(companiesList)
  const [colnList, setColnList] = useState(columnsList)
 //  const [colns, setColns]= useState(columns)
-const [result, setResult] = useState(null)
+const [allresult, setAllResult] = useState(null)
 
 useEffect(()=>{
  //Make an api call to the backend to update when there is change in reordering
@@ -92,11 +93,12 @@ useEffect(()=>{
 //and also the companies in the job status
 axios.get('http://localhost:5000/api/v1/render')
 .then(result =>{
-  setResult(result)
+  setAllResult(result.data.allResult)
+  console.log(result)
   }
   )
   
-.catch(err= console.log(err))
+.catch(err => console.log(err))
 }, []) 
 
 const dragEnd = (result)=>{
@@ -134,18 +136,20 @@ if (source.droppableId === destination.droppableId && source.index === destinati
 }
 
 
-if (!result) {
+
+
+if (!allresult) {
   return null
 }
-  
+
    return(
     <DragDropContext onDragEnd={dragEnd}>
     <div className="entire-container">
-     {columns.map((column, index)=>{
+     {allresult.map((column, index)=>{
     
     return(
-        <div key={column} className="job-column">
-      <CategoriesColumn dropid={column} title={colnList[column].column_title} companies={colnList[column].jobs} index={index}  />
+        <div key={column.status.jobstatus} className="job-column">
+      <CategoriesColumn dropid={column.status.jobstatus} title={column.status.jobstatus} companies={column.joblist} index={index}  />
       </div>
       
       )
@@ -155,6 +159,24 @@ if (!result) {
 </DragDropContext>
 
    )
+  
+//    return(
+//     <DragDropContext onDragEnd={dragEnd}>
+//     <div className="entire-container">
+//      {columns.map((column, index)=>{
+    
+//     return(
+//         <div key={column} className="job-column">
+//       <CategoriesColumn dropid={column} title={colnList[column].column_title} companies={colnList[column].jobs} index={index}  />
+//       </div>
+      
+//       )
+// })}
+
+// </div>
+// </DragDropContext>
+
+//    )
  
 }
 

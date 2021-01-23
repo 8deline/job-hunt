@@ -18,7 +18,7 @@ function CategoriesColumn(props) {
                         {companiesList.map((company, index)=>{
                             return (
                                     
-                                        <Company key={company.company_id}  company={company} index={index} />
+                                        <Company key={company["_id"]}  company={company} index={index} />
                                    
                                     
                                 

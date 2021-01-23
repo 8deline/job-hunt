@@ -5,27 +5,51 @@ import NaturalDragAnimation from 'natural-drag-animation-rbdnd'
 function Company (props) {
     const company = props.company;
     return (
-        <Draggable draggableId={company.company_id} index={props.index}>
-            {(provided, snapshot)=> (
-                <NaturalDragAnimation  style={provided.draggableProps.style}
-                snapshot={snapshot}>
-                    {style => ( snapshot.draggingOver? (<div className="job-cards-moving" ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} style={style}>
-                <p>{company.company_name}</p>
-                <p>{company.position}</p>
-            </div>) : (
-               <div className="job-cards" ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} style={style}>
-               <p>{company.company_name}</p>
-               <p>{company.position}</p>
-           </div>))
-}
+        <Draggable draggableId={company["_id"]} index={props.index}>
+                     {(provided, snapshot)=> (
+                        <NaturalDragAnimation  style={provided.draggableProps.style}
+                        snapshot={snapshot}>
+                            {style => ( snapshot.draggingOver? (<div className="job-cards-moving" ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} style={style}>
+                        <p>{company.companyname}</p>
+                        <p>{company.jobname}</p>
+                    </div>) : (
+                       <div className="job-cards" ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} style={style}>
+                       <p>{company.companyname}</p>
+                       <p>{company.jobname}</p>
+                   </div>))
+        }
+                           
+                        </NaturalDragAnimation>
+                        
+                    )
+                        
+                    }
+                
+                </Draggable>
+
+
+
+//         <Draggable draggableId={company.company_id} index={props.index}>
+//             {(provided, snapshot)=> (
+//                 <NaturalDragAnimation  style={provided.draggableProps.style}
+//                 snapshot={snapshot}>
+//                     {style => ( snapshot.draggingOver? (<div className="job-cards-moving" ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} style={style}>
+//                 <p>{company.company_name}</p>
+//                 <p>{company.position}</p>
+//             </div>) : (
+//                <div className="job-cards" ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} style={style}>
+//                <p>{company.company_name}</p>
+//                <p>{company.position}</p>
+//            </div>))
+// }
                    
-                </NaturalDragAnimation>
+//                 </NaturalDragAnimation>
                 
-            )
+//             )
                 
-            }
+//             }
         
-        </Draggable>
+//         </Draggable>
         
     )   
 

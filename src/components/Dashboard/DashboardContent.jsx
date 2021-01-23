@@ -5,6 +5,7 @@ import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import clsx from "clsx";
 import Box from "@material-ui/core/Box";
+import MainBoard from '../MainBoard'
 
 const drawerWidth = 240;
 
@@ -101,6 +102,7 @@ export default function DashboardContent() {
             <Paper className={fixedHeightPaper}>
               {" "}
               This is my default content
+              <MainBoard />
             </Paper>
           </Grid>
           {/* Recent Deposits */}
