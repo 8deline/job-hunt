@@ -41,6 +41,15 @@ const backendAPI = {
       }
     );
   },
+  render: (useremail = "b@b.com") => {
+    return axiosInstance.post(
+      "/render",
+      qs.stringify({
+        useremail: useremail,
+      }),
+      {}
+    );
+  },
 };
 
 export default backendAPI;
