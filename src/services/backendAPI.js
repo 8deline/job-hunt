@@ -18,13 +18,12 @@ const backendAPI = {
       })
     );
   },
-  register: (firstname, lastname, username, email, password) => {
+  register: (firstname, lastname, email, password) => {
     return axiosInstance.post(
       "/users/register",
       qs.stringify({
         first_name: firstname,
         last_name: lastname,
-        username: username,
         email: email,
         password: password,
       })
