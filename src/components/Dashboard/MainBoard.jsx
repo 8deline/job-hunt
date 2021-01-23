@@ -1,9 +1,28 @@
-import "./App.css";
-import CategoriesColumn from "./components/categories";
+import "./MainBoard.css";
+import CategoriesColumn from "./categories";
 import { DragDropContext } from "react-beautiful-dnd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-function App() {
+import axios from "axios";
+
+export default function MainBoard() {
+  //  const companiesList = {
+  //   'company_id_1': { company_id: 'company_id_1',
+  //     company_name: 'Zendesk',
+  //    position: 'Full-stack web developer'
+  // },
+  // 'company_id_2': {
+  //  company_id: 'company_id_2',
+  //  company_name: 'Ahrefs',
+  //  position: 'Reasonml developer'
+  // },
+
+  // 'company_id_3': {company_id: 'company_id_3',
+  // company_name: 'Thoughtworks',
+  // position: "Full-stack web developer"
+  // }
+  //  }
+
   const columnsList = {
     column_id_1: {
       column_id: "column_id_1",
@@ -56,6 +75,16 @@ function App() {
   //  const [comList, setComList] = useState(companiesList)
   const [colnList, setColnList] = useState(columnsList);
   //  const [colns, setColns]= useState(columns)
+  const [allresult, setAllResult] = useState(null);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/api/v1/render")
+      .then((result) => {
+        setAllResult(result.data.allResult);
+      })
+      .catch((err) => console.log(err));
+  });
 
   const dragEnd = (result) => {
     const { source, destination } = result;
@@ -95,28 +124,32 @@ function App() {
       [destination.droppableId]: newnewColumn,
     }));
 
-    // Make an api call to the backend to update when there is change in reordering
-    // the data that I would be posting
-    // current job status : colnList[destination.droppableID].column_title
-    // company_name being dragged :
-    // make an api call to the backend to obtain my columns, i.e. status model
+    //Make an api call to the backend to update when there is change in reordering
+    //the data that I would be posting
+    //  current job status : colnList[destination.droppableID].column_title
+    //  company_name being dragged :
+    //make an api call to the backend to obtain my columns, i.e. status model
     // retrieve all my total status and den display them using .map
-    // also for each coln, need to obtain all the jobs that are with status 'column'
-    // in addition we need to arrange the jobs based on the order id (using splice method)
-    // for each coln I need a unique col id, title is the job status
-    // and also the companies in the job status
+    //also for each coln, need to obtain all the jobs that are with status 'column'
+    //in addition we need to arrange the jobs based on the order id (using splice method)
+    //for each coln I need a unique col id, title is the job status
+    //and also the companies in the job status
   };
+
+  if (!allresult) {
+    return null;
+  }
 
   return (
     <DragDropContext onDragEnd={dragEnd}>
       <div className="entire-container">
-        {columns.map((column, index) => {
+        {allresult.map((column, index) => {
           return (
-            <div key={column} className="job-column">
+            <div key={column.status.jobstatus} className="job-column">
               <CategoriesColumn
-                dropid={column}
-                title={colnList[column].column_title}
-                companies={colnList[column].jobs}
+                dropid={column.status.jobstatus}
+                title={column.status.jobstatus}
+                companies={column.joblist}
                 index={index}
               />
             </div>
@@ -126,5 +159,3 @@ function App() {
     </DragDropContext>
   );
 }
-
-export default App;

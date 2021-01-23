@@ -20,106 +20,6 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 
-// const DashboardSidebarNavigation = () => {
-//   const classes = useStyles();
-//   const { url } = useRouteMatch();
-
-//   //   useEffect(() => {
-//   //     // alert("Rendering Dashboard Sidebar Navigation");
-//   //   }, []);
-
-//   return (
-//     <>
-//       <div className={classes.root}>
-//         <CssBaseline />
-//         <Drawer
-//           className={classes.drawer}
-//           variant="permanent"
-//           classes={{
-//             paper: classes.drawerPaper,
-//           }}
-//           anchor="left"
-//         >
-//           <Toolbar
-//             style={{ width: "6rem", height: "auto" }}
-//             className={classes.toolbar}
-//           >
-//             <Link to={`${url}/`} className={classes.logoWithLink}>
-//               <img
-//                 className={"App-logo"}
-//                 width={"100%"}
-//                 height={"auto"}
-//                 alt="logo"
-//               />
-//               React.js
-//             </Link>
-//           </Toolbar>
-//           <div className={classes.drawerContainer}>
-//             <List>
-//               <Link className={classes.link} to={`${url}/inbox`}>
-//                 <ListItem button>
-//                   <ListItemIcon>
-//                     <InboxIcon />
-//                   </ListItemIcon>
-//                   <ListItemText primary={"inbox"} />
-//                 </ListItem>
-//               </Link>
-//               <Link className={classes.link} to={`${url}`}>
-//                 <ListItem button>
-//                   <ListItemIcon>
-//                     <SettingsIcon />
-//                   </ListItemIcon>
-//                   <ListItemText primary={"settings and privacy"} />
-//                 </ListItem>
-//               </Link>
-//               <Link className={classes.link} to={`/home`}>
-//                 <ListItem button>
-//                   <ListItemIcon>
-//                     <ExitToAppIcon />
-//                   </ListItemIcon>
-//                   <ListItemText primary={"logout"} />
-//                 </ListItem>
-//               </Link>
-//             </List>
-//           </div>
-//         </Drawer>
-//       </div>
-//     </>
-//   );
-// };
-
-// export default DashboardSidebarNavigation;
-
-// const drawerWidth = 240;
-
-// const useStyles = makeStyles((theme) => ({
-//   root: {
-//     display: "flex",
-//   },
-//   drawer: {
-//     width: drawerWidth,
-//     flexShrink: 0,
-//   },
-//   drawerPaper: {
-//     width: drawerWidth,
-//   },
-//   drawerContainer: {
-//     overflow: "auto",
-//   },
-//   toolbar: theme.mixins.toolbar,
-//   content: {
-//     flexGrow: 1,
-//     padding: theme.spacing(3),
-//   },
-//   link: { textDecoration: "none", color: "inherit" },
-//   logoWithLink: {
-//     display: "flex",
-//     alignItems: "center",
-//     textDecoration: "none",
-//     color: "inherit",
-//   },
-// }));
-
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -180,31 +80,18 @@ const useStyles = makeStyles((theme) => ({
       width: theme.spacing(9),
     },
   },
-  appBarSpacer: theme.mixins.toolbar,
-  content: {
-    flexGrow: 1,
-    height: "100vh",
-    overflow: "auto",
-  },
-  container: {
-    paddingTop: theme.spacing(4),
-    paddingBottom: theme.spacing(4),
-  },
   paper: {
     padding: theme.spacing(2),
     display: "flex",
     overflow: "auto",
     flexDirection: "column",
   },
-  fixedHeight: {
-    height: 240,
-  },
 }));
 
 export default function DashboardSideBar() {
   const classes = useStyles();
   const { url } = useRouteMatch();
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -282,7 +169,6 @@ export default function DashboardSideBar() {
           </ListItem>
         </List>
         <Divider />
-        {/* <List>{secondaryListItems}</List> */}
       </Drawer>
     </div>
   );

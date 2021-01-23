@@ -5,7 +5,7 @@ import NaturalDragAnimation from "natural-drag-animation-rbdnd";
 function Company(props) {
   const company = props.company;
   return (
-    <Draggable draggableId={company.company_id} index={props.index}>
+    <Draggable draggableId={company["_id"]} index={props.index}>
       {(provided, snapshot) => (
         <NaturalDragAnimation
           style={provided.draggableProps.style}
@@ -20,8 +20,8 @@ function Company(props) {
                 {...provided.dragHandleProps}
                 style={style}
               >
-                <p>{company.company_name}</p>
-                <p>{company.position}</p>
+                <p>{company.companyname}</p>
+                <p>{company.jobname}</p>
               </div>
             ) : (
               <div
@@ -31,8 +31,8 @@ function Company(props) {
                 {...provided.dragHandleProps}
                 style={style}
               >
-                <p>{company.company_name}</p>
-                <p>{company.position}</p>
+                <p>{company.companyname}</p>
+                <p>{company.jobname}</p>
               </div>
             )
           }
