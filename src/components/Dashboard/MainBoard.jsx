@@ -69,6 +69,10 @@ export default function MainBoard() {
     },
   };
 
+  function getCurrentUser() {
+    return JSON.parse(localStorage.getItem("user"));
+  }
+
   const columns = ["column_id_1", "column_id_2", "column_id_3", "column_id_4"];
 
   //  const [comList, setComList] = useState(companiesList)
@@ -78,19 +82,19 @@ export default function MainBoard() {
 
   useEffect(() => {
     backendService
-      .render() //boon xian: please input user email
+      .render(getCurrentUser().email) //boon xian: please input user email
       .then((result) => {
         // console.log(result)
         setAllResult(result.data.allResult);
-        console.log(result.data.allResult)
+        console.log(result.data.allResult);
         // console.log(allresult)
       })
       .catch((err) => console.log(err));
   }, [allresult]);
 
-//useeffect will be called once again when there is a change in the result
+  //useeffect will be called once again when there is a change in the result
 
-   const dragEnd = (result) => {}
+  const dragEnd = (result) => {};
   //   const { source, destination, draggableId } = result;
 
   //   if (!destination) {
@@ -110,40 +114,40 @@ export default function MainBoard() {
   //   })
   //   .catch(err=> console.log(err))
 
-    // const oldcolnewJobList = Array.from(colnList[source.droppableId].jobs);
-    // let newcolnewJobList = Array.from(colnList[destination.droppableId].jobs);
-    // const dragItem = oldcolnewJobList.splice(source.index, 1);
+  // const oldcolnewJobList = Array.from(colnList[source.droppableId].jobs);
+  // let newcolnewJobList = Array.from(colnList[destination.droppableId].jobs);
+  // const dragItem = oldcolnewJobList.splice(source.index, 1);
 
-    // if (source.droppableId === destination.droppableId) {
-    //   newcolnewJobList = oldcolnewJobList;
-    // }
+  // if (source.droppableId === destination.droppableId) {
+  //   newcolnewJobList = oldcolnewJobList;
+  // }
 
-    // newcolnewJobList.splice(destination.index, 0, dragItem[0]);
+  // newcolnewJobList.splice(destination.index, 0, dragItem[0]);
 
-    // const newoldColumn = {
-    //   ...colnList[source.droppableId],
-    //   jobs: oldcolnewJobList,
-    // };
-    // const newnewColumn = {
-    //   ...colnList[destination.droppableId],
-    //   jobs: newcolnewJobList,
-    // };
-    // setColnList((prev) => ({
-    //   ...prev,
-    //   [source.droppableId]: newoldColumn,
-    //   [destination.droppableId]: newnewColumn,
-    // }));
+  // const newoldColumn = {
+  //   ...colnList[source.droppableId],
+  //   jobs: oldcolnewJobList,
+  // };
+  // const newnewColumn = {
+  //   ...colnList[destination.droppableId],
+  //   jobs: newcolnewJobList,
+  // };
+  // setColnList((prev) => ({
+  //   ...prev,
+  //   [source.droppableId]: newoldColumn,
+  //   [destination.droppableId]: newnewColumn,
+  // }));
 
-    //Make an api call to the backend to update when there is change in reordering
-    //the data that I would be posting
-    //  current job status : colnList[destination.droppableID].column_title
-    //  company_name being dragged :
-    //make an api call to the backend to obtain my columns, i.e. status model
-    // retrieve all my total status and den display them using .map
-    //also for each coln, need to obtain all the jobs that are with status 'column'
-    //in addition we need to arrange the jobs based on the order id (using splice method)
-    //for each coln I need a unique col id, title is the job status
-    //and also the companies in the job status
+  //Make an api call to the backend to update when there is change in reordering
+  //the data that I would be posting
+  //  current job status : colnList[destination.droppableID].column_title
+  //  company_name being dragged :
+  //make an api call to the backend to obtain my columns, i.e. status model
+  // retrieve all my total status and den display them using .map
+  //also for each coln, need to obtain all the jobs that are with status 'column'
+  //in addition we need to arrange the jobs based on the order id (using splice method)
+  //for each coln I need a unique col id, title is the job status
+  //and also the companies in the job status
   // };
 
   if (!allresult) {
