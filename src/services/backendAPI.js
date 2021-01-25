@@ -40,21 +40,40 @@ const backendAPI = {
       }
     );
   },
-  render: (useremail = "b@b.com") => {
+  render: (email = "b@b.com") => {
     return axiosInstance.post(
       "/render",
       qs.stringify({
-        useremail: useremail,
+        email: email,
       }),
       {}
     );
   },
-  updateJob: (_id,jobstatus) => {
+  updateJob: (
+    drag,
+    _id,
+    jobstatus,
+    order,
+    companyname,
+    jobname,
+    preparation,
+    interviewquestion,
+    interviewexperience,
+    salary
+  ) => {
     return axiosInstance.post(
       "/update/job",
       qs.stringify({
+        drag: drag,
         _id: _id,
-        jobstatus:jobstatus
+        jobstatus: jobstatus,
+        order: order,
+        companyname: companyname,
+        jobname: jobname,
+        preparation: preparation,
+        interviewquestion: interviewquestion,
+        interviewexperience: interviewexperience,
+        salary: salary,
       }),
       {}
     );
