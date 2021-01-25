@@ -86,7 +86,7 @@ export default function MainBoard() {
         // console.log(allresult)
       })
       .catch((err) => console.log(err));
-  }, [allresult]);
+  }, []);
 
 //useeffect will be called once again when there is a change in the result
 
@@ -109,6 +109,8 @@ export default function MainBoard() {
   //   console.log(allresult)
   //   })
   //   .catch(err=> console.log(err))
+  //  }
+    
 
     // const oldcolnewJobList = Array.from(colnList[source.droppableId].jobs);
     // let newcolnewJobList = Array.from(colnList[destination.droppableId].jobs);
