@@ -21,7 +21,7 @@ function Company(props) {
                 style={style}
               >
                 <p>{company.companyname}</p>
-                <p>{company.jobstatus}</p>
+                <p>{company.jobname}</p>
               </div>
             ) : (
               <div
@@ -32,7 +32,7 @@ function Company(props) {
                 style={style}
               >
                 <p>{company.companyname}</p>
-                <p>{company.jobstatus}</p>
+                <p>{company.jobname}</p>
               </div>
             )
           }
