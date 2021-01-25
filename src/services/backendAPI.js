@@ -40,7 +40,7 @@ const backendAPI = {
       }
     );
   },
-  render: (email = "b@b.com") => {
+  render: (email) => {
     return axiosInstance.post(
       "/render",
       qs.stringify({
