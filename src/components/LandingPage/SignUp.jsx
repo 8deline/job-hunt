@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignUp() {
+export default function SignUp(props) {
   const classes = useStyles();
   const [firstName, setFirstName] = useState();
   const [lastName, setLastName] = useState();
@@ -56,7 +56,7 @@ export default function SignUp() {
           console.log("Not successful");
           return;
         }
-        console.log("success");
+        props.history.push("/users/login");
       })
       .catch((err) => console.log(err));
   }

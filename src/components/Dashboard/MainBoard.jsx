@@ -76,13 +76,9 @@ export default function MainBoard() {
   let [allresult, setAllResult] = useState(null);
   let [columnList, setColumnList] = useState(null)
 
-  
-
-
-
   useEffect(() => {
     backendService
-      .render() //boon xian: please input user email
+      .render(getCurrentUser().email) //boon xian: please input user email
       .then((result) => {
          setAllResult(result.data.allResult);
 
