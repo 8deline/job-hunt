@@ -5,7 +5,6 @@ import { Droppable } from "react-beautiful-dnd";
 
 function CategoriesColumn(props) {
   const companiesList = props.companies;
-  const coindex = props.index;
   let [newcard, setNewCard] = useState(false);
 
   // let toggleNewCardButton = ()=>{newcard? setNewCard(false) : setNewCard(true)}
@@ -26,7 +25,7 @@ function CategoriesColumn(props) {
                 <Company key={company["_id"]} company={company} newcard={newcard} index={index} />
               );
             })}
-            {newcard?(<Newcard companies={props.companies} setNewCard={setNewCard} dropid={props.dropid}/>):null}
+            {newcard?(<Newcard companies={props.companies} setNewCard={setNewCard} setColns={props.setColns} setColumnList={props.setColumnList} dropid={props.dropid}/>):null}
           </div>
           {provided.placeholder}
         
