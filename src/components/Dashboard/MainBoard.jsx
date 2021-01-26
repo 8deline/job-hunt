@@ -151,8 +151,7 @@ export default function MainBoard() {
     .catch(err=> console.log(err))
    }
   
- 
-    
+
 
   if (!columnList) {
     return null;
@@ -170,8 +169,6 @@ export default function MainBoard() {
                 companies={colns[column].jobs}
                 index={index}
               />
-
-             
               
             </div>
           );

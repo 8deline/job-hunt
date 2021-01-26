@@ -10,6 +10,7 @@
     "@testing-library/user-event": "^12.6.0",
     "axios": "^0.21.1",
     "natural-drag-animation-rbdnd": "^2.0.2",
+    "qs": "^6.9.6",
     "react": "^17.0.1",
     "react-beautiful-dnd": "^13.0.0",
     "react-dom": "^17.0.1",
