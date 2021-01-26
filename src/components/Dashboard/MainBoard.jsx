@@ -72,9 +72,9 @@ export default function MainBoard() {
   // const columns = ["column_id_1", "column_id_2", "column_id_3", "column_id_4"];
 
 
-  let [colns, setColns]= useState(null)
+  // let [colns, setColns]= useState(null)
   let [allresult, setAllResult] = useState(null);
-  let [columnList, setColumnList] = useState(null)
+  // let [columnList, setColumnList] = useState(null)
 
   
 
@@ -86,19 +86,21 @@ export default function MainBoard() {
       .then((result) => {
          setAllResult(result.data.allResult);
 
-     const columns  = {};
-     let columnlisting = [];
-     for (let i=0; i < result.data.allResult.length; i++) {
-       columns[result.data.allResult[i].status.jobstatus] = {column_id: result.data.allResult[i].status.jobstatus, jobs: result.data.allResult[i].joblist}
-        columnlisting.push(result.data.allResult[i].status.jobstatus)
-      } 
-     setColns(columns)
-    setColumnList(columnlisting)
+    //instead of implementing frontend logic to just call the render backend     
+
+    //  const columns  = {};
+    //  let columnlisting = [];
+    //  for (let i=0; i < result.data.allResult.length; i++) {
+    //    columns[result.data.allResult[i].status.jobstatus] = {column_id: result.data.allResult[i].status.jobstatus, jobs: result.data.allResult[i].joblist}
+    //     columnlisting.push(result.data.allResult[i].status.jobstatus)
+    //   } 
+    //  setColns(columns)
+    // setColumnList(columnlisting)
      
      
     })   
       .catch((err) => console.log(err));
-  }, []);
+  }, [allresult]);
 
 
    const dragEnd = (result) => {
@@ -118,56 +120,61 @@ export default function MainBoard() {
     backendService.updateJob(true, draggableId, destination.droppableId, destination.index)
     
     .then(result=> {console.log(result)
-  
+      backendService.render()
+      .then(newresult=> 
+        {setAllResult(newresult)
+        console.log(newresult)
+        })
+      .catch(err=> console.log(err))
     })
-    .then(result=>{
+    // .then(result=>{
       
-      const oldcolnewJobList = Array.from(colns[source.droppableId].jobs);
-      let newcolnewJobList =  Array.from(colns[destination.droppableId].jobs);
-      const dragItem =  oldcolnewJobList.splice(source.index, 1);
+    //   const oldcolnewJobList = Array.from(colns[source.droppableId].jobs);
+    //   let newcolnewJobList =  Array.from(colns[destination.droppableId].jobs);
+    //   const dragItem =  oldcolnewJobList.splice(source.index, 1);
 
   
-      if (source.droppableId === destination.droppableId) {
-         newcolnewJobList = oldcolnewJobList;
-       }
+    //   if (source.droppableId === destination.droppableId) {
+    //      newcolnewJobList = oldcolnewJobList;
+    //    }
   
-    newcolnewJobList.splice(destination.index, 0, dragItem[0]);
+    // newcolnewJobList.splice(destination.index, 0, dragItem[0]);
   
-      const newoldColumn = {
-        ...colns[source.droppableId],
-        jobs: oldcolnewJobList,
-      };
-      const newnewColumn = {
-        ...colns[destination.droppableId],
-        jobs: newcolnewJobList,
-      };
-      setColns((prev) => ({
-        ...prev,
-        [source.droppableId]: newoldColumn,
-        [destination.droppableId]: newnewColumn,
-      }));
+    //   const newoldColumn = {
+    //     ...colns[source.droppableId],
+    //     jobs: oldcolnewJobList,
+    //   };
+    //   const newnewColumn = {
+    //     ...colns[destination.droppableId],
+    //     jobs: newcolnewJobList,
+    //   };
+    //   setColns((prev) => ({
+    //     ...prev,
+    //     [source.droppableId]: newoldColumn,
+    //     [destination.droppableId]: newnewColumn,
+    //   }));
   
-    })
-    .catch(err=> console.log(err))
+    // })
+    // .catch(err=> console.log(err))
    }
   
  
     
 
-  if (!columnList) {
+  if (!allresult) {
     return null;
   }
 
   return (
     <DragDropContext onDragEnd={dragEnd}>
       <div className="entire-container">
-        {columnList.map((column, index) => {
+        {allresult.map((column, index) => {
           return (
-            <div key={column} className="job-column">
+            <div key={column.status.jobstatus} className="job-column">
               <CategoriesColumn
-                dropid={colns[column].column_id}
-                title={colns[column].column_id}
-                companies={colns[column].jobs}
+                dropid={column.status.jobstatus}
+                title={column.status.jobstatus}
+                companies={column.joblist}
                 index={index}
               />
 
