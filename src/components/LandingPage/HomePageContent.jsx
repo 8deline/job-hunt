@@ -150,7 +150,7 @@ export default function MainFeaturedPost() {
                 <CardMedia
                   className={classes.cardMedia}
                   image={
-                    "https://buzztechnics.com/wp-content/uploads/2020/04/buzztechs-elearning.png"
+                    "https://timebusinessnews.com/wp-content/uploads/Learn-Online-1.png"
                   }
                 />
               </Hidden>

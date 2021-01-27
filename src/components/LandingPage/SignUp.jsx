@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import TextField from "@material-ui/core/TextField";
 import { Link } from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
@@ -11,6 +10,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import backendService from "../../services/backendAPI";
+import { useForm } from "react-hook-form";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,6 +38,13 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  formErr: {
+    color: "red",
+  },
+  box: {
+    width: "100%",
+    height: "40px",
+  },
 }));
 
 export default function SignUp(props) {
@@ -46,14 +53,16 @@ export default function SignUp(props) {
   const [lastName, setLastName] = useState();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+  const [formErr, setFormErr] = useState();
+  const { register, handleSubmit, errors } = useForm();
 
   function handleFormSubmission(e) {
-    e.preventDefault();
     backendService
       .register(firstName, lastName, email, password)
       .then((response) => {
         if (!response.data.success) {
-          console.log("Not successful");
+          let errorMessage = response.data.message;
+          setFormErr(errorMessage);
           return;
         }
         props.history.push("/users/login");
@@ -92,58 +101,86 @@ export default function SignUp(props) {
           <form
             className={classes.form}
             noValidate
-            onSubmit={handleFormSubmission}
+            onSubmit={handleSubmit(handleFormSubmission)}
           >
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
-                <TextField
-                  autoComplete="fname"
+                <input
                   name="firstName"
-                  variant="outlined"
-                  required
-                  fullWidth
                   id="firstName"
-                  label="First Name"
-                  autoFocus
                   onChange={handleFirstNameChange}
+                  ref={register({
+                    required: true,
+                    minLength: 2,
+                  })}
+                  type="text"
+                  className={classes.box}
+                  placeholder="First Name"
                 />
+                {errors.firstName && errors.firstName.type === "required" && (
+                  <span className={classes.formErr}>This is required</span>
+                )}
+                {errors.firstName && errors.firstName.type === "minLength" && (
+                  <span className={classes.formErr}>Minimum 2 characters</span>
+                )}
               </Grid>
               <Grid item xs={12} sm={6}>
-                <TextField
-                  variant="outlined"
-                  required
-                  fullWidth
+                <input
                   id="lastName"
-                  label="Last Name"
                   name="lastName"
-                  autoComplete="lname"
                   onChange={handleLastNameChange}
+                  ref={register({
+                    required: true,
+                    minLength: 2,
+                  })}
+                  type="text"
+                  className={classes.box}
+                  placeholder="Last Name"
                 />
+                {errors.lastName && errors.lastName.type === "required" && (
+                  <span className={classes.formErr}>This is required</span>
+                )}
+                {errors.lastName && errors.lastName.type === "minLength" && (
+                  <span className={classes.formErr}>Minimum 2 characters</span>
+                )}
               </Grid>
               <Grid item xs={12}>
-                <TextField
-                  variant="outlined"
-                  required
-                  fullWidth
+                <input
                   id="email"
-                  label="Email Address"
                   name="email"
-                  autoComplete="email"
                   onChange={handleEmailChange}
+                  ref={register({
+                    required: true,
+                    pattern: {
+                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                      message: "Entered value does not match email format",
+                    },
+                  })}
+                  type="email"
+                  className={classes.box}
+                  placeholder="Email"
                 />
+                {errors.email && <span>{errors.email.message}</span>}
               </Grid>
               <Grid item xs={12}>
-                <TextField
-                  variant="outlined"
-                  required
-                  fullWidth
+                <input
                   name="password"
-                  label="Password"
                   type="password"
                   id="password"
-                  autoComplete="current-password"
                   onChange={handlePasswordChange}
+                  ref={register({
+                    required: true,
+                    minLength: 8,
+                  })}
+                  className={classes.box}
+                  placeholder="Password"
                 />
+                {errors.password && errors.password.type === "required" && (
+                  <span className={classes.formErr}>This is required</span>
+                )}
+                {errors.password && errors.password.type === "minLength" && (
+                  <span className={classes.formErr}>Minimum 8 characters</span>
+                )}
               </Grid>
             </Grid>
             <Button
@@ -155,6 +192,13 @@ export default function SignUp(props) {
             >
               Sign Up
             </Button>
+            {formErr !== "" ? (
+              <div className={classes.formErr}>
+                <span>{formErr}</span>
+              </div>
+            ) : (
+              ""
+            )}
             <Grid container justify="flex-end">
               <Grid item>
                 <Link to="/users/login" variant="body2">
