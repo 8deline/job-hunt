@@ -9,6 +9,8 @@ import Login from "./components/LandingPage/Login";
 import HomePageContent from "./components/LandingPage/HomePageContent";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import DashboardContent from "./components/Dashboard/DashboardContent";
+import GuestRoute from "./components/GuestRoute";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 class App extends React.Component {
   render() {
@@ -20,20 +22,23 @@ class App extends React.Component {
             render={({ match: { path } }) => (
               <Dashboard>
                 <Switch>
-                  <Route path={`${path}/inbox`} component={Inbox} />
-                  <Route path={`${path}`} component={DashboardContent} />
+                  <ProtectedRoute path={`${path}/inbox`} component={Inbox} />
+                  <ProtectedRoute
+                    path={`${path}`}
+                    component={DashboardContent}
+                  />
                 </Switch>
               </Dashboard>
             )}
           />
-          <Route path="/users/register" component={SignUp} />
-          <Route path="/users/login" component={Login} />
+          <GuestRoute path="/users/register" component={SignUp} />
+          <GuestRoute path="/users/login" component={Login} />
           <Route
             path="/"
             render={({ match: { path } }) => (
               <Home>
                 <Switch>
-                  <Route path={`${path}about`} component={About} />
+                  <ProtectedRoute path={`${path}about`} component={About} />
                   <Route path={path + "home"} component={HomePageContent} />
                   <Route path={path} component={HomePageContent} exact />
                   <Redirect exact from={path + "*"} to={path} />
