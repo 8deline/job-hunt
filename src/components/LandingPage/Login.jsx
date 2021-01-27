@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
@@ -10,6 +10,10 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import backendService from "../../services/backendAPI";
+import moment from "moment";
+import { withCookies } from "react-cookie";
+import { withRouter } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -44,8 +48,43 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignInSide() {
+function SignInSide(props) {
   const classes = useStyles();
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+
+  function handleFormSubmission(e) {
+    e.preventDefault();
+    backendService
+      .login(email, password)
+      .then((response) => {
+        if (!response.data.success) {
+          console.log("Login unsuccessful");
+          return;
+        }
+
+        localStorage.setItem("user", JSON.stringify(response.data.info));
+
+        props.cookies.set("token", response.data.token, {
+          path: "/",
+          expires: moment.unix(response.data.expiresAt).toDate(),
+        });
+
+        props.history.push("/users/dashboard");
+      })
+
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  function handleEmailChange(e) {
+    setEmail(e.target.value);
+  }
+
+  function handlePasswordChange(e) {
+    setPassword(e.target.value);
+  }
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -58,7 +97,11 @@ export default function SignInSide() {
           <Typography component="h1" variant="h5">
             Login
           </Typography>
-          <form className={classes.form} noValidate>
+          <form
+            className={classes.form}
+            noValidate
+            onSubmit={handleFormSubmission}
+          >
             <TextField
               variant="outlined"
               margin="normal"
@@ -69,6 +112,7 @@ export default function SignInSide() {
               name="email"
               autoComplete="email"
               autoFocus
+              onChange={handleEmailChange}
             />
             <TextField
               variant="outlined"
@@ -80,6 +124,7 @@ export default function SignInSide() {
               type="password"
               id="password"
               autoComplete="current-password"
+              onChange={handlePasswordChange}
             />
             <Button
               type="submit"
@@ -125,3 +170,5 @@ export default function SignInSide() {
     </Grid>
   );
 }
+
+export default withCookies(withRouter(SignInSide));

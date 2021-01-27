@@ -40,7 +40,7 @@ const backendAPI = {
       }
     );
   },
-  render: (email = "b@b.com") => {
+  render: (email) => {
     return axiosInstance.post(
       "/render",
       qs.stringify({
@@ -74,6 +74,19 @@ const backendAPI = {
         interviewquestion: interviewquestion,
         interviewexperience: interviewexperience,
         salary: salary,
+      }),
+      {}
+    );
+  },
+  dragJob: (jobid, oldstatus, oldorder, newstatus, neworder) => {
+    return axiosInstance.post(
+      "/drag/job",
+      qs.stringify({
+        jobid: jobid,
+        oldstatus: oldstatus,
+        oldorder: oldorder,
+        newstatus: newstatus,
+        neworder: neworder,
       }),
       {}
     );

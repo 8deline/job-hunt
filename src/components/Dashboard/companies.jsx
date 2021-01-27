@@ -4,6 +4,8 @@ import NaturalDragAnimation from "natural-drag-animation-rbdnd";
 
 function Company(props) {
   const company = props.company;
+  // console.log(company)
+
   return (
     <Draggable draggableId={company["_id"]} index={props.index}>
       {(provided, snapshot) => (
@@ -12,9 +14,8 @@ function Company(props) {
           snapshot={snapshot}
         >
           {(style) =>
-            snapshot.draggingOver ? (
               <div
-                className="job-cards-moving"
+                className= {snapshot.draggingOver? "job-cards-moving" : "job-cards"}
                 ref={provided.innerRef}
                 {...provided.draggableProps}
                 {...provided.dragHandleProps}
@@ -23,18 +24,8 @@ function Company(props) {
                 <p>{company.companyname}</p>
                 <p>{company.jobname}</p>
               </div>
-            ) : (
-              <div
-                className="job-cards"
-                ref={provided.innerRef}
-                {...provided.draggableProps}
-                {...provided.dragHandleProps}
-                style={style}
-              >
-                <p>{company.companyname}</p>
-                <p>{company.jobname}</p>
-              </div>
-            )
+            
+
           }
         </NaturalDragAnimation>
       )}

@@ -79,10 +79,13 @@ export default function MainBoard() {
   
 
 
+  function getCurrentUser() {
+    return JSON.parse(localStorage.getItem("user"));
+  }
 
   useEffect(() => {
     backendService
-      .render() //boon xian: please input user email
+      .render(getCurrentUser().email) //boon xian: please input user email
       .then((result) => {
          setAllResult(result.data.allResult);
 
@@ -99,12 +102,25 @@ export default function MainBoard() {
      
      
     })   
+        // setAllResult(result.data.allResult);
+  //       console.log(result.data.allResult);
+  //       const columns = {};
+  //       let columnlisting = [];
+  //       for (let i = 0; i < result.data.allResult.length; i++) {
+  //         columns[result.data.allResult[i].jobstatus] = {
+  //           column_id: result.data.allResult[i].jobstatus,
+  //           jobs: result.data.allResult[i].joblist,
+  //         };
+  //         columnlisting.push(result.data.allResult[i].jobstatus);
+  //       }
+  //       setColns(columns);
+  //       setColumnList(columnlisting);
+  //     })
       .catch((err) => console.log(err));
-  }, [allresult]);
+  }, []);
 
-
-   const dragEnd = (result) => {
-        const { source, destination, draggableId } = result;
+  const dragEnd = (result) => {
+    const { source, destination, draggableId } = result;
 
     if (!destination) {
       return;
@@ -117,8 +133,15 @@ export default function MainBoard() {
       return;
     }
 
-    backendService.updateJob(true, draggableId, destination.droppableId, destination.index)
-    
+    // backendService.updateJob(true, draggableId, destination.droppableId, destination.index)
+    backendService
+    .dragJob(
+      draggableId,
+      source.droppableId,
+      source.index,
+      destination.droppableId,
+      destination.index
+    )
     .then(result=> {console.log(result)
       backendService.render()
       .then(newresult=> 
@@ -160,6 +183,45 @@ export default function MainBoard() {
   
  
     
+    // backendService
+    //   .dragJob(
+    //     draggableId,
+    //     source.droppableId,
+    //     source.index,
+    //     destination.droppableId,
+    //     destination.index
+    //   )
+
+    //   .then((result) => {
+    //     console.log(result);
+    //   })
+    //   .then((result) => {
+    //     const oldcolnewJobList = Array.from(colns[source.droppableId].jobs);
+    //     let newcolnewJobList = Array.from(colns[destination.droppableId].jobs);
+    //     const dragItem = oldcolnewJobList.splice(source.index, 1);
+
+    //     if (source.droppableId === destination.droppableId) {
+    //       newcolnewJobList = oldcolnewJobList;
+    //     }
+
+    //     newcolnewJobList.splice(destination.index, 0, dragItem[0]);
+
+    //     const newoldColumn = {
+    //       ...colns[source.droppableId],
+    //       jobs: oldcolnewJobList,
+    //     };
+    //     const newnewColumn = {
+    //       ...colns[destination.droppableId],
+    //       jobs: newcolnewJobList,
+    //     };
+    //     setColns((prev) => ({
+    //       ...prev,
+    //       [source.droppableId]: newoldColumn,
+    //       [destination.droppableId]: newnewColumn,
+    //     }));
+    //   })
+    //   .catch((err) => console.log(err));
+  
 
   if (!allresult) {
     return null;
@@ -176,15 +238,14 @@ export default function MainBoard() {
                 title={column.status.jobstatus}
                 companies={column.joblist}
                 index={index}
+                // setColns={setColns}
+                // setColumnList={setColumnList}
+                // colns={colns}
               />
-
-             
-              
             </div>
           );
         })}
       </div>
     </DragDropContext>
-    
   );
 }
