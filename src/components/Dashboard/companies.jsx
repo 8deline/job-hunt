@@ -4,7 +4,7 @@ import NaturalDragAnimation from "natural-drag-animation-rbdnd";
 
 function Company(props) {
   const company = props.company;
-  console.log(company)
+  // console.log(company)
 
   return (
     <Draggable draggableId={company["_id"]} index={props.index}>
