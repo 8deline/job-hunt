@@ -86,7 +86,7 @@ export default function MainBoard() {
       .render(getCurrentUser().email)
       .then((result) => {
         //  setAllResult(result.data.allResult);
-         console.log(result.data.allResult)
+         //console.log(result.data.allResult)
      const columns  = {};
      let columnlisting = [];
      for (let i=0; i < result.data.allResult.length; i++) {
@@ -179,7 +179,7 @@ export default function MainBoard() {
           );
         })}
         <div>
-          { newColumn? (<Newcolumn columnList={columnList} getCurrentUser={getCurrentUser} setColns={setColns} setColumnList={setColumnList} setNewColumn = {setNewColumn} />) : null }
+          { newColumn? (<Newcolumn colns={colns} columnList={columnList} getCurrentUser={getCurrentUser} setColns={setColns} setColumnList={setColumnList} setNewColumn = {setNewColumn} />) : null }
           <button onClick={()=>setNewColumn(true)}>Add new column</button>
         </div>
         

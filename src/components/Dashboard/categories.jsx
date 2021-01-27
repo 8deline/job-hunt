@@ -28,7 +28,7 @@ function CategoriesColumn(props) {
             {newcard?(<Newcard getCurrentUser={props.getCurrentUser} setNewCard={setNewCard} colns={props.colns} setColns={props.setColns} setColumnList={props.setColumnList} dropid={props.dropid}/>):null}
           </div>
           {provided.placeholder}
-        
+           
           <button onClick={()=>setNewCard(true)}>+</button>
           {newcard?(<button onClick={()=>setNewCard(false)}>X</button>): null}
         </div>

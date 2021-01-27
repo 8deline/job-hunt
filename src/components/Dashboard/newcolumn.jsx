@@ -19,24 +19,33 @@ export default function Newcolumn (props) {
         event.preventDefault()
         axios.post("http://localhost:5000/api/v1/create/status", qs.stringify(columnDetails))
     .then(result=> {console.log(result)
-    
-        props.setColumnList(prev=>([...prev, columnDetails.jobstatus ]))
         
-        // let newColumn = {...colns[dropid], jobs: newArrayNewCard}
-        // setColns(prev=>({
+        // props.setColumnList(prev=>([...prev, columnDetails.jobstatus ]))
+          props.setColumnList(prev=> {prev.push(columnDetails.jobstatus)})
+        //  let newColumnListArray = Array.from(props.columnList)
+        //  newColumnListArray.push(columnDetails.jobstatus)
+        // props.setColumnList(newColumnListArray)
+        console.log(props.columnList)
+        // props.setColns(prev=>({
         //     ...prev,
-        //     [dropid]: newColumn
+        //     [columnDetails.jobstatus]: {column_id: columnDetails.jobstatus, jobs:[]}
         // })
         // )
+
+        props.setColns(prev=> {prev[columnDetails.jobstatus]={column_id: columnDetails.jobstatus, jobs:[]}})
+        console.log(props.colns)
+        props.setNewColumn(false)
+        
     })
     
     .catch(err=> console.log(err))
     }   
-
+    
     return (
         <>
             <form onSubmit={handleSubmit}>
                 <input onChange={handleChange} class="form-control form-control-sm" type="text" placeholder="New job status" aria-label=".form-control-sm example" name="jobstatus"/>
+                <button type="submit">Add</button>
             </form>
              <button onClick={()=>props.setNewColumn(false)}>X</button>
         </>
