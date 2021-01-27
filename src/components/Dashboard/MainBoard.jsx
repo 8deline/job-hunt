@@ -76,17 +76,22 @@ export default function MainBoard() {
   let [allresult, setAllResult] = useState(null);
   let [columnList, setColumnList] = useState(null)
 
+  function getCurrentUser() {
+    return JSON.parse(localStorage.getItem("user"));
+  }
+
   useEffect(() => {
     backendService
       .render(getCurrentUser().email) //boon xian: please input user email
       .then((result) => {
          setAllResult(result.data.allResult);
+         console.log(result.data.allResult)
 
      const columns  = {};
      let columnlisting = [];
      for (let i=0; i < result.data.allResult.length; i++) {
-       columns[result.data.allResult[i].status.jobstatus] = {column_id: result.data.allResult[i].status.jobstatus, jobs: result.data.allResult[i].joblist}
-        columnlisting.push(result.data.allResult[i].status.jobstatus)
+       columns[result.data.allResult[i].jobstatus] = {column_id: result.data.allResult[i].jobstatus, jobs: result.data.allResult[i].joblist}
+        columnlisting.push(result.data.allResult[i].jobstatus)
       } 
      setColns(columns)
     setColumnList(columnlisting)
