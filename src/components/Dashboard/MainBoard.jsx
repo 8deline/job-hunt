@@ -3,6 +3,7 @@ import CategoriesColumn from "./categories";
 import { DragDropContext } from "react-beautiful-dnd";
 import { useEffect, useState } from "react";
 import backendService from "../../services/backendAPI";
+import Newcolumn from "./newcolumn"
 
 export default function MainBoard() {
   //  const companiesList = {
@@ -74,6 +75,7 @@ export default function MainBoard() {
   let [colns, setColns] = useState(null);
   // let [allresult, setAllResult] = useState(null);
   let [columnList, setColumnList] = useState(null);
+  let [newColumn, setNewColumn] = useState(false);
 
   function getCurrentUser() {
     return JSON.parse(localStorage.getItem("user"));
@@ -81,7 +83,7 @@ export default function MainBoard() {
 
   useEffect(() => {
     backendService
-      .render(getCurrentUser().email) //boon xian: please input user email
+      .render(getCurrentUser().email)
       .then((result) => {
         //  setAllResult(result.data.allResult);
          console.log(result.data.allResult)
@@ -168,13 +170,19 @@ export default function MainBoard() {
                 title={colns[column].column_id}
                 companies={colns[column].jobs}
                 index={index}
-                // setColns={setColns}
-                // setColumnList={setColumnList}
-                // colns={colns}
+                setColns={setColns}
+                setColumnList={setColumnList}
+                colns={colns}
+                getCurrentUser={getCurrentUser}
               />
             </div>
           );
         })}
+        <div>
+          { newColumn? (<Newcolumn columnList={columnList} getCurrentUser={getCurrentUser} setColns={setColns} setColumnList={setColumnList} setNewColumn = {setNewColumn} />) : null }
+          <button onClick={()=>setNewColumn(true)}>Add new column</button>
+        </div>
+        
       </div>
     </DragDropContext>
   );
