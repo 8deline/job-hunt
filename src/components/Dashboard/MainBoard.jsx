@@ -71,10 +71,9 @@ export default function MainBoard() {
 
   // const columns = ["column_id_1", "column_id_2", "column_id_3", "column_id_4"];
 
-
-  let [colns, setColns]= useState(null)
+  let [colns, setColns] = useState(null);
   // let [allresult, setAllResult] = useState(null);
-  let [columnList, setColumnList] = useState(null)
+  let [columnList, setColumnList] = useState(null);
 
   function getCurrentUser() {
     return JSON.parse(localStorage.getItem("user"));
@@ -100,9 +99,8 @@ export default function MainBoard() {
       .catch((err) => console.log(err));
   }, []);
 
-
-   const dragEnd = (result) => {
-        const { source, destination, draggableId } = result;
+  const dragEnd = (result) => {
+    const { source, destination, draggableId } = result;
 
     if (!destination) {
       return;
@@ -115,43 +113,45 @@ export default function MainBoard() {
       return;
     }
 
-    backendService.updateJob(true, draggableId, destination.droppableId, destination.index)
-    
-    .then(result=> {console.log(result)
-  
-    })
-    .then(result=>{
-      
-      const oldcolnewJobList = Array.from(colns[source.droppableId].jobs);
-      let newcolnewJobList =  Array.from(colns[destination.droppableId].jobs);
-      const dragItem =  oldcolnewJobList.splice(source.index, 1);
+    backendService
+      .dragJob(
+        draggableId,
+        source.droppableId,
+        source.index,
+        destination.droppableId,
+        destination.index
+      )
 
-  
-      if (source.droppableId === destination.droppableId) {
-         newcolnewJobList = oldcolnewJobList;
-       }
-  
-    newcolnewJobList.splice(destination.index, 0, dragItem[0]);
-  
-      const newoldColumn = {
-        ...colns[source.droppableId],
-        jobs: oldcolnewJobList,
-      };
-      const newnewColumn = {
-        ...colns[destination.droppableId],
-        jobs: newcolnewJobList,
-      };
-      setColns((prev) => ({
-        ...prev,
-        [source.droppableId]: newoldColumn,
-        [destination.droppableId]: newnewColumn,
-      }));
-  
-    })
-    .catch(err=> console.log(err))
-   }
-  
+      .then((result) => {
+        console.log(result);
+      })
+      .then((result) => {
+        const oldcolnewJobList = Array.from(colns[source.droppableId].jobs);
+        let newcolnewJobList = Array.from(colns[destination.droppableId].jobs);
+        const dragItem = oldcolnewJobList.splice(source.index, 1);
 
+        if (source.droppableId === destination.droppableId) {
+          newcolnewJobList = oldcolnewJobList;
+        }
+
+        newcolnewJobList.splice(destination.index, 0, dragItem[0]);
+
+        const newoldColumn = {
+          ...colns[source.droppableId],
+          jobs: oldcolnewJobList,
+        };
+        const newnewColumn = {
+          ...colns[destination.droppableId],
+          jobs: newcolnewJobList,
+        };
+        setColns((prev) => ({
+          ...prev,
+          [source.droppableId]: newoldColumn,
+          [destination.droppableId]: newnewColumn,
+        }));
+      })
+      .catch((err) => console.log(err));
+  };
 
   if (!columnList) {
     return null;
@@ -172,12 +172,10 @@ export default function MainBoard() {
                 // setColumnList={setColumnList}
                 // colns={colns}
               />
-              
             </div>
           );
         })}
       </div>
     </DragDropContext>
-    
   );
 }
