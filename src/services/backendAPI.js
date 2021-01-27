@@ -78,6 +78,19 @@ const backendAPI = {
       {}
     );
   },
+  dragJob: (jobid, oldId, oldorder, newId, neworder) => {
+    return axiosInstance.post(
+      "/drag/job",
+      qs.stringify({
+        jobid: jobid,
+        oldId: oldId,
+        oldorder: oldorder,
+        newId: newId,
+        neworder: neworder,
+      }),
+      {}
+    );
+  },
 };
 
 export default backendAPI;
