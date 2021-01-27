@@ -1,9 +1,14 @@
 import Company from "./companies";
+import Newcard from "./newcard";
+import {useState} from 'react';
 import { Droppable } from "react-beautiful-dnd";
 
 function CategoriesColumn(props) {
   const companiesList = props.companies;
-  const coindex = props.index;
+  let [newcard, setNewCard] = useState(false);
+
+  // let toggleNewCardButton = ()=>{newcard? setNewCard(false) : setNewCard(true)}
+ 
 
   return (
     <Droppable droppableId={props.dropid.toString()}>
@@ -17,12 +22,17 @@ function CategoriesColumn(props) {
           >
             {companiesList.map((company, index) => {
               return (
-                <Company key={company["_id"]} company={company} index={index} />
+                <Company key={company["_id"]} company={company} newcard={newcard} index={index} />
               );
             })}
+            {newcard?(<Newcard companies={props.companies} setNewCard={setNewCard} setColns={props.setColns} setColumnList={props.setColumnList} dropid={props.dropid}/>):null}
           </div>
           {provided.placeholder}
+        
+          <button onClick={()=>setNewCard(true)}>+</button>
+          {newcard?(<button onClick={()=>setNewCard(false)}>X</button>): null}
         </div>
+        
       )}
     </Droppable>
   );
