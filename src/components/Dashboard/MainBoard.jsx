@@ -73,7 +73,7 @@ export default function MainBoard() {
 
 
   let [colns, setColns]= useState(null)
-  let [allresult, setAllResult] = useState(null);
+  // let [allresult, setAllResult] = useState(null);
   let [columnList, setColumnList] = useState(null)
 
   function getCurrentUser() {
@@ -86,7 +86,6 @@ export default function MainBoard() {
       .then((result) => {
          setAllResult(result.data.allResult);
          console.log(result.data.allResult)
-
      const columns  = {};
      let columnlisting = [];
      for (let i=0; i < result.data.allResult.length; i++) {
@@ -169,6 +168,9 @@ export default function MainBoard() {
                 title={colns[column].column_id}
                 companies={colns[column].jobs}
                 index={index}
+                // setColns={setColns}
+                // setColumnList={setColumnList}
+                // colns={colns}
               />
               
             </div>
