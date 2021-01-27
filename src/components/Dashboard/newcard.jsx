@@ -12,11 +12,11 @@
         })
         )
 
-        setNewJobCard=({target})=>{
+        
             setNewJobCard(prev=>({...prev,
             [target.name]: target.value
-            }))
-        }
+            })
+            )
     }
 
     const handleSubmit = (event)=>{

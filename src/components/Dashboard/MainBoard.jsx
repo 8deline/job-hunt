@@ -84,7 +84,7 @@ export default function MainBoard() {
     backendService
       .render(getCurrentUser().email) //boon xian: please input user email
       .then((result) => {
-         setAllResult(result.data.allResult);
+        //  setAllResult(result.data.allResult);
          console.log(result.data.allResult)
      const columns  = {};
      let columnlisting = [];
