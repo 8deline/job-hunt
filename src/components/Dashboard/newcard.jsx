@@ -11,7 +11,7 @@
             [target.name]: target.value
         })
         )
-
+        
         
             setNewJobCard(prev=>({...prev,
             [target.name]: target.value
@@ -35,6 +35,7 @@
         })
         )
     })
+    // .then //backend render set Colns(jobstatus1: {column_id: jobstatus1, job: [{company_id: }]}) 
     
     .catch(err=> console.log(err))
     }   
