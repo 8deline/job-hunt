@@ -88,7 +88,10 @@ export default function MainBoard() {
       .render(getCurrentUser().email) //boon xian: please input user email
       .then((result) => {
          setAllResult(result.data.allResult);
+        }) 
 
+        .catch((err) => console.log(err));
+      }, [allresult ]);
     //instead of implementing frontend logic to just call the render backend     
 
     //  const columns  = {};
@@ -101,7 +104,7 @@ export default function MainBoard() {
     // setColumnList(columnlisting)
      
      
-    })   
+     
         // setAllResult(result.data.allResult);
   //       console.log(result.data.allResult);
   //       const columns = {};
@@ -116,8 +119,7 @@ export default function MainBoard() {
   //       setColns(columns);
   //       setColumnList(columnlisting);
   //     })
-      .catch((err) => console.log(err));
-  }, [allresult ]);
+     
 
   const dragEnd = (result) => {
     const { source, destination, draggableId } = result;
@@ -148,10 +150,10 @@ export default function MainBoard() {
         
         {
            setAllResult(newresult)
-        console.log(newresult)
         })
       .catch(err=> console.log(err))
     })
+  }
     // .then(result=>{
       
     //   const oldcolnewJobList = Array.from(colns[source.droppableId].jobs);
@@ -181,7 +183,7 @@ export default function MainBoard() {
   
     // })
     // .catch(err=> console.log(err))
-   }
+   
   
  
     
