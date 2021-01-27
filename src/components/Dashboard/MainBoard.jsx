@@ -117,7 +117,7 @@ export default function MainBoard() {
   //       setColumnList(columnlisting);
   //     })
       .catch((err) => console.log(err));
-  }, []);
+  }, [allresult ]);
 
   const dragEnd = (result) => {
     const { source, destination, draggableId } = result;
@@ -143,9 +143,11 @@ export default function MainBoard() {
       destination.index
     )
     .then(result=> {console.log(result)
-      backendService.render()
+      backendService.render(getCurrentUser().email)
       .then(newresult=> 
-        {setAllResult(newresult)
+        
+        {
+           setAllResult(newresult)
         console.log(newresult)
         })
       .catch(err=> console.log(err))
@@ -230,12 +232,12 @@ export default function MainBoard() {
   return (
     <DragDropContext onDragEnd={dragEnd}>
       <div className="entire-container">
-        {allresult.map((column, index) => {
+        {Array.isArray(allresult) && allresult.length !== 0 ? allresult.map((column, index) => {
           return (
-            <div key={column.status.jobstatus} className="job-column">
+            <div key={column.jobstatus} className="job-column">
               <CategoriesColumn
-                dropid={column.status.jobstatus}
-                title={column.status.jobstatus}
+                dropid={column.jobstatus}
+                title={column.jobstatus}
                 companies={column.joblist}
                 index={index}
                 // setColns={setColns}
@@ -244,7 +246,8 @@ export default function MainBoard() {
               />
             </div>
           );
-        })}
+        }) : "" }
+        
       </div>
     </DragDropContext>
   );
