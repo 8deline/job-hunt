@@ -92,7 +92,7 @@ export default function MainBoard() {
       }) 
 
       .catch((err) => console.log(err));
-    }, []);
+    }, [allresult]);
 
   //    const columns  = {};
   //    let columnlisting = [];
@@ -169,6 +169,7 @@ export default function MainBoard() {
         
         {
            setAllResult(newresult)
+  
         })
       .catch(err=> console.log(err))
     })
@@ -253,7 +254,7 @@ export default function MainBoard() {
   return (
     <DragDropContext onDragEnd={dragEnd}>
       <div className="entire-container">
-        {Array.isArray(allresult) && allresult.length !== 0 ? (<div> {allresult.map((column, index) => {
+        {Array.isArray(allresult) && allresult.length !== 0 ? (<> {allresult.map((column, index) => {
           return (
             <div key={column.jobstatus} className="job-column">
               <CategoriesColumn
@@ -273,7 +274,7 @@ export default function MainBoard() {
         { newColumn? (<Newcolumn colns={colns} columnList={columnList} getCurrentUser={getCurrentUser} setColns={setColns} setColumnList={setColumnList} setNewColumn = {setNewColumn} />) : null }
         <button onClick={()=>setNewColumn(true)}>Add new column</button>
       
-        </div>
+        </>
         )
 
       
