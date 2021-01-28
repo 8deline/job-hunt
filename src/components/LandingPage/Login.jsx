@@ -46,12 +46,16 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  formErr: {
+    color: "red",
+  },
 }));
 
 function SignInSide(props) {
   const classes = useStyles();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+  const [formErr, setFormErr] = useState("");
 
   function handleFormSubmission(e) {
     e.preventDefault();
@@ -59,7 +63,7 @@ function SignInSide(props) {
       .login(email, password)
       .then((response) => {
         if (!response.data.success) {
-          console.log("Login unsuccessful");
+          setFormErr("Either email or password is wrong");
           return;
         }
 
@@ -74,7 +78,7 @@ function SignInSide(props) {
       })
 
       .catch((err) => {
-        console.log(err);
+        setFormErr("Error occured in form, please check values");
       });
   }
 
@@ -136,11 +140,6 @@ function SignInSide(props) {
               Login
             </Button>
             <Grid container>
-              <Grid item xs>
-                <Link to="/#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
               <Grid item>
                 <Link to="/users/register" variant="body2">
                   {"Don't have an account? Sign Up"}
@@ -148,24 +147,31 @@ function SignInSide(props) {
               </Grid>
             </Grid>
             <Box mt={5}>
-              <footer className={classes.footer}>
-                <Container maxWidth="lg">
-                  <Typography variant="h6" align="center" gutterBottom>
-                    JobsHunt
-                  </Typography>
-                  <Typography
-                    variant="subtitle1"
-                    align="center"
-                    color="textSecondary"
-                    component="p"
-                  >
-                    © Copyright 2021. All rights reserved
-                  </Typography>
-                </Container>
-              </footer>
+              {formErr !== "" ? (
+                <div className={classes.formErr}>
+                  <p>{formErr}</p>
+                </div>
+              ) : (
+                ""
+              )}
             </Box>
           </form>
         </div>
+        <footer className={classes.footer}>
+          <Container maxWidth="lg">
+            <Typography variant="h6" align="center" gutterBottom>
+              JobsHunt
+            </Typography>
+            <Typography
+              variant="subtitle1"
+              align="center"
+              color="textSecondary"
+              component="p"
+            >
+              © Copyright 2021. All rights reserved
+            </Typography>
+          </Container>
+        </footer>
       </Grid>
     </Grid>
   );
