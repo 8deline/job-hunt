@@ -2,18 +2,50 @@ import Company from "./companies";
 import Newcard from "./newcard";
 import {useState} from 'react';
 import { Droppable } from "react-beautiful-dnd";
+import backendService from '../../services/backendAPI'
+import axios from 'axios'
+import qs from 'qs'
 
 function CategoriesColumn(props) {
   const companiesList = props.companies;
   let [newcard, setNewCard] = useState(false);
+  
 
-  // let toggleNewCardButton = ()=>{newcard? setNewCard(false) : setNewCard(true)}
- 
+ const handleSubmit = (event)=>{
+   event.preventDefault()
+
+
+   let columnIndex = parseInt(props.index)
+   
+   let columnId = props.allresult[columnIndex]["_id"]
+   console.log(columnId)
+
+
+  axios.delete("http://localhost:5000/api/v1/delete/status", qs.stringify({_id: columnId}))
+    .then(result=> {
+        console.log("working")
+        console.log(result)
+
+        backendService.render(props.getCurrentUser().email)
+      .then(newresult=> 
+        
+        {
+           props.setAllResult(newresult)
+  
+        })
+      .catch(err=> console.log(err))
+    })
+    .catch(err=> console.log(err))
+ }
 
   return (
     <Droppable droppableId={props.dropid.toString()}>
       {(provided, snapshot) => (
         <div ref={provided.innerRef} {...provided.droppableProps}>
+          <form onSubmit={handleSubmit}>
+            <button type="submit">Delete column</button>
+          </form>
+          
           <div className="title">
             <h1>{props.title}</h1>
           </div>
