@@ -1,42 +1,35 @@
 import Company from "./companies";
 import Newcard from "./newcard";
-import {useState} from 'react';
+import { useState } from "react";
 import { Droppable } from "react-beautiful-dnd";
-import backendService from '../../services/backendAPI'
-import axios from 'axios'
-import qs from 'qs'
+import backendService from "../../services/backendAPI";
 
 function CategoriesColumn(props) {
   const companiesList = props.companies;
   let [newcard, setNewCard] = useState(false);
-  
 
- const handleSubmit = (event)=>{
-   event.preventDefault()
+  const handleSubmit = (event) => {
+    event.preventDefault();
 
+    let columnIndex = parseInt(props.index);
 
-   let columnIndex = parseInt(props.index)
-   
-   let columnId = props.allresult[columnIndex]["_id"]
-   console.log(columnId)
+    let columnId = props.allresult[columnIndex]["_id"];
 
+    backendService
+      .deleteStatus(columnId)
+      .then((result) => {
+        console.log("working");
+        console.log(result);
 
-  axios.delete("http://localhost:5000/api/v1/delete/status", qs.stringify({_id: columnId}))
-    .then(result=> {
-        console.log("working")
-        console.log(result)
-
-        backendService.render(props.getCurrentUser().email)
-      .then(newresult=> 
-        
-        {
-           props.setAllResult(newresult)
-  
-        })
-      .catch(err=> console.log(err))
-    })
-    .catch(err=> console.log(err))
- }
+        backendService
+          .render(props.getCurrentUser().email)
+          .then((newresult) => {
+            props.setAllResult(newresult);
+          })
+          .catch((err) => console.log(err));
+      })
+      .catch((err) => console.log(err));
+  };
 
   return (
     <Droppable droppableId={props.dropid.toString()}>
@@ -45,7 +38,7 @@ function CategoriesColumn(props) {
           <form onSubmit={handleSubmit}>
             <button type="submit">Delete column</button>
           </form>
-          
+
           <div className="title">
             <h1>{props.title}</h1>
           </div>
@@ -57,14 +50,25 @@ function CategoriesColumn(props) {
                 <Company key={company["_id"]} company={company} index={index} />
               );
             })}
-            {newcard?(<Newcard getCurrentUser={props.getCurrentUser} setNewCard={setNewCard} colns={props.colns} setColns={props.setColns} setColumnList={props.setColumnList} setAllResult={props.setAllResult} dropid={props.dropid}/>):null}
+            {newcard ? (
+              <Newcard
+                getCurrentUser={props.getCurrentUser}
+                setNewCard={setNewCard}
+                colns={props.colns}
+                setColns={props.setColns}
+                setColumnList={props.setColumnList}
+                setAllResult={props.setAllResult}
+                dropid={props.dropid}
+              />
+            ) : null}
           </div>
           {provided.placeholder}
-           
-          <button onClick={()=>setNewCard(true)}>+</button>
-          {newcard?(<button onClick={()=>setNewCard(false)}>X</button>): null}
+
+          <button onClick={() => setNewCard(true)}>+</button>
+          {newcard ? (
+            <button onClick={() => setNewCard(false)}>X</button>
+          ) : null}
         </div>
-        
       )}
     </Droppable>
   );
