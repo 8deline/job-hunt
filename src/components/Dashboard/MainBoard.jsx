@@ -3,6 +3,7 @@ import CategoriesColumn from "./categories";
 import { DragDropContext } from "react-beautiful-dnd";
 import { useEffect, useState } from "react";
 import backendService from "../../services/backendAPI";
+import Newcolumn from "./newcolumn"
 
 export default function MainBoard() {
   //  const companiesList = {
@@ -72,11 +73,11 @@ export default function MainBoard() {
   // const columns = ["column_id_1", "column_id_2", "column_id_3", "column_id_4"];
 
 
-  // let [colns, setColns]= useState(null)
+  let [newColumn, setNewColumn] = useState(false);
+  let [colns, setColns]= useState(null)
   let [allresult, setAllResult] = useState(null);
-  // let [columnList, setColumnList] = useState(null)
+  let [columnList, setColumnList] = useState(null)
 
-  
 
 
   function getCurrentUser() {
@@ -85,13 +86,30 @@ export default function MainBoard() {
 
   useEffect(() => {
     backendService
-      .render(getCurrentUser().email) //boon xian: please input user email
+      .render(getCurrentUser().email)
       .then((result) => {
-         setAllResult(result.data.allResult);
-        }) 
+        setAllResult(result.data.allResult);
+      }) 
 
-        .catch((err) => console.log(err));
-      }, [allresult ]);
+      .catch((err) => console.log(err));
+    }, [allresult]);
+
+  //    const columns  = {};
+  //    let columnlisting = [];
+  //    for (let i=0; i < result.data.allResult.length; i++) {
+  //      columns[result.data.allResult[i].jobstatus] = {column_id: result.data.allResult[i].jobstatus, jobs: result.data.allResult[i].joblist}
+  //       columnlisting.push(result.data.allResult[i].jobstatus)
+  //     } 
+  //    setColns(columns)
+  //   setColumnList(columnlisting)
+     
+     
+  //   })   
+  //     .catch((err) => console.log(err));
+  // }, []);
+
+   
+
     //instead of implementing frontend logic to just call the render backend     
 
     //  const columns  = {};
@@ -120,6 +138,7 @@ export default function MainBoard() {
   //       setColumnList(columnlisting);
   //     })
      
+
 
   const dragEnd = (result) => {
     const { source, destination, draggableId } = result;
@@ -150,6 +169,7 @@ export default function MainBoard() {
         
         {
            setAllResult(newresult)
+  
         })
       .catch(err=> console.log(err))
     })
@@ -234,7 +254,7 @@ export default function MainBoard() {
   return (
     <DragDropContext onDragEnd={dragEnd}>
       <div className="entire-container">
-        {Array.isArray(allresult) && allresult.length !== 0 ? allresult.map((column, index) => {
+        {Array.isArray(allresult) && allresult.length !== 0 ? (<> {allresult.map((column, index) => {
           return (
             <div key={column.jobstatus} className="job-column">
               <CategoriesColumn
@@ -242,14 +262,27 @@ export default function MainBoard() {
                 title={column.jobstatus}
                 companies={column.joblist}
                 index={index}
-                // setColns={setColns}
-                // setColumnList={setColumnList}
-                // colns={colns}
+                setColns={setColns}
+                setColumnList={setColumnList}
+                colns={colns}
+                getCurrentUser={getCurrentUser}
+                setAllResult={setAllResult}
               />
             </div>
-          );
-        }) : "" }
+          )
+        }) }
+                  
+        { newColumn? (<Newcolumn allresult={allresult} colns={colns} columnList={columnList} getCurrentUser={getCurrentUser} setColns={setColns} setColumnList={setColumnList} setAllResult={setAllResult} setNewColumn = {setNewColumn} />) : null }
+        <button onClick={()=>setNewColumn(true)}>Add new column</button>
         
+      
+        </>
+        )
+
+      
+      
+         : "" }
+   
       </div>
     </DragDropContext>
   );

@@ -22,13 +22,13 @@ function CategoriesColumn(props) {
           >
             {companiesList.map((company, index) => {
               return (
-                <Company key={company["_id"]} company={company} newcard={newcard} index={index} />
+                <Company key={company["_id"]} company={company} index={index} />
               );
             })}
-            {newcard?(<Newcard companies={props.companies} setNewCard={setNewCard} setColns={props.setColns} setColumnList={props.setColumnList} dropid={props.dropid}/>):null}
+            {newcard?(<Newcard getCurrentUser={props.getCurrentUser} setNewCard={setNewCard} colns={props.colns} setColns={props.setColns} setColumnList={props.setColumnList} setAllResult={props.setAllResult} dropid={props.dropid}/>):null}
           </div>
           {provided.placeholder}
-        
+           
           <button onClick={()=>setNewCard(true)}>+</button>
           {newcard?(<button onClick={()=>setNewCard(false)}>X</button>): null}
         </div>
