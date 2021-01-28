@@ -23,6 +23,7 @@ class App extends React.Component {
               <Dashboard>
                 <Switch>
                   <ProtectedRoute path={`${path}/inbox`} component={Inbox} />
+                  <Redirect exact from={path + "/*"} to={path} />
                   <ProtectedRoute
                     path={`${path}`}
                     component={DashboardContent}

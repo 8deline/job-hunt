@@ -46,6 +46,13 @@ const useStyles = makeStyles((theme) => ({
       background: "white",
     },
   },
+  logout: {
+    marginRight: theme.spacing(1),
+  },
+  linksInWhite: {
+    color: "white",
+    textDecoration: "none",
+  },
 }));
 
 function ButtonAppBar(props) {
@@ -91,9 +98,25 @@ function ButtonAppBar(props) {
             </Toolbar>
           ) : (
             <Toolbar>
-              <Button className={classes.LoginButton}>
-                <Link to="/" className={classes.links} onClick={handleLogout}>
+              <Button
+                variant="contained"
+                color="primary"
+                className={classes.logout}
+              >
+                <Link
+                  to={`${url}`}
+                  onClick={handleLogout}
+                  className={classes.linksInWhite}
+                >
                   Logout
+                </Link>
+              </Button>
+              <Button variant="contained" color="secondary">
+                <Link
+                  to={`${url}users/dashboard`}
+                  className={classes.linksInWhite}
+                >
+                  Dashboard
                 </Link>
               </Button>
             </Toolbar>
