@@ -89,6 +89,7 @@ export default function MainBoard() {
       .render(getCurrentUser().email)
       .then((result) => {
         setAllResult(result.data.allResult);
+        // console.log(result.data.allResult)
       }) 
 
       .catch((err) => console.log(err));
@@ -267,6 +268,7 @@ export default function MainBoard() {
                 colns={colns}
                 getCurrentUser={getCurrentUser}
                 setAllResult={setAllResult}
+                allresult={allresult}
               />
             </div>
           )
