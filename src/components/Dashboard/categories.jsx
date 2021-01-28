@@ -25,7 +25,7 @@ function CategoriesColumn(props) {
                 <Company key={company["_id"]} company={company} index={index} />
               );
             })}
-            {newcard?(<Newcard getCurrentUser={props.getCurrentUser} setNewCard={setNewCard} colns={props.colns} setColns={props.setColns} setColumnList={props.setColumnList} dropid={props.dropid}/>):null}
+            {newcard?(<Newcard getCurrentUser={props.getCurrentUser} setNewCard={setNewCard} colns={props.colns} setColns={props.setColns} setColumnList={props.setColumnList} setAllResult={props.setAllResult} dropid={props.dropid}/>):null}
           </div>
           {provided.placeholder}
            

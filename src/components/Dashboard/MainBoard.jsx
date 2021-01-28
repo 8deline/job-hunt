@@ -266,13 +266,15 @@ export default function MainBoard() {
                 setColumnList={setColumnList}
                 colns={colns}
                 getCurrentUser={getCurrentUser}
+                setAllResult={setAllResult}
               />
             </div>
           )
         }) }
                   
-        { newColumn? (<Newcolumn colns={colns} columnList={columnList} getCurrentUser={getCurrentUser} setColns={setColns} setColumnList={setColumnList} setNewColumn = {setNewColumn} />) : null }
+        { newColumn? (<Newcolumn allresult={allresult} colns={colns} columnList={columnList} getCurrentUser={getCurrentUser} setColns={setColns} setColumnList={setColumnList} setAllResult={setAllResult} setNewColumn = {setNewColumn} />) : null }
         <button onClick={()=>setNewColumn(true)}>Add new column</button>
+        
       
         </>
         )
