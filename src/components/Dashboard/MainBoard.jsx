@@ -1,9 +1,11 @@
 import "./MainBoard.css";
 import CategoriesColumn from "./categories";
-import { DragDropContext } from "react-beautiful-dnd";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useEffect, useState } from "react";
 import backendService from "../../services/backendAPI";
 import Newcolumn from "./newcolumn"
+import axios from 'axios'
+import qs from 'qs'
 
 export default function MainBoard() {
   //  const companiesList = {
@@ -142,7 +144,7 @@ export default function MainBoard() {
 
 
   const dragEnd = (result) => {
-    const { source, destination, draggableId } = result;
+    const { source, destination, draggableId, type } = result;
 
     if (!destination) {
       return;
@@ -154,8 +156,8 @@ export default function MainBoard() {
     ) {
       return;
     }
-
-    // backendService.updateJob(true, draggableId, destination.droppableId, destination.index)
+    if (type==='company') {
+      // backendService.updateJob(true, draggableId, destination.droppableId, destination.index)
     backendService
     .dragJob(
       draggableId,
@@ -164,7 +166,7 @@ export default function MainBoard() {
       destination.droppableId,
       destination.index
     )
-    .then(result=> {console.log(result)
+    .then(result=> {
       backendService.render(getCurrentUser().email)
       .then(newresult=> 
         
@@ -174,7 +176,24 @@ export default function MainBoard() {
         })
       .catch(err=> console.log(err))
     })
+
+   
   }
+
+  else { 
+      axios.post("http://localhost:5000/api/v1/drag/status", qs.stringify({statusid: allresult[source.index]['_id'], oldorder: source.index , neworder: destination.index}))
+      .then(result=>{
+        backendService.render(getCurrentUser().email)
+        .then(newresult=>{
+          setAllResult(newresult)
+        })
+        .catch(err=> console.log(err))
+      })
+      .catch(err=>console.log(err))
+  }
+
+    }
+    
     // .then(result=>{
       
     //   const oldcolnewJobList = Array.from(colns[source.droppableId].jobs);
@@ -254,10 +273,15 @@ export default function MainBoard() {
 
   return (
     <DragDropContext onDragEnd={dragEnd}>
-      <div className="entire-container">
+      <div className="entire-entire">
+      <Droppable droppableId="all-columns" type="columns" direction = "horizontal">
+      {(provided) => (
+      <div className="entire-container" ref={provided.innerRef} {...provided.droppableProps}>
         {Array.isArray(allresult) && allresult.length !== 0 ? (<> {allresult.map((column, index) => {
           return (
-            <div key={column.jobstatus} className="job-column">
+            <Draggable draggableId={column.jobstatus} index={index}>
+       {(provided)=>(
+            <div key={column.jobstatus} ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} className="job-column">
               <CategoriesColumn
                 dropid={column.jobstatus}
                 title={column.jobstatus}
@@ -270,22 +294,35 @@ export default function MainBoard() {
                 setAllResult={setAllResult}
                 allresult={allresult}
               />
+            
             </div>
+            
+         )}
+         </Draggable>
           )
         }) }
                   
-        { newColumn? (<Newcolumn allresult={allresult} colns={colns} columnList={columnList} getCurrentUser={getCurrentUser} setColns={setColns} setColumnList={setColumnList} setAllResult={setAllResult} setNewColumn = {setNewColumn} />) : null }
-        <button onClick={()=>setNewColumn(true)}>Add new column</button>
-        
-      
+       
+      {newColumn? <Newcolumn setAllResult={setAllResult} allresult={allresult} getCurrentUser={getCurrentUser} setNewColumn={setNewColumn} /> : ""}
         </>
+         
+        
         )
 
-      
+        
       
          : "" }
-   
+         
+      {provided.placeholder}
+      
       </div>
+      
+      )}
+      
+      </Droppable>
+      
+      <button onClick={()=>setNewColumn(true)}>Add new column</button>
+      </div>    
     </DragDropContext>
   );
 }
