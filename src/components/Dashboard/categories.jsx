@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Droppable } from "react-beautiful-dnd";
 import backendService from "../../services/backendAPI";
 
+
 function CategoriesColumn(props) {
   const companiesList = props.companies;
   let [newcard, setNewCard] = useState(false);
@@ -32,9 +33,12 @@ function CategoriesColumn(props) {
   };
 
   return (
-    <Droppable droppableId={props.dropid.toString()}>
+    
+    <Droppable droppableId={props.dropid.toString()} type="company">
       {(provided, snapshot) => (
         <div ref={provided.innerRef} {...provided.droppableProps}>
+          
+           
           <form onSubmit={handleSubmit}>
             <button type="submit">Delete column</button>
           </form>
@@ -68,9 +72,14 @@ function CategoriesColumn(props) {
           {newcard ? (
             <button onClick={() => setNewCard(false)}>X</button>
           ) : null}
-        </div>
-      )}
+             </div> 
+             )}
+            
+        
+       
+      
     </Droppable>
+   
   );
   // return (
   //     <Droppable droppableId={props.dropid}>

@@ -1,6 +1,6 @@
 import "./MainBoard.css";
 import CategoriesColumn from "./categories";
-import { DragDropContext } from "react-beautiful-dnd";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useEffect, useState } from "react";
 import backendService from "../../services/backendAPI";
 import Newcolumn from "./newcolumn"
@@ -142,7 +142,7 @@ export default function MainBoard() {
 
 
   const dragEnd = (result) => {
-    const { source, destination, draggableId } = result;
+    const { source, destination, draggableId, type } = result;
 
     if (!destination) {
       return;
@@ -254,10 +254,15 @@ export default function MainBoard() {
 
   return (
     <DragDropContext onDragEnd={dragEnd}>
-      <div className="entire-container">
+      <div className="entire-entire">
+      <Droppable droppableId="all-columns" type="columns" direction = "horizontal">
+      {(provided) => (
+      <div className="entire-container" ref={provided.innerRef} {...provided.droppableProps}>
         {Array.isArray(allresult) && allresult.length !== 0 ? (<> {allresult.map((column, index) => {
           return (
-            <div key={column.jobstatus} className="job-column">
+            <Draggable draggableId={column.jobstatus} index={index}>
+       {(provided)=>(
+            <div key={column.jobstatus} ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} className="job-column">
               <CategoriesColumn
                 dropid={column.jobstatus}
                 title={column.jobstatus}
@@ -270,22 +275,35 @@ export default function MainBoard() {
                 setAllResult={setAllResult}
                 allresult={allresult}
               />
+            
             </div>
+            
+         )}
+         </Draggable>
           )
         }) }
                   
-        { newColumn? (<Newcolumn allresult={allresult} colns={colns} columnList={columnList} getCurrentUser={getCurrentUser} setColns={setColns} setColumnList={setColumnList} setAllResult={setAllResult} setNewColumn = {setNewColumn} />) : null }
-        <button onClick={()=>setNewColumn(true)}>Add new column</button>
-        
-      
+       
+      {newColumn? <Newcolumn setAllResult={setAllResult} allresult={allresult} getCurrentUser={getCurrentUser} setNewColumn={setNewColumn} /> : ""}
         </>
+         
+        
         )
 
-      
+        
       
          : "" }
-   
+         
+      {provided.placeholder}
+      
       </div>
+      
+      )}
+      
+      </Droppable>
+      
+      <button onClick={()=>setNewColumn(true)}>Add new column</button>
+      </div>    
     </DragDropContext>
   );
 }
