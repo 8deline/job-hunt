@@ -4,6 +4,8 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useEffect, useState } from "react";
 import backendService from "../../services/backendAPI";
 import Newcolumn from "./newcolumn"
+import axios from 'axios'
+import qs from 'qs'
 
 export default function MainBoard() {
   //  const companiesList = {
@@ -154,8 +156,8 @@ export default function MainBoard() {
     ) {
       return;
     }
-
-    // backendService.updateJob(true, draggableId, destination.droppableId, destination.index)
+    if (type==='company') {
+      // backendService.updateJob(true, draggableId, destination.droppableId, destination.index)
     backendService
     .dragJob(
       draggableId,
@@ -164,7 +166,7 @@ export default function MainBoard() {
       destination.droppableId,
       destination.index
     )
-    .then(result=> {console.log(result)
+    .then(result=> {
       backendService.render(getCurrentUser().email)
       .then(newresult=> 
         
@@ -174,7 +176,24 @@ export default function MainBoard() {
         })
       .catch(err=> console.log(err))
     })
+
+   
   }
+
+  else { 
+      axios.post("http://localhost:5000/api/v1/drag/status", qs.stringify({statusid: allresult[source.index]['_id'], oldorder: source.index , neworder: destination.index}))
+      .then(result=>{
+        backendService.render(getCurrentUser().email)
+        .then(newresult=>{
+          setAllResult(newresult)
+        })
+        .catch(err=> console.log(err))
+      })
+      .catch(err=>console.log(err))
+  }
+
+    }
+    
     // .then(result=>{
       
     //   const oldcolnewJobList = Array.from(colns[source.droppableId].jobs);
