@@ -6,6 +6,8 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
 import { useRouteMatch } from "react-router";
+import { withCookies } from "react-cookie";
+import { withRouter } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -44,11 +46,33 @@ const useStyles = makeStyles((theme) => ({
       background: "white",
     },
   },
+  logout: {
+    marginRight: theme.spacing(1),
+  },
+  linksInWhite: {
+    color: "white",
+    textDecoration: "none",
+  },
 }));
 
-export default function ButtonAppBar() {
+function ButtonAppBar(props) {
   const classes = useStyles();
   const { url } = useRouteMatch();
+
+  function isAuthenticated() {
+    const token = props.cookies.get("token");
+    if (!token || token === "undefined" || token === "null") {
+      return false;
+    }
+
+    return true;
+  }
+
+  function handleLogout() {
+    props.cookies.remove("token");
+    localStorage.removeItem("user");
+    return;
+  }
 
   return (
     <div className={classes.root}>
@@ -59,18 +83,48 @@ export default function ButtonAppBar() {
               JobsHunt
             </Link>
           </Typography>
-          <Button className={classes.LoginButton}>
-            <Link to={`${url}users/login`} className={classes.links}>
-              Login
-            </Link>
-          </Button>
-          <Button className={classes.SignUpButton}>
-            <Link to={`${url}users/register`} className={classes.links}>
-              Sign Up
-            </Link>
-          </Button>
+          {!isAuthenticated() ? (
+            <Toolbar>
+              <Button className={classes.LoginButton}>
+                <Link to={`${url}users/login`} className={classes.links}>
+                  Login
+                </Link>
+              </Button>
+              <Button className={classes.SignUpButton}>
+                <Link to={`${url}users/register`} className={classes.links}>
+                  Sign Up
+                </Link>
+              </Button>
+            </Toolbar>
+          ) : (
+            <Toolbar>
+              <Button
+                variant="contained"
+                color="primary"
+                className={classes.logout}
+              >
+                <Link
+                  to={`${url}`}
+                  onClick={handleLogout}
+                  className={classes.linksInWhite}
+                >
+                  Logout
+                </Link>
+              </Button>
+              <Button variant="contained" color="secondary">
+                <Link
+                  to={`${url}users/dashboard`}
+                  className={classes.linksInWhite}
+                >
+                  Dashboard
+                </Link>
+              </Button>
+            </Toolbar>
+          )}
         </Toolbar>
       </AppBar>
     </div>
   );
 }
+
+export default withRouter(withCookies(ButtonAppBar));

@@ -1,7 +1,10 @@
 import React from "react";
 import { Grid } from "@material-ui/core";
 import DashboardSideBar from "./DashboardSideBar";
-export default function Dashboard({ children }) {
+import { withCookies } from "react-cookie";
+import { withRouter } from "react-router-dom";
+
+function Dashboard({ children }) {
   return (
     <Grid container>
       <DashboardSideBar />
@@ -9,3 +12,5 @@ export default function Dashboard({ children }) {
     </Grid>
   );
 }
+
+export default withRouter(withCookies(Dashboard));
