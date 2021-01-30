@@ -277,7 +277,11 @@ export default function MainBoard() {
                   {" "}
                   {allresult.map((column, index) => {
                     return (
-                      <Draggable draggableId={column.jobstatus} index={index}>
+                      <Draggable
+                        key={column.jobstatus}
+                        draggableId={column.jobstatus}
+                        index={index}
+                      >
                         {(provided) => (
                           <div
                             key={column.jobstatus}
@@ -307,6 +311,17 @@ export default function MainBoard() {
               ) : (
                 ""
               )}
+              {/* {newColumn ? (
+                <Newcolumn
+                  setAllResult={setAllResult}
+                  allresult={allresult}
+                  getCurrentUser={getCurrentUser}
+                  setNewColumn={setNewColumn}
+                />
+              ) : (
+                ""
+              )} */}
+              {provided.placeholder}
               {newColumn ? (
                 <Newcolumn
                   setAllResult={setAllResult}
@@ -317,7 +332,6 @@ export default function MainBoard() {
               ) : (
                 ""
               )}
-              {provided.placeholder}
             </div>
           )}
         </Droppable>
