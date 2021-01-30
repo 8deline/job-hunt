@@ -6,7 +6,7 @@ import { withRouter } from "react-router-dom";
 
 function Dashboard({ children }) {
   return (
-    <Grid container>
+    <Grid container style={{ flexWrap: "nowrap" }}>
       <DashboardSideBar />
       {children}
     </Grid>
