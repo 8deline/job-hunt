@@ -11,6 +11,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import backendService from "../../services/backendAPI";
 import { useForm } from "react-hook-form";
+import moment from "moment";
+import { withCookies } from "react-cookie";
+import { withRouter } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignUp(props) {
+function SignUp(props) {
   const classes = useStyles();
   const [firstName, setFirstName] = useState();
   const [lastName, setLastName] = useState();
@@ -65,7 +68,12 @@ export default function SignUp(props) {
           setFormErr(errorMessage);
           return;
         }
-        props.history.push("/users/login");
+        localStorage.setItem("user", JSON.stringify(response.data.info));
+
+        props.cookies.set("token", response.data.token, {
+          path: "/",
+          expires: moment.unix(response.data.expiresAt).toDate(),
+        });
       })
       .catch((err) => console.log(err));
   }
@@ -229,3 +237,5 @@ export default function SignUp(props) {
     </Grid>
   );
 }
+
+export default withRouter(withCookies(SignUp));
