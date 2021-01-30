@@ -47,7 +47,16 @@ function CategoriesColumn(props) {
           >
             {companiesList.map((company, index) => {
               return (
-                <Company key={company["_id"]} company={company} index={index} />
+                <Company
+                  statusid={props.dropid}
+                  getCurrentUser={props.getCurrentUser}
+                  setAllResult={props.setAllResult}
+                  allresult={props.allresult}
+                  key={company["_id"]}
+                  company={company}
+                  index={index}
+                  coid={props.index}
+                />
               );
             })}
             {newcard ? (
