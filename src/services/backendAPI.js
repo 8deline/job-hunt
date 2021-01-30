@@ -91,6 +91,15 @@ const backendAPI = {
       {}
     );
   },
+  deleteStatus: (id) => {
+    return axiosInstance.post(
+      "delete/status",
+      qs.stringify({
+        _id: id,
+      }),
+      {}
+    );
+  },
 };
 
 export default backendAPI;
