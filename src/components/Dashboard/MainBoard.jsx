@@ -92,7 +92,7 @@ export default function MainBoard() {
       })
 
       .catch((err) => console.log(err));
-  }, [allresult]);
+  }, []);
 
   //    const columns  = {};
   //    let columnlisting = [];
@@ -160,7 +160,7 @@ export default function MainBoard() {
           backendService
             .render(getCurrentUser().email)
             .then((newresult) => {
-              setAllResult(newresult);
+              setAllResult(newresult.data.allResult);
             })
             .catch((err) => console.log(err));
         });
@@ -178,7 +178,7 @@ export default function MainBoard() {
           backendService
             .render(getCurrentUser().email)
             .then((newresult) => {
-              setAllResult(newresult);
+              setAllResult(newresult.data.allResult);
             })
             .catch((err) => console.log(err));
         })
