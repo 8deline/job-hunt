@@ -4,8 +4,7 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useEffect, useState } from "react";
 import backendService from "../../services/backendAPI";
 import Newcolumn from "./newcolumn";
-import axios from "axios";
-import qs from "qs";
+import EditCard from "./EditCard";
 
 export default function MainBoard() {
   //  const companiesList = {
@@ -78,6 +77,8 @@ export default function MainBoard() {
   let [colns, setColns] = useState(null);
   let [allresult, setAllResult] = useState(null);
   let [columnList, setColumnList] = useState(null);
+  let [show, setShow] = useState(false);
+  let [info, setInfo] = useState([]);
 
   function getCurrentUser() {
     return JSON.parse(localStorage.getItem("user"));
@@ -165,14 +166,11 @@ export default function MainBoard() {
             .catch((err) => console.log(err));
         });
     } else {
-      axios
-        .post(
-          "http://localhost:5000/api/v1/drag/status",
-          qs.stringify({
-            statusid: allresult[source.index]["_id"],
-            oldorder: source.index,
-            neworder: destination.index,
-          })
+      backendService
+        .dragStatus(
+          allresult[source.index]["_id"],
+          source.index,
+          destination.index
         )
         .then((result) => {
           backendService
@@ -257,6 +255,10 @@ export default function MainBoard() {
   if (!allresult) {
     return null;
   }
+  function editShow(value, ...statusAndCompany) {
+    setInfo(statusAndCompany);
+    setShow(value);
+  }
 
   return (
     <DragDropContext onDragEnd={dragEnd}>
@@ -297,6 +299,8 @@ export default function MainBoard() {
                               getCurrentUser={getCurrentUser}
                               setAllResult={setAllResult}
                               allresult={allresult}
+                              statusID={column._id}
+                              columnEdit={editShow}
                             />
                           </div>
                         )}
@@ -323,6 +327,7 @@ export default function MainBoard() {
         </Droppable>
 
         <button onClick={() => setNewColumn(true)}>Add new column</button>
+        <EditCard open={show} setOpen={editShow} info={info} />
       </div>
     </DragDropContext>
   );

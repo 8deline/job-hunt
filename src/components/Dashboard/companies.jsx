@@ -1,38 +1,29 @@
-// import react from React
 import { Draggable } from "react-beautiful-dnd";
 import NaturalDragAnimation from "natural-drag-animation-rbdnd";
-import axios from "axios";
-import qs from "qs";
 import backendAPI from "../../services/backendAPI";
 
 function Company(props) {
   const company = props.company;
-  // console.log(company)
+  const { companyEdit, index, backendID } = props;
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // let columnIndex = parseInt(props.index);
-    // let columnId = props.allresult[props.coid]["_id"];
-    // console.log(props.company["_id"]);
-    axios
-      .post(
-        "http://localhost:5000/api/v1/delete/job",
-        qs.stringify({
-          statusid: props.allresult[props.coid]["_id"],
-          jobid: props.company["_id"],
-        })
-      )
+    backendAPI
+      .deleteJob(props.allresult[props.coid]["_id"], props.company["_id"])
       .then((result) => {
-        // console.log(result);
         backendAPI
           .render(props.getCurrentUser().email)
           .then((newresult) => {
-            // console.log(newresult);
             props.setAllResult(newresult.data.allResult);
           })
           .catch((err) => console.log(err));
       })
       .catch((err) => console.log(err));
+  };
+  const handleEdit = (e) => {
+    if (e.target.tagName !== "BUTTON") {
+      companyEdit(true, backendID, index, company);
+    }
   };
 
   return (
@@ -44,6 +35,7 @@ function Company(props) {
         >
           {(style) => (
             <div
+              onClick={(e) => handleEdit(e)}
               className={
                 snapshot.draggingOver ? "job-cards-moving" : "job-cards"
               }
@@ -76,14 +68,10 @@ function Company(props) {
   //                     <p>{position}</p>
   //                     </li>
   //                     </div>
-
   //                 }}
-
   //             </Draggable>
-
   //         )
   //     }
-
   //     )}
   //     </ul>
   // )
