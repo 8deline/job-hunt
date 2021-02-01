@@ -1,6 +1,4 @@
 import { useState } from "react";
-import axios from "axios";
-import qs from "qs";
 import backendService from "../../services/backendAPI";
 
 export default function Newcolumn(props) {
@@ -20,11 +18,8 @@ export default function Newcolumn(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    axios
-      .post(
-        "http://localhost:5000/api/v1/create/status",
-        qs.stringify(columnDetails)
-      )
+    backendService
+      .createStatus(columnDetails)
       .then((result) => {
         console.log(result);
         props.setNewColumn(false);

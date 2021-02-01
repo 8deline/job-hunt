@@ -1,6 +1,4 @@
 import { useState } from "react";
-import axios from "axios";
-import qs from "qs";
 import backendService from "../../services/backendAPI";
 
 export default function Newcard({
@@ -30,11 +28,10 @@ export default function Newcard({
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    axios
-      .post("http://localhost:5000/api/v1/create/job", qs.stringify(newCompany))
+    backendService
+      .createJob(newCompany)
       .then((result) => {
         console.log(result);
-
         backendService
           .render(getCurrentUser().email)
           .then((newresult) => {
