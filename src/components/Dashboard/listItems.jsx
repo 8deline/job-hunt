@@ -11,7 +11,7 @@ import BarChartIcon from "@material-ui/icons/BarChart";
 import LayersIcon from "@material-ui/icons/Layers";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 
-export default function mainListItems() {
+function mainListItems() {
   return (
     <div>
       <ListItem button>
