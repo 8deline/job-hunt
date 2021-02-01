@@ -279,7 +279,11 @@ export default function MainBoard() {
                   {" "}
                   {allresult.map((column, index) => {
                     return (
-                      <Draggable draggableId={column.jobstatus} index={index}>
+                      <Draggable
+                        key={column.jobstatus}
+                        draggableId={column.jobstatus}
+                        index={index}
+                      >
                         {(provided) => (
                           <div
                             key={column.jobstatus}
