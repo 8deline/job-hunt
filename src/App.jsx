@@ -39,7 +39,7 @@ class App extends React.Component {
             render={({ match: { path } }) => (
               <Home>
                 <Switch>
-                  <ProtectedRoute path={`${path}about`} component={About} />
+                  <Route path={`${path}about`} component={About} />
                   <Route path={path + "home"} component={HomePageContent} />
                   <Route path={path} component={HomePageContent} exact />
                   <Redirect exact from={path + "*"} to={path} />

@@ -10,8 +10,6 @@ import AppBar from "@material-ui/core/AppBar";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import Typography from "@material-ui/core/Typography";
-import Badge from "@material-ui/core/Badge";
-import NotificationsIcon from "@material-ui/icons/Notifications";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import Divider from "@material-ui/core/Divider";
 import { useRouteMatch } from "react-router";
@@ -19,6 +17,14 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import DashboardIcon from "@material-ui/icons/Dashboard";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import LibraryBooksIcon from "@material-ui/icons/LibraryBooks";
+import Button from "@material-ui/core/Button";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import { withCookies } from "react-cookie";
+import { withRouter } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 const drawerWidth = 240;
 
@@ -86,18 +92,64 @@ const useStyles = makeStyles((theme) => ({
     overflow: "auto",
     flexDirection: "column",
   },
+  menuLinks: {
+    textDecoration: "none",
+    color: "black",
+  },
+  profileMenu: {
+    color: "white",
+    backgroundColor: "#9e9e9e",
+    "&:hover": {
+      backgroundColor: "white",
+      color: "black",
+    },
+  },
 }));
 
-export default function DashboardSideBar() {
+function DashboardSideBar(props) {
   const classes = useStyles();
   const { url } = useRouteMatch();
   const [open, setOpen] = React.useState(false);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [firstName, setFirstName] = useState("");
+
+  // useEffect(() => {
+  //   setFirstName(getCurrentUser().first_name);
+  // }, []);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  function getCurrentUser() {
+    return JSON.parse(localStorage.getItem("user"));
+  }
+
+  function handleLogout() {
+    props.cookies.remove("token");
+    localStorage.removeItem("user");
+    return;
+  }
+
+  function isAuthenticated() {
+    const token = props.cookies.get("token");
+    if (!token || token === "undefined" || token === "null") {
+      return false;
+    }
+
+    return true;
+  }
 
   return (
     <div className={classes.root}>
@@ -128,10 +180,52 @@ export default function DashboardSideBar() {
           >
             Dashboard
           </Typography>
-          <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
-              <NotificationsIcon />
-            </Badge>
+          <IconButton>
+            <Button
+              className={classes.profileMenu}
+              startIcon={<AccountCircleIcon />}
+              aria-controls="simple-menu"
+              aria-haspopup="true"
+              onClick={handleClick}
+            >
+              {isAuthenticated() && getCurrentUser().first_name !== "" ? (
+                <span>{getCurrentUser().first_name}</span>
+              ) : (
+                ""
+              )}
+            </Button>
+            <Menu
+              id="simple-menu"
+              anchorEl={anchorEl}
+              keepMounted
+              open={Boolean(anchorEl)}
+              onClose={handleClose}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "center",
+              }}
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "center",
+              }}
+              elevation={0}
+              getContentAnchorEl={null}
+            >
+              <MenuItem>
+                <Link to="/" className={classes.menuLinks}>
+                  Home
+                </Link>
+              </MenuItem>
+              <MenuItem>
+                <Link
+                  to="/users/login"
+                  onClick={handleLogout}
+                  className={classes.menuLinks}
+                >
+                  Logout
+                </Link>
+              </MenuItem>
+            </Menu>
           </IconButton>
         </Toolbar>
       </AppBar>
@@ -153,17 +247,17 @@ export default function DashboardSideBar() {
             <ListItemIcon>
               <DashboardIcon />
             </ListItemIcon>
-            <Link to={`${url}`}>
-              <ListItemText primary="Dashboard" />
+            <Link to={`${url}`} className={classes.menuLinks}>
+              <ListItemText primary="Dashboard" className={classes.menuLinks} />
             </Link>
           </ListItem>
         </List>
         <List>
           <ListItem button>
             <ListItemIcon>
-              <DashboardIcon />
+              <LibraryBooksIcon />
             </ListItemIcon>
-            <Link to={`${url}/inbox`}>
+            <Link to={`${url}/inbox`} className={classes.menuLinks}>
               <ListItemText primary="Inbox" />
             </Link>
           </ListItem>
@@ -173,3 +267,5 @@ export default function DashboardSideBar() {
     </div>
   );
 }
+
+export default withRouter(withCookies(DashboardSideBar));
