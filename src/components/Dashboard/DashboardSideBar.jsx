@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
@@ -24,8 +24,6 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import { withCookies } from "react-cookie";
 import { withRouter } from "react-router-dom";
-import { useState, useEffect } from "react";
-
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -109,13 +107,8 @@ const useStyles = makeStyles((theme) => ({
 function DashboardSideBar(props) {
   const classes = useStyles();
   const { url } = useRouteMatch();
-  const [open, setOpen] = React.useState(false);
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [firstName, setFirstName] = useState("");
-
-  // useEffect(() => {
-  //   setFirstName(getCurrentUser().first_name);
-  // }, []);
+  const [open, setOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -139,6 +132,7 @@ function DashboardSideBar(props) {
   function handleLogout() {
     props.cookies.remove("token");
     localStorage.removeItem("user");
+    props.history.push("/");
     return;
   }
 
@@ -188,11 +182,7 @@ function DashboardSideBar(props) {
               aria-haspopup="true"
               onClick={handleClick}
             >
-              {isAuthenticated() && getCurrentUser().first_name !== "" ? (
-                <span>{getCurrentUser().first_name}</span>
-              ) : (
-                ""
-              )}
+              {isAuthenticated() && <span>{getCurrentUser().first_name}</span>}
             </Button>
             <Menu
               id="simple-menu"
@@ -217,11 +207,7 @@ function DashboardSideBar(props) {
                 </Link>
               </MenuItem>
               <MenuItem>
-                <Link
-                  to="/users/login"
-                  onClick={handleLogout}
-                  className={classes.menuLinks}
-                >
+                <Link onClick={handleLogout} className={classes.menuLinks}>
                   Logout
                 </Link>
               </MenuItem>
