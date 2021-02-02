@@ -3,10 +3,14 @@ import Newcard from "./newcard";
 import { useState } from "react";
 import { Droppable } from "react-beautiful-dnd";
 import backendService from "../../services/backendAPI";
+import axios from "axios";
+import qs from "qs";
 
 function CategoriesColumn(props) {
   const companiesList = props.companies;
   let [newcard, setNewCard] = useState(false);
+  // let [colnTitle, setColnTitle] = useState(null);
+  let [editColn, setEditColn] = useState(false);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -31,6 +35,16 @@ function CategoriesColumn(props) {
       .catch((err) => console.log(err));
   };
 
+  const EditColnTitle = () => {
+    //   backendService
+    //         .render()
+    //         .then((result) => {
+    //           setColnTitle(newresult.data.allResult[props.index].)
+    //           props.setAllResult(newresult.data.allResult);
+    //         })
+    //         .catch((err) => console.log(err))
+  };
+
   return (
     <Droppable droppableId={props.dropid.toString()} type="company">
       {(provided, snapshot) => (
@@ -39,9 +53,21 @@ function CategoriesColumn(props) {
             <button type="submit">Delete column</button>
           </form>
 
-          <div className="title">
-            <h1>{props.title}</h1>
-          </div>
+          <button onClick={() => setEditColn(true)}>Edit column name</button>
+
+          {editColn ? (
+            <form onSubmit={EditColnTitle}>
+              <input type="text" class="form-control" value={props.title} />
+              <button type="submit">Edit</button>
+              <br />
+              <buttonon onClick={() => setEditColn(false)}>x</buttonon>
+            </form>
+          ) : (
+            <div className="title">
+              <h1>{props.title}</h1>
+            </div>
+          )}
+
           <div
             className={snapshot.isDraggingOver ? "columndrag" : "column-inside"}
           >
