@@ -286,7 +286,6 @@ export default function MainBoard() {
                       >
                         {(provided) => (
                           <div
-                            key={column.jobstatus}
                             ref={provided.innerRef}
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
