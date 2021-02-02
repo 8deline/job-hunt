@@ -5,18 +5,42 @@ import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import { useSpring, animated } from "react-spring/web.cjs";
 import backendService from "../../services/backendAPI";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    width: "70%",
+    margin: "0 auto",
   },
   paper: {
     backgroundColor: theme.palette.background.paper,
     border: "2px solid #000",
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
+    boxShadow: theme.shadows[10],
+    padding: theme.spacing(1),
+  },
+  textField: {
+    width: "100%",
+    margin: theme.spacing(1),
+  },
+  form: {
+    textAlign: "center",
+    width: "80%",
+    margin: "0 auto",
+  },
+  buttonWrapper: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    textAlign: "center",
+    margin: theme.spacing(1),
+    width: "50%",
+  },
+  button: {
+    margin: "10px",
   },
 }));
 
@@ -73,18 +97,41 @@ export default function EditCard(props) {
   if (jobDetails) {
     Object.keys(jobDetails).forEach((key) => {
       if (key === "companyname") {
-        jobDisplay.push(<h2 id="spring-modal-title">{jobDetails[key]}</h2>);
+        jobDisplay.push(
+          <TextField
+            defaultValue={jobDetails[key]}
+            name="companyname"
+            onChange={(e) => {
+              jobDetails[key] = e.target.value;
+            }}
+            className={classes.textField}
+            label="Company Name"
+            variant="outlined"
+          />
+        );
       } else if (key !== "_id") {
         jobDisplay.push(
-          <p id="spring-modal-description">
-            {fieldName[key]}: {jobDetails[key]}
-          </p>
+          <TextField
+            id="spring-modal-description"
+            defaultValue={jobDetails[key]}
+            name={key}
+            onChange={(e) => {
+              jobDetails[key] = e.target.value;
+            }}
+            multiline
+            rows={3}
+            variant="outlined"
+            className={classes.textField}
+            label={fieldName[key]}
+          />
         );
       }
     });
   }
 
-  function submitEdit() {
+  function submitEdit(e) {
+    e.preventDefault();
+    setOpen(false);
     backendService
       .updateJob(
         statusID,
@@ -122,7 +169,33 @@ export default function EditCard(props) {
         }}
       >
         <Fade in={open}>
-          {jobDisplay && <div className={classes.paper}>{jobDisplay}</div>}
+          {jobDisplay && (
+            <div className={classes.paper}>
+              <form onSubmit={submitEdit} className={classes.form}>
+                {jobDisplay}
+                <div className={classes.buttonWrapper}>
+                  <Button
+                    variant="contained"
+                    type="submit"
+                    color="primary"
+                    fullWidth
+                    className={classes.button}
+                  >
+                    Save
+                  </Button>
+                  <Button
+                    variant="contained"
+                    onClick={handleClose}
+                    color="secondary"
+                    fullWidth
+                    className={classes.button}
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              </form>
+            </div>
+          )}
         </Fade>
       </Modal>
     </div>
