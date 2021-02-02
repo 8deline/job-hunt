@@ -9,6 +9,9 @@ const axiosInstance = axios.create({
 });
 
 const backendAPI = {
+  getCurrentUser: () => {
+    return JSON.parse(localStorage.getItem("user"));
+  },
   login: (email, password) => {
     return axiosInstance.post(
       "/users/login",
@@ -29,31 +32,28 @@ const backendAPI = {
       })
     );
   },
-  getUserInfo: (token) => {
-    return axiosInstance.post(
-      "/users/getuserinfo",
-      {},
-      {
-        headers: {
-          auth_token: token,
-        },
-      }
-    );
-  },
-  render: (email) => {
+  render: () => {
     return axiosInstance.post(
       "/render",
       qs.stringify({
-        email: email,
+        email: JSON.parse(localStorage.getItem("user")).email,
       }),
       {}
     );
   },
+  createStatus: (columnDetails) => {
+    return axiosInstance.post(
+      "/create/status",
+      qs.stringify(columnDetails),
+      {}
+    );
+  },
+  createJob: (newCompany) => {
+    return axiosInstance.post("/create/job", qs.stringify(newCompany), {});
+  },
   updateJob: (
-    drag,
     _id,
-    jobstatus,
-    order,
+    index,
     companyname,
     jobname,
     preparation,
@@ -61,13 +61,11 @@ const backendAPI = {
     interviewexperience,
     salary
   ) => {
-    return axiosInstance.post(
+    return axiosInstance.patch(
       "/update/job",
       qs.stringify({
-        drag: drag,
         _id: _id,
-        jobstatus: jobstatus,
-        order: order,
+        index: index,
         companyname: companyname,
         jobname: jobname,
         preparation: preparation,
@@ -78,8 +76,19 @@ const backendAPI = {
       {}
     );
   },
+  dragStatus: (statusid, oldorder, neworder) => {
+    return axiosInstance.patch(
+      "/drag/status",
+      qs.stringify({
+        statusid: statusid,
+        oldorder: oldorder,
+        neworder: neworder,
+      }),
+      {}
+    );
+  },
   dragJob: (jobid, oldstatus, oldorder, newstatus, neworder) => {
-    return axiosInstance.post(
+    return axiosInstance.patch(
       "/drag/job",
       qs.stringify({
         jobid: jobid,
@@ -92,12 +101,23 @@ const backendAPI = {
     );
   },
   deleteStatus: (id) => {
-    return axiosInstance.post(
-      "delete/status",
+    const data = qs.stringify({
+      _id: id,
+    });
+    return axiosInstance.delete("/delete/status", {
+      data,
+      headers: {
+        "content-type": "application/x-www-form-urlencoded;charset=utf-8",
+      },
+    });
+  },
+  deleteJob: (statusid, jobid) => {
+    return axiosInstance.patch(
+      "/delete/job",
       qs.stringify({
-        _id: id,
-      }),
-      {}
+        statusid: statusid,
+        jobid: jobid,
+      })
     );
   },
 };

@@ -73,8 +73,6 @@ function SignInSide(props) {
           path: "/",
           expires: moment.unix(response.data.expiresAt).toDate(),
         });
-
-        props.history.push("/users/dashboard");
       })
 
       .catch((err) => {

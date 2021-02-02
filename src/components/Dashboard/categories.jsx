@@ -11,20 +11,17 @@ function CategoriesColumn(props) {
   let [newcard, setNewCard] = useState(false);
   // let [colnTitle, setColnTitle] = useState(null);
   let [editColn, setEditColn] = useState(false);
+  const { columnEdit } = props;
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
     let columnIndex = parseInt(props.index);
-
     let columnId = props.allresult[columnIndex]["_id"];
 
     backendService
       .deleteStatus(columnId)
       .then((result) => {
-        console.log("working");
         console.log(result);
-
         backendService
           .render(props.getCurrentUser().email)
           .then((newresult) => {
@@ -82,6 +79,8 @@ function CategoriesColumn(props) {
                   company={company}
                   index={index}
                   coid={props.index}
+                  companyEdit={columnEdit}
+                  backendID={props.statusID}
                 />
               );
             })}
@@ -116,10 +115,7 @@ function CategoriesColumn(props) {
   //             {provided.placeholder}
   //         </div>
   //         }
-
   //     </Droppable>
-
-  // <p>test</p>
 
   // const categoriesList = props.categories
   // categoriesList.map(({category_id, category_name})=>{
