@@ -5,8 +5,18 @@ import { useEffect, useState } from "react";
 import backendService from "../../services/backendAPI";
 import Newcolumn from "./newcolumn";
 import EditCard from "./EditCard";
+import Grid from "@material-ui/core/Grid";
+import { makeStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
+
+const useStyles = makeStyles((theme) => ({
+  entireContainer: {
+    display: "flex",
+  },
+}));
 
 export default function MainBoard() {
+  const classes = useStyles();
   //  const companiesList = {
   //   'company_id_1': { company_id: 'company_id_1',
   //     company_name: 'Zendesk',
@@ -262,15 +272,22 @@ export default function MainBoard() {
 
   return (
     <DragDropContext onDragEnd={dragEnd}>
-      <div className="entire-entire">
+      <Grid container>
+        <Button
+          variant="outlined"
+          color="primary"
+          onClick={() => setNewColumn(true)}
+        >
+          Add new column
+        </Button>
         <Droppable
           droppableId="all-columns"
           type="columns"
           direction="horizontal"
         >
           {(provided) => (
-            <div
-              className="entire-container"
+            <Grid
+              className={classes.entireContainer}
               ref={provided.innerRef}
               {...provided.droppableProps}
             >
@@ -326,13 +343,12 @@ export default function MainBoard() {
                 ""
               )}
               {provided.placeholder}
-            </div>
+            </Grid>
           )}
         </Droppable>
 
-        <button onClick={() => setNewColumn(true)}>Add new column</button>
         <EditCard open={show} setOpen={editShow} info={info} />
-      </div>
+      </Grid>
     </DragDropContext>
   );
 }
