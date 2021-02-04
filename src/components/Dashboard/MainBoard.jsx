@@ -272,7 +272,7 @@ export default function MainBoard() {
 
   return (
     <DragDropContext onDragEnd={dragEnd}>
-      <Grid container>
+      <span>
         <Button
           variant="outlined"
           color="primary"
@@ -280,6 +280,8 @@ export default function MainBoard() {
         >
           Add new column
         </Button>
+      </span>
+      <Grid container>
         <Droppable
           droppableId="all-columns"
           type="columns"
