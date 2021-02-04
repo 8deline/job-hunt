@@ -28,6 +28,11 @@ export default function Newcard({
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    if (!newCompany.companyname || !newCompany.jobname) {
+      alert("Please do not leave empty field");
+
+      return;
+    }
     backendService
       .createJob(newCompany)
       .then((result) => {
