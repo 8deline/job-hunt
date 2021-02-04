@@ -13,6 +13,19 @@ const useStyles = makeStyles((theme) => ({
   entireContainer: {
     display: "flex",
   },
+  addNewColumn: {
+    margin: theme.spacing(1),
+  },
+  jobColumn: {
+    padding: theme.spacing(1),
+    borderWidth: "thin",
+    border: "solid black",
+    maxHeight: `calc(100vh - 172px)`,
+    overflowY: "scroll",
+    minWidth: "272px",
+    borderRadius: "15px",
+    margin: theme.spacing(1),
+  },
 }));
 
 export default function MainBoard() {
@@ -272,7 +285,7 @@ export default function MainBoard() {
 
   return (
     <DragDropContext onDragEnd={dragEnd}>
-      <span>
+      <span className={classes.addNewColumn}>
         <Button
           variant="outlined"
           color="primary"
@@ -308,7 +321,7 @@ export default function MainBoard() {
                             ref={provided.innerRef}
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
-                            className="job-column"
+                            className={classes.jobColumn}
                           >
                             <CategoriesColumn
                               dropid={column.jobstatus}

@@ -1,7 +1,21 @@
 import { useState } from "react";
 import backendService from "../../services/backendAPI";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import { makeStyles } from "@material-ui/core/styles";
+import AddCircleIcon from "@material-ui/icons/AddCircle";
+import CancelIcon from "@material-ui/icons/Cancel";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    "& > *": {
+      margin: theme.spacing(1),
+    },
+  },
+}));
 
 export default function Newcolumn(props) {
+  const classes = useStyles();
   let [columnDetails, setColumnDetails] = useState({
     email: props.getCurrentUser().email,
     order: props.allresult.length,
@@ -52,18 +66,26 @@ export default function Newcolumn(props) {
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
-        <input
+      <form onSubmit={handleSubmit} className={classes.root}>
+        <TextField
           onChange={handleChange}
-          class="form-control form-control-sm"
+          className="form-control form-control-sm"
           type="text"
           placeholder="New job status"
           aria-label=".form-control-sm example"
           name="jobstatus"
         />
-        <button type="submit">Add</button>
+        <Button variant="contained" color="primary" type="submit">
+          <AddCircleIcon />
+        </Button>
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={() => props.setNewColumn(false)}
+        >
+          <CancelIcon />
+        </Button>
       </form>
-      <button onClick={() => props.setNewColumn(false)}>X</button>
     </>
   );
 }
