@@ -1,13 +1,18 @@
 import Company from "./companies";
 import Newcard from "./newcard";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Droppable } from "react-beautiful-dnd";
 import backendService from "../../services/backendAPI";
 
 function CategoriesColumn(props) {
   const companiesList = props.companies;
   let [newcard, setNewCard] = useState(false);
+  let [colnTitle, setColnTitle] = useState(props.title);
+  let [editColn, setEditColn] = useState(false);
   const { columnEdit } = props;
+  useEffect(() => {
+    console.log(colnTitle);
+  }, [colnTitle]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -28,6 +33,27 @@ function CategoriesColumn(props) {
       .catch((err) => console.log(err));
   };
 
+  const EditColnTitle = (event) => {
+    event.preventDefault();
+    backendService
+      .updateStatus(props.statusID, colnTitle, props.index)
+      .then((result) => {
+        setEditColn(false);
+        backendService
+          .render()
+          .then((newresult) => props.setAllResult(newresult.data.allResult))
+          .catch((err) => console.log(err));
+      })
+      .catch((err) => console.log(err));
+    //   backendService
+    //         .render()
+    //         .then((result) => {
+    //           setColnTitle(newresult.data.allResult[props.index].)
+    //           props.setAllResult(newresult.data.allResult);
+    //         })
+    //         .catch((err) => console.log(err))
+  };
+
   return (
     <Droppable droppableId={props.dropid.toString()} type="company">
       {(provided, snapshot) => (
@@ -36,9 +62,32 @@ function CategoriesColumn(props) {
             <button type="submit">Delete column</button>
           </form>
 
-          <div className="title">
+          <button onClick={() => setEditColn(true)}>Edit column name</button>
+
+          {editColn ? (
+            <>
+              <form onSubmit={EditColnTitle}>
+                <input
+                  onChange={(e) => setColnTitle(e.target.value)}
+                  type="text"
+                  class="form-control"
+                  value={colnTitle}
+                />
+                <button type="submit">Edit</button>
+                <br />
+              </form>
+              <button onClick={() => setEditColn(false)}>x</button>
+            </>
+          ) : (
+            <div className="title">
+              <h1>{props.title}</h1>
+            </div>
+          )}
+
+          {/* <div className="title">
             <h1>{props.title}</h1>
-          </div>
+          </div> */}
+
           <div
             className={snapshot.isDraggingOver ? "columndrag" : "column-inside"}
           >

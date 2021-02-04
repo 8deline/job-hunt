@@ -286,7 +286,6 @@ export default function MainBoard() {
                       >
                         {(provided) => (
                           <div
-                            key={column.jobstatus}
                             ref={provided.innerRef}
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
@@ -315,6 +314,17 @@ export default function MainBoard() {
               ) : (
                 ""
               )}
+              {/* {newColumn ? (
+                <Newcolumn
+                  setAllResult={setAllResult}
+                  allresult={allresult}
+                  getCurrentUser={getCurrentUser}
+                  setNewColumn={setNewColumn}
+                />
+              ) : (
+                ""
+              )} */}
+              {provided.placeholder}
               {newColumn ? (
                 <Newcolumn
                   setAllResult={setAllResult}
@@ -325,7 +335,6 @@ export default function MainBoard() {
               ) : (
                 ""
               )}
-              {provided.placeholder}
             </div>
           )}
         </Droppable>

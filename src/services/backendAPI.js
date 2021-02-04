@@ -51,6 +51,19 @@ const backendAPI = {
   createJob: (newCompany) => {
     return axiosInstance.post("/create/job", qs.stringify(newCompany), {});
   },
+
+  updateStatus: (statusid, jobstatus, order) => {
+    return axiosInstance.patch(
+      "/update/status",
+      qs.stringify({
+        statusid: statusid,
+        jobstatus: jobstatus,
+        order: order,
+      }),
+      {}
+    );
+  },
+
   updateJob: (
     _id,
     index,
