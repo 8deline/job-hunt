@@ -71,6 +71,7 @@ function ButtonAppBar(props) {
   function handleLogout() {
     props.cookies.remove("token");
     localStorage.removeItem("user");
+    props.history.push("/");
     return;
   }
 
@@ -103,11 +104,7 @@ function ButtonAppBar(props) {
                 color="primary"
                 className={classes.logout}
               >
-                <Link
-                  to={`${url}`}
-                  onClick={handleLogout}
-                  className={classes.linksInWhite}
-                >
+                <Link onClick={handleLogout} className={classes.linksInWhite}>
                   Logout
                 </Link>
               </Button>
