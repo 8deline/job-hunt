@@ -21,6 +21,7 @@ export default function Newcolumn(props) {
     order: props.allresult.length,
     jobstatus: "",
   });
+
   // let [columnContext, setColumnContext] = useState()
 
   const handleChange = ({ target }) => {
@@ -32,6 +33,12 @@ export default function Newcolumn(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    if (!columnDetails.jobstatus) {
+      alert("Please do not leave empty field");
+
+      return;
+    }
+
     backendService
       .createStatus(columnDetails)
       .then((result) => {

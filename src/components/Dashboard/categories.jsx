@@ -85,6 +85,10 @@ function CategoriesColumn(props) {
 
   const EditColnTitle = (event) => {
     event.preventDefault();
+    if (!colnTitle) {
+      alert("Please do not leave empty field");
+      return;
+    }
     backendService
       .updateStatus(props.statusID, colnTitle, props.index)
       .then((result) => {
