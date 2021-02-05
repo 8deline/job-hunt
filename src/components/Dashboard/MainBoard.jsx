@@ -1,4 +1,4 @@
-import "./MainBoard.css";
+// import "./MainBoard.css";
 import CategoriesColumn from "./categories";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useEffect, useState } from "react";
@@ -20,7 +20,8 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1),
     borderWidth: "thin",
     border: "solid black",
-    maxHeight: `calc(100vh - 172px)`,
+    maxHeight: `calc(100vh - 132px)`,
+    height: "fit-content",
     overflowY: "scroll",
     minWidth: "272px",
     borderRadius: "15px",

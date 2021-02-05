@@ -10,6 +10,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import DoneIcon from "@material-ui/icons/Done";
 import CloseIcon from "@material-ui/icons/Close";
+import AddIcon from "@material-ui/icons/Add";
 
 const useStyles = makeStyles((theme) => ({
   editButton: {
@@ -37,9 +38,16 @@ const useStyles = makeStyles((theme) => ({
   displayFlex: {
     display: "flex",
     marginBottom: theme.spacing(1),
+    width: "250px",
   },
   buttons: {
     marginLeft: "auto",
+  },
+  addACardBtn: {
+    fontSize: "1em",
+  },
+  text: {
+    fontSize: "0.9em",
   },
 }));
 
@@ -229,10 +237,17 @@ function CategoriesColumn(props) {
           </div>
           {provided.placeholder}
 
-          <button onClick={() => setNewCard(true)}>+</button>
-          {newcard ? (
-            <button onClick={() => setNewCard(false)}>X</button>
+          {!newcard ? (
+            <Button onClick={() => setNewCard(true)} variant="text">
+              <AddIcon className={classes.addACardBtn} />
+              <span className={classes.text}>Add a Card</span>
+            </Button>
           ) : null}
+          {/* {newcard ? (
+            <Button onClick={() => setNewCard(false)}>
+              <CloseIcon className={classes.addACardBtn} />
+            </Button>
+          ) : null} */}
         </div>
       )}
     </Droppable>
