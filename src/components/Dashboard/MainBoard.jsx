@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import backendService from "../../services/backendAPI";
 import Newcolumn from "./newcolumn";
 import EditCard from "./EditCard";
+import DeleteColumnConfirmation from "./deletecolnconfirmation";
 
 export default function MainBoard() {
   //  const companiesList = {
@@ -79,6 +80,8 @@ export default function MainBoard() {
   let [columnList, setColumnList] = useState(null);
   let [show, setShow] = useState(false);
   let [info, setInfo] = useState([]);
+
+  let [deleteColnConfirm, setDeleteColnConfirm] = useState(false);
 
   function getCurrentUser() {
     return JSON.parse(localStorage.getItem("user"));
@@ -304,6 +307,7 @@ export default function MainBoard() {
                               allresult={allresult}
                               statusID={column._id}
                               columnEdit={editShow}
+                              setDeleteColnConfirm={setDeleteColnConfirm}
                             />
                           </div>
                         )}
@@ -341,6 +345,13 @@ export default function MainBoard() {
 
         <button onClick={() => setNewColumn(true)}>Add new column</button>
         <EditCard open={show} setOpen={editShow} info={info} />
+        {deleteColnConfirm ? (
+          <DeleteColumnConfirmation
+            setDeleteColnConfirm={setDeleteColnConfirm}
+          />
+        ) : (
+          ""
+        )}
       </div>
     </DragDropContext>
   );

@@ -18,19 +18,21 @@ function CategoriesColumn(props) {
     event.preventDefault();
     let columnIndex = parseInt(props.index);
     let columnId = props.allresult[columnIndex]["_id"];
-
-    backendService
-      .deleteStatus(columnId)
-      .then((result) => {
-        console.log(result);
-        backendService
-          .render(props.getCurrentUser().email)
-          .then((newresult) => {
-            props.setAllResult(newresult.data.allResult);
-          })
-          .catch((err) => console.log(err));
-      })
-      .catch((err) => console.log(err));
+    //to confirm before delete the coln
+    //upon clicking delete a modal will appear
+    props.setDeleteColnConfirm(true);
+    // backendService
+    //   .deleteStatus(columnId)
+    //   .then((result) => {
+    //     console.log(result);
+    //     backendService
+    //       .render(props.getCurrentUser().email)
+    //       .then((newresult) => {
+    //         props.setAllResult(newresult.data.allResult);
+    //       })
+    //       .catch((err) => console.log(err));
+    //   })
+    //   .catch((err) => console.log(err));
   };
 
   const EditColnTitle = (event) => {
