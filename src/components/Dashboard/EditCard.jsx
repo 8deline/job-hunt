@@ -134,6 +134,7 @@ export default function EditCard(props) {
     setOpen(false);
     backendService
       .updateJob(
+        backendService.getCurrentUser().email,
         statusID,
         index,
         jobDetails?.companyname,
@@ -146,7 +147,7 @@ export default function EditCard(props) {
       .then((result) => {
         console.log(result);
         backendService
-          .render(props.getCurrentUser().email)
+          .render()
           .then((newresult) => {
             props.setAllResult(newresult.data.allResult);
           })

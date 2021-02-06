@@ -52,10 +52,11 @@ const backendAPI = {
     return axiosInstance.post("/create/job", qs.stringify(newCompany), {});
   },
 
-  updateStatus: (statusid, jobstatus, order) => {
+  updateStatus: (email, statusid, jobstatus, order) => {
     return axiosInstance.patch(
       "/update/status",
       qs.stringify({
+        email: email,
         statusid: statusid,
         jobstatus: jobstatus,
         order: order,
@@ -65,6 +66,7 @@ const backendAPI = {
   },
 
   updateJob: (
+    email,
     _id,
     index,
     companyname,
@@ -77,6 +79,7 @@ const backendAPI = {
     return axiosInstance.patch(
       "/update/job",
       qs.stringify({
+        email: email,
         _id: _id,
         index: index,
         companyname: companyname,
@@ -89,10 +92,11 @@ const backendAPI = {
       {}
     );
   },
-  dragStatus: (statusid, oldorder, neworder) => {
+  dragStatus: (email, statusid, oldorder, neworder) => {
     return axiosInstance.patch(
       "/drag/status",
       qs.stringify({
+        email: email,
         statusid: statusid,
         oldorder: oldorder,
         neworder: neworder,
@@ -100,10 +104,11 @@ const backendAPI = {
       {}
     );
   },
-  dragJob: (jobid, oldstatus, oldorder, newstatus, neworder) => {
+  dragJob: (email, jobid, oldstatus, oldorder, newstatus, neworder) => {
     return axiosInstance.patch(
       "/drag/job",
       qs.stringify({
+        email: email,
         jobid: jobid,
         oldstatus: oldstatus,
         oldorder: oldorder,
@@ -113,8 +118,9 @@ const backendAPI = {
       {}
     );
   },
-  deleteStatus: (id) => {
+  deleteStatus: (email, id) => {
     const data = qs.stringify({
+      email: email,
       _id: id,
     });
     return axiosInstance.delete("/delete/status", {
@@ -124,10 +130,11 @@ const backendAPI = {
       },
     });
   },
-  deleteJob: (statusid, jobid) => {
+  deleteJob: (email, statusid, jobid) => {
     return axiosInstance.patch(
       "/delete/job",
       qs.stringify({
+        email: email,
         statusid: statusid,
         jobid: jobid,
       })
