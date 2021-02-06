@@ -38,7 +38,8 @@ const useStyles = makeStyles((theme) => ({
   displayFlex: {
     display: "flex",
     marginBottom: theme.spacing(1),
-    width: "250px",
+    width: "280px",
+    height: "30px",
   },
   buttons: {
     marginLeft: "auto",

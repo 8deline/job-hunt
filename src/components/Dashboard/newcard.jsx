@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
   form: {
     display: "inline-block",
-    width: "250px",
+    width: "280px",
   },
 }));
 

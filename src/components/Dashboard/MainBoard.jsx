@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     maxHeight: `calc(100vh - 132px)`,
     height: "fit-content",
     overflowY: "scroll",
-    minWidth: "272px",
+    minWidth: "300px",
     borderRadius: "15px",
     margin: theme.spacing(1),
   },
