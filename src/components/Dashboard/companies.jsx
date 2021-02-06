@@ -47,10 +47,14 @@ function Company(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
     backendAPI
-      .deleteJob(props.allresult[props.coid]["_id"], props.company["_id"])
+      .deleteJob(
+        backendAPI.getCurrentUser().email,
+        props.allresult[props.coid]["_id"],
+        props.company["_id"]
+      )
       .then((result) => {
         backendAPI
-          .render(props.getCurrentUser().email)
+          .render()
           .then((newresult) => {
             props.setAllResult(newresult.data.allResult);
           })

@@ -175,6 +175,7 @@ export default function MainBoard() {
       // backendService.updateJob(true, draggableId, destination.droppableId, destination.index)
       backendService
         .dragJob(
+          getCurrentUser().email,
           draggableId,
           source.droppableId,
           source.index,
@@ -192,6 +193,7 @@ export default function MainBoard() {
     } else {
       backendService
         .dragStatus(
+          getCurrentUser().email,
           allresult[source.index]["_id"],
           source.index,
           destination.index

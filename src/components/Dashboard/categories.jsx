@@ -79,11 +79,11 @@ function CategoriesColumn(props) {
     let columnId = props.allresult[columnIndex]["_id"];
 
     backendService
-      .deleteStatus(columnId)
+      .deleteStatus(backendService.getCurrentUser().email, columnId)
       .then((result) => {
         console.log(result);
         backendService
-          .render(props.getCurrentUser().email)
+          .render()
           .then((newresult) => {
             props.setAllResult(newresult.data.allResult);
           })
@@ -99,7 +99,12 @@ function CategoriesColumn(props) {
       return;
     }
     backendService
-      .updateStatus(props.statusID, colnTitle, props.index)
+      .updateStatus(
+        props.getCurrentUser().email,
+        props.statusID,
+        colnTitle,
+        props.index
+      )
       .then((result) => {
         setEditColn(false);
         backendService
