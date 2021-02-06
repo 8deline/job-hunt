@@ -14,7 +14,6 @@ const useStyles = makeStyles((theme) => ({
   },
   cardDetails: {
     width: "100%",
-    // display: "flex",
     alignItems: "center",
   },
   deleteCard: {

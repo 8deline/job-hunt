@@ -123,7 +123,11 @@ function CategoriesColumn(props) {
   };
 
   return (
-    <Droppable droppableId={props.dropid.toString()} type="company">
+    <Droppable
+      droppableId={props.dropid.toString()}
+      droppableUniqueId={props.statusID.toString()}
+      type="company"
+    >
       {(provided, snapshot) => (
         <div ref={provided.innerRef} {...provided.droppableProps}>
           {editColn ? (

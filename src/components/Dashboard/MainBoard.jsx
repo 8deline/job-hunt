@@ -22,10 +22,13 @@ const useStyles = makeStyles((theme) => ({
     border: "solid black",
     maxHeight: `calc(100vh - 132px)`,
     height: "fit-content",
-    overflowY: "scroll",
+    overflowY: "auto",
     minWidth: "300px",
     borderRadius: "15px",
     margin: theme.spacing(1),
+    "&::-webkit-scrollbar": {
+      display: "none",
+    },
   },
 }));
 
@@ -100,6 +103,7 @@ export default function MainBoard() {
   let [newColumn, setNewColumn] = useState(false);
   let [colns, setColns] = useState(null);
   let [allresult, setAllResult] = useState(null);
+  // eslint-disable-next-line no-unused-vars
   let [columnList, setColumnList] = useState(null);
   let [show, setShow] = useState(false);
   let [info, setInfo] = useState([]);
@@ -110,10 +114,10 @@ export default function MainBoard() {
 
   useEffect(() => {
     backendService
-      .render(getCurrentUser().email)
+      .render()
       .then((result) => {
         setAllResult(result.data.allResult);
-        // console.log(result.data.allResult)
+        console.log(result.data.allResult);
       })
 
       .catch((err) => console.log(err));
@@ -160,7 +164,7 @@ export default function MainBoard() {
 
   const dragEnd = (result) => {
     const { source, destination, draggableId, type } = result;
-
+    console.log(result);
     if (!destination) {
       return;
     }
