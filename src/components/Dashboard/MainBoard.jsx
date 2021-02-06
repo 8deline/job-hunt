@@ -26,6 +26,9 @@ const useStyles = makeStyles((theme) => ({
     minWidth: "300px",
     borderRadius: "15px",
     margin: theme.spacing(1),
+    "&::-webkit-scrollbar": {
+      display: "none",
+    },
   },
 }));
 
