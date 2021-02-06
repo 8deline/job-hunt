@@ -1,12 +1,36 @@
-import "./MainBoard.css";
+// import "./MainBoard.css";
 import CategoriesColumn from "./categories";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useEffect, useState } from "react";
 import backendService from "../../services/backendAPI";
 import Newcolumn from "./newcolumn";
 import EditCard from "./EditCard";
+import Grid from "@material-ui/core/Grid";
+import { makeStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
+
+const useStyles = makeStyles((theme) => ({
+  entireContainer: {
+    display: "flex",
+  },
+  addNewColumn: {
+    margin: theme.spacing(1),
+  },
+  jobColumn: {
+    padding: theme.spacing(1),
+    borderWidth: "thin",
+    border: "solid black",
+    maxHeight: `calc(100vh - 132px)`,
+    height: "fit-content",
+    overflowY: "scroll",
+    minWidth: "300px",
+    borderRadius: "15px",
+    margin: theme.spacing(1),
+  },
+}));
 
 export default function MainBoard() {
+  const classes = useStyles();
   //  const companiesList = {
   //   'company_id_1': { company_id: 'company_id_1',
   //     company_name: 'Zendesk',
@@ -264,15 +288,24 @@ export default function MainBoard() {
 
   return (
     <DragDropContext onDragEnd={dragEnd}>
-      <div className="entire-entire">
+      <span className={classes.addNewColumn}>
+        <Button
+          variant="outlined"
+          color="primary"
+          onClick={() => setNewColumn(true)}
+        >
+          Add new column
+        </Button>
+      </span>
+      <Grid container>
         <Droppable
           droppableId="all-columns"
           type="columns"
           direction="horizontal"
         >
           {(provided) => (
-            <div
-              className="entire-container"
+            <Grid
+              className={classes.entireContainer}
               ref={provided.innerRef}
               {...provided.droppableProps}
             >
@@ -291,7 +324,7 @@ export default function MainBoard() {
                             ref={provided.innerRef}
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
-                            className="job-column"
+                            className={classes.jobColumn}
                           >
                             <CategoriesColumn
                               dropid={column.jobstatus}
@@ -337,13 +370,14 @@ export default function MainBoard() {
               ) : (
                 ""
               )}
-            </div>
+
+              {provided.placeholder}
+            </Grid>
           )}
         </Droppable>
 
-        <button onClick={() => setNewColumn(true)}>Add new column</button>
         <EditCard open={show} setOpen={editShow} info={info} />
-      </div>
+      </Grid>
     </DragDropContext>
   );
 }

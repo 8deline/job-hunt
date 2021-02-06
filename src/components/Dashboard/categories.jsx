@@ -3,12 +3,71 @@ import Newcard from "./newcard";
 import { useState, useEffect } from "react";
 import { Droppable } from "react-beautiful-dnd";
 import backendService from "../../services/backendAPI";
+import { makeStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
+import DoneIcon from "@material-ui/icons/Done";
+import CloseIcon from "@material-ui/icons/Close";
+import AddIcon from "@material-ui/icons/Add";
+
+const useStyles = makeStyles((theme) => ({
+  editButton: {
+    color: "green",
+  },
+  columnHeading: {
+    display: "flex",
+    alignItems: "center",
+  },
+  columnHeadingName: {
+    fontWeight: "700",
+    fontSize: "1.4em",
+  },
+  dot: {
+    minWidth: "20px",
+    marginLeft: "auto",
+  },
+  editColumnName: {
+    fontSize: "1.4em",
+    width: "60%",
+  },
+  smallerButton: {
+    minWidth: "20px",
+  },
+  displayFlex: {
+    display: "flex",
+    marginBottom: theme.spacing(1),
+    width: "280px",
+    height: "30px",
+  },
+  buttons: {
+    marginLeft: "auto",
+  },
+  addACardBtn: {
+    fontSize: "1em",
+  },
+  text: {
+    fontSize: "0.9em",
+  },
+}));
 
 function CategoriesColumn(props) {
+  const classes = useStyles();
+  const [anchorEl, setAnchorEl] = useState(null);
   const companiesList = props.companies;
   let [newcard, setNewCard] = useState(false);
   let [colnTitle, setColnTitle] = useState(props.title);
   let [editColn, setEditColn] = useState(false);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   const { columnEdit } = props;
   useEffect(() => {
     console.log(colnTitle);
@@ -67,29 +126,83 @@ function CategoriesColumn(props) {
     <Droppable droppableId={props.dropid.toString()} type="company">
       {(provided, snapshot) => (
         <div ref={provided.innerRef} {...provided.droppableProps}>
-          <form onSubmit={handleSubmit}>
-            <button type="submit">Delete column</button>
-          </form>
-
-          <button onClick={() => setEditColn(true)}>Edit column name</button>
-
           {editColn ? (
             <>
-              <form onSubmit={EditColnTitle}>
+              <form onSubmit={EditColnTitle} className={classes.displayFlex}>
                 <input
                   onChange={(e) => setColnTitle(e.target.value)}
                   type="text"
-                  class="form-control"
+                  className={classes.editColumnName}
                   value={colnTitle}
                 />
-                <button type="submit">Edit</button>
-                <br />
+                <span className={classes.buttons}>
+                  <Button
+                    className={classes.smallerButton}
+                    color="primary"
+                    type="submit"
+                  >
+                    <DoneIcon />
+                  </Button>
+                  <Button
+                    className={classes.smallerButton}
+                    onClick={() => setEditColn(false)}
+                    color="secondary"
+                  >
+                    <CloseIcon />
+                  </Button>
+                </span>
               </form>
-              <button onClick={() => setEditColn(false)}>x</button>
             </>
           ) : (
-            <div className="title">
-              <h1>{props.title}</h1>
+            <div className={classes.columnHeading}>
+              <span className={classes.columnHeadingName}>{props.title}</span>
+
+              {/* <form onSubmit={handleSubmit} className={classes.root}>
+                <Button color="secondary" type="submit" variant="contained">
+                  <DeleteForeverIcon />
+                </Button>
+              </form>
+              <Button
+                className={classes.editButton}
+                onClick={() => setEditColn(true)}
+              >
+                <EditIcon />
+              </Button> */}
+
+              <Button
+                aria-controls="simple-menu"
+                aria-haspopup="true"
+                onClick={handleClick}
+                className={classes.dot}
+              >
+                <MoreHorizIcon />
+              </Button>
+
+              <Menu
+                id="simple-menu"
+                anchorEl={anchorEl}
+                keepMounted
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+              >
+                <MenuItem
+                  onClick={() => {
+                    setEditColn(true);
+                    setAnchorEl(null);
+                  }}
+                >
+                  <Button className={classes.editButton} variant="text">
+                    Change Column Name
+                  </Button>
+                </MenuItem>
+                <MenuItem onClick={handleClose}>
+                  <form onSubmit={handleSubmit}>
+                    <Button color="secondary" type="submit" variant="text">
+                      Delete Entire Column
+                    </Button>
+                  </form>
+                </MenuItem>
+              </Menu>
             </div>
           )}
 
@@ -130,10 +243,17 @@ function CategoriesColumn(props) {
           </div>
           {provided.placeholder}
 
-          <button onClick={() => setNewCard(true)}>+</button>
-          {newcard ? (
-            <button onClick={() => setNewCard(false)}>X</button>
+          {!newcard ? (
+            <Button onClick={() => setNewCard(true)} variant="text">
+              <AddIcon className={classes.addACardBtn} />
+              <span className={classes.text}>Add a Card</span>
+            </Button>
           ) : null}
+          {/* {newcard ? (
+            <Button onClick={() => setNewCard(false)}>
+              <CloseIcon className={classes.addACardBtn} />
+            </Button>
+          ) : null} */}
         </div>
       )}
     </Droppable>
