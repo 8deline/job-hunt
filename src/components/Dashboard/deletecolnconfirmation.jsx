@@ -84,7 +84,12 @@ Fade.propTypes = {
 
 export default function DeleteColumnConfirmation(props) {
   const classes = useStyles();
-  const { columnTitle, deleteColnConfirm, setDeleteColnConfirm } = props;
+  const {
+    columnBackendId,
+    columnTitle,
+    deleteColnConfirm,
+    setDeleteColnConfirm,
+  } = props;
   const handleClose = () => {
     setDeleteColnConfirm(false);
   };
@@ -130,7 +135,21 @@ export default function DeleteColumnConfirmation(props) {
 
   function submitEdit(e) {
     e.preventDefault();
-    console.log("test");
+
+    backendService
+      .deleteStatus(columnBackendId)
+      .then((result) => {
+        console.log(result);
+        backendService
+          .render()
+          .then((newresult) => {
+            props.setAllResult(newresult.data.allResult);
+          })
+          .catch((err) => console.log(err));
+      })
+      .catch((err) => console.log(err));
+    setDeleteColnConfirm(false);
+
     // setOpen(false);
     // backendService
     //   .updateJob(

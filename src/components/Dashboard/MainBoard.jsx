@@ -83,6 +83,7 @@ export default function MainBoard() {
 
   let [deleteColnConfirm, setDeleteColnConfirm] = useState(false);
   let [columnTitle, setColumnTitle] = useState(null);
+  let [columnBackendId, setColumnBackendId] = useState(null);
 
   function getCurrentUser() {
     return JSON.parse(localStorage.getItem("user"));
@@ -310,6 +311,7 @@ export default function MainBoard() {
                               columnEdit={editShow}
                               setDeleteColnConfirm={setDeleteColnConfirm}
                               setColumnTitle={setColumnTitle}
+                              setColumnBackendId={setColumnBackendId}
                             />
                           </div>
                         )}
@@ -348,9 +350,11 @@ export default function MainBoard() {
         <button onClick={() => setNewColumn(true)}>Add new column</button>
         <EditCard open={show} setOpen={editShow} info={info} />
         <DeleteColumnConfirmation
+          columnBackendId={columnBackendId}
           columnTitle={columnTitle}
           deleteColnConfirm={deleteColnConfirm}
           setDeleteColnConfirm={setDeleteColnConfirm}
+          setAllResult={setAllResult}
         />
       </div>
     </DragDropContext>
