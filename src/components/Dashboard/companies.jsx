@@ -42,25 +42,38 @@ const useStyles = makeStyles((theme) => ({
 function Company(props) {
   const classes = useStyles();
   const company = props.company;
-  const { companyEdit, index, backendID } = props;
+  const {
+    companyEdit,
+    index,
+    backendID,
+    setDeleteCardConfirm,
+    setDeleteCardInfo,
+  } = props;
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    backendAPI
-      .deleteJob(
-        backendAPI.getCurrentUser().email,
-        props.allresult[props.coid]["_id"],
-        props.company["_id"]
-      )
-      .then((result) => {
-        backendAPI
-          .render()
-          .then((newresult) => {
-            props.setAllResult(newresult.data.allResult);
-          })
-          .catch((err) => console.log(err));
-      })
-      .catch((err) => console.log(err));
+    setDeleteCardConfirm(true);
+    setDeleteCardInfo((prev) => [
+      ...prev,
+      props.getCurrentUser().email,
+      props.allresult[props.coid]["_id"],
+      props.company["_id"],
+    ]);
+    // backendAPI
+    //   .deleteJob(
+    //     backendAPI.getCurrentUser().email,
+    //     props.allresult[props.coid]["_id"],
+    //     props.company["_id"]
+    //   )
+    //   .then((result) => {
+    //     backendAPI
+    //       .render()
+    //       .then((newresult) => {
+    //         props.setAllResult(newresult.data.allResult);
+    //       })
+    //       .catch((err) => console.log(err));
+    //   })
+    //   .catch((err) => console.log(err));
   };
   const handleEdit = (e) => {
     if (e.target.className === "makeStyles-cards-32") {

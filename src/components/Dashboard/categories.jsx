@@ -231,6 +231,8 @@ function CategoriesColumn(props) {
                   coid={props.index}
                   companyEdit={columnEdit}
                   backendID={props.statusID}
+                  setDeleteCardConfirm={props.setDeleteCardConfirm}
+                  setDeleteCardInfo={props.setDeleteCardInfo}
                 />
               );
             })}

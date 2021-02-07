@@ -6,6 +6,7 @@ import backendService from "../../services/backendAPI";
 import Newcolumn from "./newcolumn";
 import EditCard from "./EditCard";
 import DeleteColumnConfirmation from "./deletecolnconfirmation";
+import DeleteCardConfirmation from "./deletecardconfirmation";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
@@ -108,9 +109,14 @@ export default function MainBoard() {
   let [show, setShow] = useState(false);
   let [info, setInfo] = useState([]);
 
+  // job status delete modal
   let [deleteColnConfirm, setDeleteColnConfirm] = useState(false);
   let [columnTitle, setColumnTitle] = useState(null);
   let [columnBackendId, setColumnBackendId] = useState(null);
+
+  //company delete modal
+  let [deleteCardConfirm, setDeleteCardConfirm] = useState(false);
+  let [deleteCardInfo, setDeleteCardInfo] = useState([]);
 
   function getCurrentUser() {
     return JSON.parse(localStorage.getItem("user"));
@@ -350,6 +356,8 @@ export default function MainBoard() {
                               setDeleteColnConfirm={setDeleteColnConfirm}
                               setColumnTitle={setColumnTitle}
                               setColumnBackendId={setColumnBackendId}
+                              setDeleteCardConfirm={setDeleteCardConfirm}
+                              setDeleteCardInfo={setDeleteCardInfo}
                             />
                           </div>
                         )}
@@ -395,6 +403,13 @@ export default function MainBoard() {
           setDeleteColnConfirm={setDeleteColnConfirm}
           setAllResult={setAllResult}
           getCurrentUser={getCurrentUser}
+        />
+        <DeleteCardConfirmation
+          deleteCardConfirm={deleteCardConfirm}
+          setDeleteCardConfirm={setDeleteCardConfirm}
+          setAllResult={setAllResult}
+          getCurrentUser={getCurrentUser}
+          deleteCardInfo={deleteCardInfo}
         />
       </Grid>
     </DragDropContext>

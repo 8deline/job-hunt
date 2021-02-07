@@ -5,7 +5,6 @@ import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import { useSpring, animated } from "react-spring/web.cjs";
 import backendService from "../../services/backendAPI";
-import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles((theme) => ({
@@ -21,10 +20,10 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: theme.shadows[10],
     padding: theme.spacing(1),
   },
-  textField: {
-    width: "100%",
-    margin: theme.spacing(1),
-  },
+  // textField: {
+  //   width: "100%",
+  //   margin: theme.spacing(1),
+  // },
   form: {
     textAlign: "center",
     width: "80%",
@@ -74,24 +73,17 @@ Fade.propTypes = {
   onExited: PropTypes.func,
 };
 
-// const fieldName = {
-//   jobname: "Job Name",
-//   preparation: "Preparation",
-//   interviewquestion: "Interview Question",
-//   interviewexperience: "Interview Experience",
-//   salary: "Salary",
-// };
-
-export default function DeleteColumnConfirmation(props) {
+export default function DeleteCardConfirmation(props) {
   const classes = useStyles();
   const {
-    columnBackendId,
-    columnTitle,
-    deleteColnConfirm,
-    setDeleteColnConfirm,
+    deleteCardConfirm,
+    setDeleteCardConfirm,
+    setAllResult,
+    getCurrentUser,
+    deleteCardInfo,
   } = props;
   const handleClose = () => {
-    setDeleteColnConfirm(false);
+    setDeleteCardConfirm(false);
   };
   // const statusID = info[0];
   // const index = info[1];
@@ -136,19 +128,8 @@ export default function DeleteColumnConfirmation(props) {
   function submitEdit(e) {
     e.preventDefault();
 
-    backendService
-      .deleteStatus(props.getCurrentUser().email, columnBackendId)
-      .then((result) => {
-        console.log(result);
-        backendService
-          .render()
-          .then((newresult) => {
-            props.setAllResult(newresult.data.allResult);
-          })
-          .catch((err) => console.log(err));
-      })
-      .catch((err) => console.log(err));
-    setDeleteColnConfirm(false);
+    setDeleteCardConfirm(false);
+    console.log("delete card modal working");
 
     // setOpen(false);
     // backendService
@@ -179,7 +160,7 @@ export default function DeleteColumnConfirmation(props) {
         aria-labelledby="spring-modal-title"
         aria-describedby="spring-modal-description"
         className={classes.modal}
-        open={deleteColnConfirm}
+        open={deleteCardConfirm}
         onClose={handleClose}
         closeAfterTransition
         BackdropComponent={Backdrop}
@@ -187,12 +168,9 @@ export default function DeleteColumnConfirmation(props) {
           timeout: 500,
         }}
       >
-        <Fade in={deleteColnConfirm}>
+        <Fade in={deleteCardConfirm}>
           <div className={classes.paper}>
-            <p>
-              Confirm delete job status <strong>{columnTitle}</strong> and all
-              of its jobs?
-            </p>
+            <p>Confirm delete job status and all of its jobs?</p>
             <form onSubmit={submitEdit} className={classes.form}>
               <div className={classes.buttonWrapper}>
                 <Button
