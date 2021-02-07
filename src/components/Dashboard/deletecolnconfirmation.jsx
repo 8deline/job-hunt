@@ -137,7 +137,7 @@ export default function DeleteColumnConfirmation(props) {
     e.preventDefault();
 
     backendService
-      .deleteStatus(columnBackendId)
+      .deleteStatus(props.getCurrentUser().email, columnBackendId)
       .then((result) => {
         console.log(result);
         backendService
