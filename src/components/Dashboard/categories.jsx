@@ -21,6 +21,8 @@ function CategoriesColumn(props) {
     //to confirm before delete the coln
     //upon clicking delete a modal will appear
     props.setDeleteColnConfirm(true);
+    props.setColumnTitle(props.title);
+
     // backendService
     //   .deleteStatus(columnId)
     //   .then((result) => {
