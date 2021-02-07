@@ -5,7 +5,6 @@ import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import { useSpring, animated } from "react-spring/web.cjs";
 import backendService from "../../services/backendAPI";
-import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles((theme) => ({
@@ -74,14 +73,6 @@ Fade.propTypes = {
   onExited: PropTypes.func,
 };
 
-// const fieldName = {
-//   jobname: "Job Name",
-//   preparation: "Preparation",
-//   interviewquestion: "Interview Question",
-//   interviewexperience: "Interview Experience",
-//   salary: "Salary",
-// };
-
 export default function DeleteColumnConfirmation(props) {
   const classes = useStyles();
   const {
@@ -93,45 +84,6 @@ export default function DeleteColumnConfirmation(props) {
   const handleClose = () => {
     setDeleteColnConfirm(false);
   };
-  // const statusID = info[0];
-  // const index = info[1];
-  // const jobDetails = info[2];
-  // const jobDisplay = [];
-
-  // if (jobDetails) {
-  //   Object.keys(jobDetails).forEach((key) => {
-  //     if (key === "companyname") {
-  //       jobDisplay.push(
-  //         <TextField
-  //           defaultValue={jobDetails[key]}
-  //           name="companyname"
-  //           onChange={(e) => {
-  //             jobDetails[key] = e.target.value;
-  //           }}
-  //           className={classes.textField}
-  //           label="Company Name"
-  //           variant="outlined"
-  //         />
-  //       );
-  //     } else if (key !== "_id") {
-  //       jobDisplay.push(
-  //         <TextField
-  //           id="spring-modal-description"
-  //           defaultValue={jobDetails[key]}
-  //           name={key}
-  //           onChange={(e) => {
-  //             jobDetails[key] = e.target.value;
-  //           }}
-  //           multiline
-  //           rows={3}
-  //           variant="outlined"
-  //           className={classes.textField}
-  //           // label={fieldName[key]}
-  //         />
-  //       );
-  //     }
-  //   });
-  // }
 
   function submitEdit(e) {
     e.preventDefault();
@@ -149,29 +101,6 @@ export default function DeleteColumnConfirmation(props) {
       })
       .catch((err) => console.log(err));
     setDeleteColnConfirm(false);
-
-    // setOpen(false);
-    // backendService
-    //   .updateJob(
-    //     statusID,
-    //     index,
-    //     jobDetails?.companyname,
-    //     jobDetails?.jobname,
-    //     jobDetails?.preparation,
-    //     jobDetails?.interviewquestion,
-    //     jobDetails?.interviewexperience,
-    //     jobDetails?.salary
-    //   )
-    //   .then((result) => {
-    //     console.log(result);
-    //     backendService
-    //       .render(props.getCurrentUser().email)
-    //       .then((newresult) => {
-    //         props.setAllResult(newresult.data.allResult);
-    //       })
-    //       .catch((err) => console.log(err));
-    //   })
-    //   .catch((err) => console.log(err));
   }
   return (
     <div>

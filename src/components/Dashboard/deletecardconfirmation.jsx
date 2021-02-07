@@ -85,74 +85,26 @@ export default function DeleteCardConfirmation(props) {
   const handleClose = () => {
     setDeleteCardConfirm(false);
   };
-  // const statusID = info[0];
-  // const index = info[1];
-  // const jobDetails = info[2];
-  // const jobDisplay = [];
-
-  // if (jobDetails) {
-  //   Object.keys(jobDetails).forEach((key) => {
-  //     if (key === "companyname") {
-  //       jobDisplay.push(
-  //         <TextField
-  //           defaultValue={jobDetails[key]}
-  //           name="companyname"
-  //           onChange={(e) => {
-  //             jobDetails[key] = e.target.value;
-  //           }}
-  //           className={classes.textField}
-  //           label="Company Name"
-  //           variant="outlined"
-  //         />
-  //       );
-  //     } else if (key !== "_id") {
-  //       jobDisplay.push(
-  //         <TextField
-  //           id="spring-modal-description"
-  //           defaultValue={jobDetails[key]}
-  //           name={key}
-  //           onChange={(e) => {
-  //             jobDetails[key] = e.target.value;
-  //           }}
-  //           multiline
-  //           rows={3}
-  //           variant="outlined"
-  //           className={classes.textField}
-  //           // label={fieldName[key]}
-  //         />
-  //       );
-  //     }
-  //   });
-  // }
+  let statusBackendId = deleteCardInfo[1];
+  let companyId = deleteCardInfo[2];
+  let companyName = deleteCardInfo[3];
+  let companyJobname = deleteCardInfo[4];
 
   function submitEdit(e) {
     e.preventDefault();
 
     setDeleteCardConfirm(false);
-    console.log("delete card modal working");
-
-    // setOpen(false);
-    // backendService
-    //   .updateJob(
-    //     statusID,
-    //     index,
-    //     jobDetails?.companyname,
-    //     jobDetails?.jobname,
-    //     jobDetails?.preparation,
-    //     jobDetails?.interviewquestion,
-    //     jobDetails?.interviewexperience,
-    //     jobDetails?.salary
-    //   )
-    //   .then((result) => {
-    //     console.log(result);
-    //     backendService
-    //       .render(props.getCurrentUser().email)
-    //       .then((newresult) => {
-    //         props.setAllResult(newresult.data.allResult);
-    //       })
-    //       .catch((err) => console.log(err));
-    //   })
-    //   .catch((err) => console.log(err));
+    backendService
+      .deleteJob(getCurrentUser().email, statusBackendId, companyId)
+      .then((result) => {
+        backendService
+          .render()
+          .then((newresult) => {
+            setAllResult(newresult.data.allResult);
+          })
+          .catch((err) => console.log(err));
+      })
+      .catch((err) => console.log(err));
   }
   return (
     <div>
@@ -170,7 +122,13 @@ export default function DeleteCardConfirmation(props) {
       >
         <Fade in={deleteCardConfirm}>
           <div className={classes.paper}>
-            <p>Confirm delete job status and all of its jobs?</p>
+            <p>
+              Confirm delete job{" "}
+              <strong>
+                {companyName}, {companyJobname}
+              </strong>
+              ?
+            </p>
             <form onSubmit={submitEdit} className={classes.form}>
               <div className={classes.buttonWrapper}>
                 <Button
