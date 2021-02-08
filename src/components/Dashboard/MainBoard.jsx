@@ -365,7 +365,12 @@ export default function MainBoard() {
           )}
         </Droppable>
 
-        <EditCard open={show} setOpen={editShow} info={info} />
+        <EditCard
+          open={show}
+          setOpen={editShow}
+          info={info}
+          setAllResult={setAllResult}
+        />
       </Grid>
     </DragDropContext>
   );

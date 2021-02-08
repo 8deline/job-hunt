@@ -76,6 +76,7 @@ Fade.propTypes = {
 };
 
 const fieldName = {
+  companyname: "Company Name",
   jobname: "Job Name",
   preparation: "Preparation",
   interviewquestion: "Interview Question",
@@ -96,16 +97,32 @@ export default function EditCard(props) {
 
   if (jobDetails) {
     Object.keys(jobDetails).forEach((key) => {
-      if (key === "companyname") {
+      if (key === "companyname" || key === "jobname") {
         jobDisplay.push(
           <TextField
+            id="spring-modal-description"
             defaultValue={jobDetails[key]}
-            name="companyname"
+            name={key}
             onChange={(e) => {
               jobDetails[key] = e.target.value;
             }}
             className={classes.textField}
-            label="Company Name"
+            label={fieldName[key]}
+            variant="outlined"
+          />
+        );
+      } else if (key === "salary") {
+        jobDisplay.push(
+          <TextField
+            id="spring-modal-description"
+            defaultValue={jobDetails[key]}
+            name={key}
+            type="number"
+            onChange={(e) => {
+              jobDetails[key] = e.target.value;
+            }}
+            className={classes.textField}
+            label={fieldName[key]}
             variant="outlined"
           />
         );
