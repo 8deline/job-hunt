@@ -36,23 +36,19 @@ export default function Newcard({
   setColns,
   getCurrentUser,
   setAllResult,
+  statusID,
 }) {
   const classes = useStyles();
   let [newCompany, setNewCompany] = useState({
     companyname: "",
     jobname: "",
-    jobstatus: dropid,
+    statusid: statusID,
     email: getCurrentUser().email,
   });
   // let [newJobCard, setNewJobCard] = useState({companyname:"", jobname:""})
   //postential bug: if we dont return the updated data from backend, the companies length would not be updated
   const handleChange = ({ target }) => {
     setNewCompany((prev) => ({ ...prev, [target.name]: target.value }));
-
-    // setNewJobCard(prev=>({...prev,
-    // [target.name]: target.value
-    // })
-    // )
   };
 
   const handleSubmit = (event) => {
@@ -76,20 +72,6 @@ export default function Newcard({
       })
       .catch((err) => console.log(err));
   };
-
-  // setNewCard(false)
-  // console.log(colns)
-  // let newArrayNewCard = Array.from(colns[dropid].jobs)
-  // console.log(newArrayNewCard)
-  // newArrayNewCard = [...newArrayNewCard, newJobCard]
-  // let newColumn = {...colns[dropid], jobs: newArrayNewCard}
-  // setColns(prev=>({
-  //     ...prev,
-  //     [dropid]: newColumn
-  // })
-  // )
-
-  // .then //backend render set Colns(jobstatus1: {column_id: jobstatus1, job: [{company_id: }]})
 
   return (
     <div className="job-cards">

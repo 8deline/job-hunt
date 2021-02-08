@@ -115,26 +115,6 @@ function Company(props) {
       )}
     </Draggable>
   );
-
-  // return(
-  //     <ul className="job-ul" >
-  //         {companiesList.map(({company_name, position, company_id}, index)=>{
-  //         return (
-  //             <Draggable draggableId={company_id} index={index}>
-  //                 {(provided)=>{
-  //                     <div>
-  //                         <li key={company_id} className="job-cards" ref={provided.innerRef} {...provided.draggableProps}{...provided.dragHandleProps}>
-  //                     <p>{company_name}</p>
-  //                     <p>{position}</p>
-  //                     </li>
-  //                     </div>
-  //                 }}
-  //             </Draggable>
-  //         )
-  //     }
-  //     )}
-  //     </ul>
-  // )
 }
 
 export default Company;
