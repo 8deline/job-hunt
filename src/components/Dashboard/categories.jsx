@@ -77,19 +77,24 @@ function CategoriesColumn(props) {
     event.preventDefault();
     let columnIndex = parseInt(props.index);
     let columnId = props.allresult[columnIndex]["_id"];
+    //to confirm before delete the coln
+    //upon clicking delete a modal will appear
+    props.setDeleteColnConfirm(true);
+    props.setColumnTitle(props.title);
+    props.setColumnBackendId(columnId);
 
-    backendService
-      .deleteStatus(backendService.getCurrentUser().email, columnId)
-      .then((result) => {
-        console.log(result);
-        backendService
-          .render()
-          .then((newresult) => {
-            props.setAllResult(newresult.data.allResult);
-          })
-          .catch((err) => console.log(err));
-      })
-      .catch((err) => console.log(err));
+    // backendService
+    //   .deleteStatus(columnId)
+    //   .then((result) => {
+    //     console.log(result);
+    //     backendService
+    //       .render(props.getCurrentUser().email)
+    //       .then((newresult) => {
+    //         props.setAllResult(newresult.data.allResult);
+    //       })
+    //       .catch((err) => console.log(err));
+    //   })
+    //   .catch((err) => console.log(err));
   };
 
   const EditColnTitle = (event) => {
@@ -226,6 +231,8 @@ function CategoriesColumn(props) {
                   coid={props.index}
                   companyEdit={columnEdit}
                   backendID={props.statusID}
+                  setDeleteCardConfirm={props.setDeleteCardConfirm}
+                  setDeleteCardInfo={props.setDeleteCardInfo}
                 />
               );
             })}
