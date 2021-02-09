@@ -1,6 +1,5 @@
 import { Draggable } from "react-beautiful-dnd";
 import NaturalDragAnimation from "natural-drag-animation-rbdnd";
-import backendAPI from "../../services/backendAPI";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -42,25 +41,26 @@ const useStyles = makeStyles((theme) => ({
 function Company(props) {
   const classes = useStyles();
   const company = props.company;
-  const { companyEdit, index, backendID } = props;
+  const {
+    companyEdit,
+    index,
+    backendID,
+    setDeleteCardConfirm,
+    setDeleteCardInfo,
+  } = props;
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    backendAPI
-      .deleteJob(
-        backendAPI.getCurrentUser().email,
-        props.allresult[props.coid]["_id"],
-        props.company["_id"]
-      )
-      .then((result) => {
-        backendAPI
-          .render()
-          .then((newresult) => {
-            props.setAllResult(newresult.data.allResult);
-          })
-          .catch((err) => console.log(err));
-      })
-      .catch((err) => console.log(err));
+    setDeleteCardConfirm(true);
+    setDeleteCardInfo([]);
+    setDeleteCardInfo((prev) => [
+      ...prev,
+      props.getCurrentUser().email,
+      props.allresult[props.coid]["_id"],
+      props.company["_id"],
+      props.company.companyname,
+      props.company.jobname,
+    ]);
   };
   const handleEdit = (e) => {
     if (e.target.className === "makeStyles-cards-32") {
