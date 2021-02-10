@@ -29,15 +29,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Newcard({
-  dropid,
-  setNewCard,
-  colns,
-  setColns,
-  getCurrentUser,
-  setAllResult,
-  statusID,
-}) {
+export default function Newcard(props) {
+  const {
+    dropid,
+    setNewCard,
+    colns,
+    setColns,
+    getCurrentUser,
+    setAllResult,
+    statusID,
+    setShowNew,
+    setModalInfo,
+  } = props;
   const classes = useStyles();
   let [newCompany, setNewCompany] = useState({
     companyname: "",
@@ -45,8 +48,6 @@ export default function Newcard({
     statusid: statusID,
     email: getCurrentUser().email,
   });
-  // let [newJobCard, setNewJobCard] = useState({companyname:"", jobname:""})
-  //postential bug: if we dont return the updated data from backend, the companies length would not be updated
   const handleChange = ({ target }) => {
     setNewCompany((prev) => ({ ...prev, [target.name]: target.value }));
   };
@@ -54,8 +55,8 @@ export default function Newcard({
   const handleSubmit = (event) => {
     event.preventDefault();
     if (!newCompany.companyname || !newCompany.jobname) {
-      alert("Please do not leave empty field");
-
+      setShowNew(true);
+      setModalInfo("Company or Position");
       return;
     }
     backendService
