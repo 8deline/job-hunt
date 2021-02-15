@@ -28,6 +28,9 @@ const useStyles = makeStyles((theme) => ({
   cardWrapper: {
     display: "flex",
     alignItems: "center",
+    backgroundColor: "rgb(255,255,255,1)",
+    borderRadius: "5px",
+    marginBottom: "3%",
   },
   icons: {
     fontSize: "1.1em",
