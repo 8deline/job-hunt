@@ -401,7 +401,6 @@ export default function MainBoard() {
           setShowNew={setShowNew}
           setModalInfo={setModalInfo}
         />
-
         <DeleteColumnConfirmation
           columnBackendId={columnBackendId}
           columnTitle={columnTitle}
