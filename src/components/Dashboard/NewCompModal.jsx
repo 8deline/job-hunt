@@ -28,17 +28,6 @@ const useStyles = makeStyles((theme) => ({
     width: "80%",
     margin: "0 auto",
   },
-  buttonWrapper: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    textAlign: "center",
-    margin: theme.spacing(1),
-    width: "50%",
-  },
-  button: {
-    margin: "10px",
-  },
   span: {
     fontWeight: "bold",
   },
