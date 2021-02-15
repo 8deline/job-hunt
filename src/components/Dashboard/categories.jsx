@@ -128,7 +128,11 @@ function CategoriesColumn(props) {
   };
 
   return (
-    <Droppable droppableId={props.dropid.toString()} type="company">
+    <Droppable
+      key={props.statusID.toString()}
+      droppableId={props.statusID.toString()}
+      type="company"
+    >
       {(provided, snapshot) => (
         <div ref={provided.innerRef} {...provided.droppableProps}>
           {editColn ? (
@@ -245,6 +249,7 @@ function CategoriesColumn(props) {
                 setColumnList={props.setColumnList}
                 setAllResult={props.setAllResult}
                 dropid={props.dropid}
+                statusID={props.statusID}
               />
             ) : null}
           </div>

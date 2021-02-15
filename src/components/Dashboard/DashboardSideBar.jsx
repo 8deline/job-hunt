@@ -129,7 +129,8 @@ function DashboardSideBar(props) {
     return JSON.parse(localStorage.getItem("user"));
   }
 
-  function handleLogout() {
+  function handleLogout(e) {
+    e.preventDefault();
     props.cookies.remove("token");
     localStorage.removeItem("user");
     props.history.push("/");
@@ -207,7 +208,10 @@ function DashboardSideBar(props) {
                 </Link>
               </MenuItem>
               <MenuItem>
-                <Link onClick={handleLogout} className={classes.menuLinks}>
+                <Link
+                  onClick={(e) => handleLogout(e)}
+                  className={classes.menuLinks}
+                >
                   Logout
                 </Link>
               </MenuItem>

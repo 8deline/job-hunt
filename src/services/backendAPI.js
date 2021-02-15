@@ -67,7 +67,7 @@ const backendAPI = {
 
   updateJob: (
     email,
-    _id,
+    statusid,
     index,
     companyname,
     jobname,
@@ -80,7 +80,7 @@ const backendAPI = {
       "/update/job",
       qs.stringify({
         email: email,
-        _id: _id,
+        statusid: statusid,
         index: index,
         companyname: companyname,
         jobname: jobname,
@@ -104,15 +104,15 @@ const backendAPI = {
       {}
     );
   },
-  dragJob: (email, jobid, oldstatus, oldorder, newstatus, neworder) => {
+  dragJob: (email, jobid, oldstatusid, oldorder, newstatusid, neworder) => {
     return axiosInstance.patch(
       "/drag/job",
       qs.stringify({
         email: email,
         jobid: jobid,
-        oldstatus: oldstatus,
+        oldstatusid: oldstatusid,
         oldorder: oldorder,
-        newstatus: newstatus,
+        newstatusid: newstatusid,
         neworder: neworder,
       }),
       {}

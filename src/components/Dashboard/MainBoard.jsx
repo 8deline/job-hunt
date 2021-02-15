@@ -127,7 +127,6 @@ export default function MainBoard() {
       .render(getCurrentUser().email)
       .then((result) => {
         setAllResult(result.data.allResult);
-        // console.log(result.data.allResult)
       })
 
       .catch((err) => console.log(err));
@@ -174,7 +173,6 @@ export default function MainBoard() {
 
   const dragEnd = (result) => {
     const { source, destination, draggableId, type } = result;
-
     if (!destination) {
       return;
     }
@@ -186,7 +184,6 @@ export default function MainBoard() {
       return;
     }
     if (type === "company") {
-      // backendService.updateJob(true, draggableId, destination.droppableId, destination.index)
       backendService
         .dragJob(
           getCurrentUser().email,
@@ -198,7 +195,7 @@ export default function MainBoard() {
         )
         .then((result) => {
           backendService
-            .render(getCurrentUser().email)
+            .render()
             .then((newresult) => {
               setAllResult(newresult.data.allResult);
             })
@@ -214,7 +211,7 @@ export default function MainBoard() {
         )
         .then((result) => {
           backendService
-            .render(getCurrentUser().email)
+            .render()
             .then((newresult) => {
               setAllResult(newresult.data.allResult);
             })
@@ -329,8 +326,8 @@ export default function MainBoard() {
                   {allresult.map((column, index) => {
                     return (
                       <Draggable
-                        key={column.jobstatus}
-                        draggableId={column.jobstatus}
+                        key={column._id}
+                        draggableId={column._id}
                         index={index}
                       >
                         {(provided) => (
@@ -368,16 +365,6 @@ export default function MainBoard() {
               ) : (
                 ""
               )}
-              {/* {newColumn ? (
-                <Newcolumn
-                  setAllResult={setAllResult}
-                  allresult={allresult}
-                  getCurrentUser={getCurrentUser}
-                  setNewColumn={setNewColumn}
-                />
-              ) : (
-                ""
-              )} */}
               {provided.placeholder}
               {newColumn ? (
                 <Newcolumn
@@ -389,13 +376,17 @@ export default function MainBoard() {
               ) : (
                 ""
               )}
-
               {provided.placeholder}
             </Grid>
           )}
         </Droppable>
 
-        <EditCard open={show} setOpen={editShow} info={info} />
+        <EditCard
+          open={show}
+          setOpen={editShow}
+          info={info}
+          setAllResult={setAllResult}
+        />
         <DeleteColumnConfirmation
           columnBackendId={columnBackendId}
           columnTitle={columnTitle}
