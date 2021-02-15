@@ -11,6 +11,7 @@ const useStyles = makeStyles((theme) => ({
   modal: {
     display: "flex",
     alignItems: "center",
+    justifyContent: "center",
     width: "70%",
     margin: "0 auto",
   },
@@ -31,7 +32,6 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     textAlign: "center",
     margin: theme.spacing(1),
-    width: "50%",
   },
   button: {
     margin: "10px",
@@ -118,6 +118,7 @@ export default function DeleteCardConfirmation(props) {
       >
         <Fade in={deleteCardConfirm}>
           <div className={classes.paper}>
+            <h2 id="spring-modal-title">Warning</h2>
             <p>
               Confirm delete job{" "}
               <strong>
