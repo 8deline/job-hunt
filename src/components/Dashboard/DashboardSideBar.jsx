@@ -208,12 +208,12 @@ function DashboardSideBar(props) {
                 </Link>
               </MenuItem>
               <MenuItem>
-                <a
+                <Link
                   onClick={(e) => handleLogout(e)}
                   className={classes.menuLinks}
                 >
                   Logout
-                </a>
+                </Link>
               </MenuItem>
             </Menu>
           </IconButton>
