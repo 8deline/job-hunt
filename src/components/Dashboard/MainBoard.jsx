@@ -20,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
   },
   jobColumn: {
+    backgroundColor: "rgb(230,234,250,0.8)",
     padding: theme.spacing(1),
     borderWidth: "thin",
     border: "solid black",
