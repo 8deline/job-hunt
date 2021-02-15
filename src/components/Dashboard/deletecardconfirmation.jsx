@@ -20,10 +20,6 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: theme.shadows[10],
     padding: theme.spacing(1),
   },
-  // textField: {
-  //   width: "100%",
-  //   margin: theme.spacing(1),
-  // },
   form: {
     textAlign: "center",
     width: "80%",

@@ -77,7 +77,7 @@ Fade.propTypes = {
 
 const fieldName = {
   companyname: "Company Name",
-  jobname: "Job Name",
+  jobname: "Position",
   preparation: "Preparation",
   interviewquestion: "Interview Question",
   interviewexperience: "Interview Experience",
@@ -86,7 +86,7 @@ const fieldName = {
 
 export default function EditCard(props) {
   const classes = useStyles();
-  const { open, setOpen, info } = props;
+  const { open, setOpen, info, setShowNew, setModalInfo } = props;
   const handleClose = () => {
     setOpen(false);
   };
@@ -148,6 +148,11 @@ export default function EditCard(props) {
 
   function submitEdit(e) {
     e.preventDefault();
+    if (!jobDetails.companyname || !jobDetails.jobname) {
+      setShowNew(true);
+      setModalInfo("Company or Position");
+      return;
+    }
     setOpen(false);
     backendService
       .updateJob(

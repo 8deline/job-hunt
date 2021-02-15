@@ -10,6 +10,7 @@ import DeleteCardConfirmation from "./deletecardconfirmation";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
+import NewCompModal from "./NewCompModal";
 
 const useStyles = makeStyles((theme) => ({
   entireContainer: {
@@ -108,6 +109,8 @@ export default function MainBoard() {
   let [columnList, setColumnList] = useState(null);
   let [show, setShow] = useState(false);
   let [info, setInfo] = useState([]);
+  let [showNew, setShowNew] = useState(false);
+  let [modalInfo, setModalInfo] = useState("");
 
   // job status delete modal
   let [deleteColnConfirm, setDeleteColnConfirm] = useState(false);
@@ -355,6 +358,8 @@ export default function MainBoard() {
                               setColumnBackendId={setColumnBackendId}
                               setDeleteCardConfirm={setDeleteCardConfirm}
                               setDeleteCardInfo={setDeleteCardInfo}
+                              setShowNew={setShowNew}
+                              setModalInfo={setModalInfo}
                             />
                           </div>
                         )}
@@ -372,6 +377,8 @@ export default function MainBoard() {
                   allresult={allresult}
                   getCurrentUser={getCurrentUser}
                   setNewColumn={setNewColumn}
+                  setShowNew={setShowNew}
+                  setModalInfo={setModalInfo}
                 />
               ) : (
                 ""
@@ -380,12 +387,19 @@ export default function MainBoard() {
             </Grid>
           )}
         </Droppable>
-
+        <NewCompModal
+          showNew={showNew}
+          setShowNew={setShowNew}
+          modalInfo={modalInfo}
+          setModalInfo={setModalInfo}
+        />
         <EditCard
           open={show}
           setOpen={editShow}
           info={info}
           setAllResult={setAllResult}
+          setShowNew={setShowNew}
+          setModalInfo={setModalInfo}
         />
         <DeleteColumnConfirmation
           columnBackendId={columnBackendId}

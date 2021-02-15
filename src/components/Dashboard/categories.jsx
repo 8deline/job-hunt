@@ -59,7 +59,7 @@ function CategoriesColumn(props) {
   let [newcard, setNewCard] = useState(false);
   let [colnTitle, setColnTitle] = useState(props.title);
   let [editColn, setEditColn] = useState(false);
-
+  const { columnEdit, setShowNew, setModalInfo } = props;
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -68,7 +68,6 @@ function CategoriesColumn(props) {
     setAnchorEl(null);
   };
 
-  const { columnEdit } = props;
   useEffect(() => {
     console.log(colnTitle);
   }, [colnTitle]);
@@ -100,7 +99,8 @@ function CategoriesColumn(props) {
   const EditColnTitle = (event) => {
     event.preventDefault();
     if (!colnTitle) {
-      alert("Please do not leave empty field");
+      setShowNew(true);
+      setModalInfo("Job Status");
       return;
     }
     backendService
@@ -250,6 +250,8 @@ function CategoriesColumn(props) {
                 setAllResult={props.setAllResult}
                 dropid={props.dropid}
                 statusID={props.statusID}
+                setShowNew={setShowNew}
+                setModalInfo={setModalInfo}
               />
             ) : null}
           </div>
