@@ -89,6 +89,12 @@ export default function EditCard(props) {
   const { open, setOpen, info, setShowNew, setModalInfo } = props;
   const handleClose = () => {
     setOpen(false);
+    backendService
+      .render()
+      .then((newresult) => {
+        props.setAllResult(newresult.data.allResult);
+      })
+      .catch((err) => console.log(err));
   };
   const statusID = info[0];
   const index = info[1];
