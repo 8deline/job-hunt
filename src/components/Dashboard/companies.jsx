@@ -65,10 +65,7 @@ function Company(props) {
     ]);
   };
   const handleEdit = (e) => {
-    if (
-      e.target.className === "makeStyles-cards-33" ||
-      e.target.className === "makeStyles-cards-66"
-    ) {
+    if (e.target.classList[1] === "cards") {
       companyEdit(true, backendID, index, company);
     }
   };
@@ -93,14 +90,14 @@ function Company(props) {
             >
               <div className={classes.cardWrapper}>
                 <div className={classes.cardDetails}>
-                  <div className={classes.cards}>
+                  <div className={`${classes.cards} ${"cards"}`}>
                     <Button className={classes.smallerButton}>
                       <LocationCityIcon className={classes.icons} />
                     </Button>
                     {company.companyname}
                   </div>
 
-                  <div className={classes.cards}>
+                  <div className={`${classes.cards} ${"cards"}`}>
                     <Button className={classes.smallerButton}>
                       <WorkIcon className={classes.icons} />
                     </Button>

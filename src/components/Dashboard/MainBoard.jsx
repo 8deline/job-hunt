@@ -19,8 +19,11 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
   },
   addNewColumnBtn: {
-    backgroundColor: "green",
-    color: "white",
+    backgroundColor: "#FFFFCC",
+    color: "black",
+    "&:hover": {
+      color: "white",
+    },
   },
   jobColumn: {
     backgroundColor: "rgb(200,230,255,0.9)",
