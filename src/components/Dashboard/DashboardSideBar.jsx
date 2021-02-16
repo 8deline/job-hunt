@@ -131,7 +131,7 @@ function DashboardSideBar(props) {
 
   function handleLogout(e) {
     e.preventDefault();
-    props.cookies.remove("token");
+    props.cookies.remove("token", { path: "/" });
     localStorage.removeItem("user");
     props.history.push("/");
     return;
