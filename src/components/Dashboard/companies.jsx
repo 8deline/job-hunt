@@ -66,7 +66,10 @@ function Company(props) {
     ]);
   };
   const handleEdit = (e) => {
-    if (e.target.className === "makeStyles-cards-32") {
+    if (
+      e.target.className === "makeStyles-cards-32" ||
+      e.target.className === "makeStyles-cards-65"
+    ) {
       companyEdit(true, backendID, index, company);
     }
   };
