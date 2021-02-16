@@ -81,19 +81,6 @@ function CategoriesColumn(props) {
     props.setDeleteColnConfirm(true);
     props.setColumnTitle(props.title);
     props.setColumnBackendId(columnId);
-
-    // backendService
-    //   .deleteStatus(columnId)
-    //   .then((result) => {
-    //     console.log(result);
-    //     backendService
-    //       .render(props.getCurrentUser().email)
-    //       .then((newresult) => {
-    //         props.setAllResult(newresult.data.allResult);
-    //       })
-    //       .catch((err) => console.log(err));
-    //   })
-    //   .catch((err) => console.log(err));
   };
 
   const EditColnTitle = (event) => {
@@ -118,13 +105,6 @@ function CategoriesColumn(props) {
           .catch((err) => console.log(err));
       })
       .catch((err) => console.log(err));
-    //   backendService
-    //         .render()
-    //         .then((result) => {
-    //           setColnTitle(newresult.data.allResult[props.index].)
-    //           props.setAllResult(newresult.data.allResult);
-    //         })
-    //         .catch((err) => console.log(err))
   };
 
   return (
@@ -166,18 +146,6 @@ function CategoriesColumn(props) {
             <div className={classes.columnHeading}>
               <span className={classes.columnHeadingName}>{props.title}</span>
 
-              {/* <form onSubmit={handleSubmit} className={classes.root}>
-                <Button color="secondary" type="submit" variant="contained">
-                  <DeleteForeverIcon />
-                </Button>
-              </form>
-              <Button
-                className={classes.editButton}
-                onClick={() => setEditColn(true)}
-              >
-                <EditIcon />
-              </Button> */}
-
               <Button
                 aria-controls="simple-menu"
                 aria-haspopup="true"
@@ -214,10 +182,6 @@ function CategoriesColumn(props) {
               </Menu>
             </div>
           )}
-
-          {/* <div className="title">
-            <h1>{props.title}</h1>
-          </div> */}
 
           <div
             className={snapshot.isDraggingOver ? "columndrag" : "column-inside"}
@@ -263,33 +227,10 @@ function CategoriesColumn(props) {
               <span className={classes.text}>Add a Card</span>
             </Button>
           ) : null}
-          {/* {newcard ? (
-            <Button onClick={() => setNewCard(false)}>
-              <CloseIcon className={classes.addACardBtn} />
-            </Button>
-          ) : null} */}
         </div>
       )}
     </Droppable>
   );
-  // return (
-  //     <Droppable droppableId={props.dropid}>
-  //         {(provided)=>
-  //             <div ref={provided.innerRef} {...provided.droppableProps}>
-  //             <h1>{props.title}</h1>
-  //             <Company companies={props.companies} />
-  //             {provided.placeholder}
-  //         </div>
-  //         }
-  //     </Droppable>
-
-  // const categoriesList = props.categories
-  // categoriesList.map(({category_id, category_name})=>{
-  //     return(
-  //         <li key={category_id}>
-  //         <p>{category_name}</p>
-  //     </li>
-  //     )
 }
 
 export default CategoriesColumn;
