@@ -52,14 +52,14 @@ const backendAPI = {
     return axiosInstance.post("/create/job", qs.stringify(newCompany), {});
   },
 
-  updateStatus: (email, statusid, jobstatus, order) => {
+  updateStatus: (email, statusid, jobstatus, oldjobstatus) => {
     return axiosInstance.patch(
       "/update/status",
       qs.stringify({
         email: email,
         statusid: statusid,
         jobstatus: jobstatus,
-        order: order,
+        oldjobstatus: oldjobstatus,
       }),
       {}
     );

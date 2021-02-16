@@ -35,6 +35,7 @@ export default function Newcard(props) {
     getCurrentUser,
     setAllResult,
     statusID,
+    dropid,
     setShowNew,
     setModalInfo,
   } = props;
@@ -43,6 +44,7 @@ export default function Newcard(props) {
     companyname: "",
     jobname: "",
     statusid: statusID,
+    statusName: dropid,
     email: getCurrentUser().email,
   });
   const handleChange = ({ target }) => {
