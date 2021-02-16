@@ -31,10 +31,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Newcard(props) {
   const {
-    dropid,
     setNewCard,
-    colns,
-    setColns,
     getCurrentUser,
     setAllResult,
     statusID,

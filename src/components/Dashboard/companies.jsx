@@ -13,7 +13,6 @@ const useStyles = makeStyles((theme) => ({
   },
   cardDetails: {
     width: "100%",
-    // display: "flex",
     alignItems: "center",
   },
   deleteCard: {
@@ -67,8 +66,8 @@ function Company(props) {
   };
   const handleEdit = (e) => {
     if (
-      e.target.className === "makeStyles-cards-32" ||
-      e.target.className === "makeStyles-cards-65"
+      e.target.className === "makeStyles-cards-33" ||
+      e.target.className === "makeStyles-cards-66"
     ) {
       companyEdit(true, backendID, index, company);
     }
