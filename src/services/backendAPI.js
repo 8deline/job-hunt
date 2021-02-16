@@ -74,7 +74,9 @@ const backendAPI = {
     preparation,
     interviewquestion,
     interviewexperience,
-    salary
+    salary,
+    oldCompanyName,
+    oldJobName
   ) => {
     return axiosInstance.patch(
       "/update/job",
@@ -88,6 +90,8 @@ const backendAPI = {
         interviewquestion: interviewquestion,
         interviewexperience: interviewexperience,
         salary: salary,
+        oldCompanyName: oldCompanyName,
+        oldJobName: oldJobName,
       }),
       {}
     );
@@ -104,7 +108,16 @@ const backendAPI = {
       {}
     );
   },
-  dragJob: (email, jobid, oldstatusid, oldorder, newstatusid, neworder) => {
+  dragJob: (
+    email,
+    jobid,
+    oldstatusid,
+    oldorder,
+    newstatusid,
+    neworder,
+    oldStatus,
+    newStatus
+  ) => {
     return axiosInstance.patch(
       "/drag/job",
       qs.stringify({
@@ -114,14 +127,17 @@ const backendAPI = {
         oldorder: oldorder,
         newstatusid: newstatusid,
         neworder: neworder,
+        oldStatus: oldStatus,
+        newStatus: newStatus,
       }),
       {}
     );
   },
-  deleteStatus: (email, id) => {
+  deleteStatus: (email, id, jobstatus) => {
     const data = qs.stringify({
       email: email,
       _id: id,
+      jobstatus: jobstatus,
     });
     return axiosInstance.delete("/delete/status", {
       data,
@@ -130,13 +146,15 @@ const backendAPI = {
       },
     });
   },
-  deleteJob: (email, statusid, jobid) => {
+  deleteJob: (email, statusid, jobid, companyname, jobname) => {
     return axiosInstance.patch(
       "/delete/job",
       qs.stringify({
         email: email,
         statusid: statusid,
         jobid: jobid,
+        companyname: companyname,
+        jobname: jobname,
       })
     );
   },

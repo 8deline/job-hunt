@@ -91,7 +91,13 @@ export default function DeleteCardConfirmation(props) {
 
     setDeleteCardConfirm(false);
     backendService
-      .deleteJob(getCurrentUser().email, statusBackendId, companyId)
+      .deleteJob(
+        getCurrentUser().email,
+        statusBackendId,
+        companyId,
+        companyName,
+        companyJobname
+      )
       .then((result) => {
         backendService
           .render()
