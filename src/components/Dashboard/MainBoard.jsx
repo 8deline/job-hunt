@@ -69,7 +69,7 @@ export default function MainBoard() {
 
   useEffect(() => {
     backendService
-      .render(getCurrentUser().email)
+      .render()
       .then((result) => {
         setAllResult(result.data.allResult);
       })
