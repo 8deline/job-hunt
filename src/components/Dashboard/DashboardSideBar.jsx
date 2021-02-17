@@ -28,6 +28,8 @@ import { withCookies } from "react-cookie";
 import { withRouter } from "react-router-dom";
 import moment from "moment";
 import backendAPI from "../../services/backendAPI";
+import ListIcon from "@material-ui/icons/List";
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -109,6 +111,31 @@ const useStyles = makeStyles((theme) => ({
   span: {
     fontWeight: "bold",
   },
+  activity: {
+    marginBottom: "3%",
+    marginLeft: "5%",
+    marginRight: "5%",
+    textAlign: "justify",
+  },
+  activityTime: {
+    color: "grey",
+    fontStyle: "italic",
+  },
+  activityHeading: {
+    marginLeft: "5%",
+    marginBottom: "3%",
+  },
+  activitylist: {
+    padding: "0",
+  },
+  activitytext: {
+    fontSize: "1.5em",
+    marginLeft: "-5%",
+  },
+  activityIcon: {
+    color: "black",
+    fontSize: "2em",
+  },
 }));
 
 function DashboardSideBar(props) {
@@ -180,21 +207,21 @@ function DashboardSideBar(props) {
   notification?.forEach((element) => {
     if (element.description === "deleted") {
       notificationMsg.push(
-        <MenuItem>
+        <div className={classes.activity}>
           <Typography>
             You {element.description}{" "}
             <span className={classes.span}>
               {element.status || element.companyname + ", " + element.jobname}
             </span>
           </Typography>
-          <Typography variant="caption">
+          <Typography variant="caption" className={classes.activityTime}>
             {moment(element.created_at).fromNow()}
           </Typography>
-        </MenuItem>
+        </div>
       );
     } else if (element.description === "added") {
       notificationMsg.push(
-        <MenuItem>
+        <div className={classes.activity}>
           <Typography>
             You {element.description}{" "}
             <span className={classes.span}>
@@ -204,14 +231,14 @@ function DashboardSideBar(props) {
             </span>{" "}
             {element.companyname ? "to " + element.status : " to this board"}
           </Typography>
-          <Typography variant="caption">
+          <Typography variant="caption" className={classes.activityTime}>
             {moment(element.created_at).fromNow()}
           </Typography>
-        </MenuItem>
+        </div>
       );
     } else if (element.description === "moved") {
       notificationMsg.push(
-        <MenuItem>
+        <div className={classes.activity}>
           <Typography gutterBottom>
             You {element.description}{" "}
             <span className={classes.span}>
@@ -219,14 +246,14 @@ function DashboardSideBar(props) {
             </span>{" "}
             from {element.olditem} to {element.status}
           </Typography>
-          <Typography variant="caption">
+          <Typography variant="caption" className={classes.activityTime}>
             {moment(element.created_at).fromNow()}
           </Typography>
-        </MenuItem>
+        </div>
       );
     } else if (element.description === "updated") {
       notificationMsg.push(
-        <MenuItem>
+        <div className={classes.activity}>
           <Typography>
             You {element.description}{" "}
             {element.editnontitle
@@ -239,24 +266,24 @@ function DashboardSideBar(props) {
               {element.status || element.companyname + ", " + element.jobname}{" "}
             </strong>
           </Typography>
-          <Typography variant="caption">
+          <Typography variant="caption" className={classes.activityTime}>
             {moment(element.created_at).fromNow()}
           </Typography>
-        </MenuItem>
+        </div>
       );
     } else if (element.description === "rearranged") {
       notificationMsg.push(
-        <MenuItem>
+        <div className={classes.activity}>
           <Typography>
             You {element.description} order for{" "}
             <strong>
               {element.status || element.companyname + ", " + element.jobname}{" "}
             </strong>
           </Typography>
-          <Typography variant="caption">
+          <Typography variant="caption" className={classes.activityTime}>
             {moment(element.created_at).fromNow()}
           </Typography>
-        </MenuItem>
+        </div>
       );
     }
   });
@@ -313,6 +340,16 @@ function DashboardSideBar(props) {
               elevation={0}
               getContentAnchorEl={null}
             >
+              <div className={classes.activityHeading}>
+                <ListItem className={classes.activitylist}>
+                  <ListItemIcon>
+                    <ListIcon className={classes.activityIcon} />
+                  </ListItemIcon>
+                  <ListItemText className={classes.textandIcon}>
+                    <strong className={classes.activitytext}>Activity</strong>
+                  </ListItemText>
+                </ListItem>
+              </div>
               {notificationMsg.length > 0 ? (
                 notificationMsg
               ) : (
