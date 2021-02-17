@@ -84,12 +84,11 @@ export default function DeleteColumnConfirmation(props) {
   const handleClose = () => {
     setDeleteColnConfirm(false);
   };
-
   function submitEdit(e) {
     e.preventDefault();
 
     backendService
-      .deleteStatus(props.getCurrentUser().email, columnBackendId)
+      .deleteStatus(props.getCurrentUser().email, columnBackendId, columnTitle)
       .then((result) => {
         console.log(result);
         backendService

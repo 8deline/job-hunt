@@ -95,7 +95,7 @@ function CategoriesColumn(props) {
         props.getCurrentUser().email,
         props.statusID,
         colnTitle,
-        props.index
+        props.title
       )
       .then((result) => {
         setEditColn(false);

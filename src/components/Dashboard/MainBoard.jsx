@@ -83,6 +83,16 @@ export default function MainBoard() {
       return;
     }
 
+    let oldStatus = "";
+    let newStatus = "";
+    allresult.forEach((element) => {
+      if (element._id === source.droppableId) {
+        oldStatus += element.jobstatus;
+      } else if (element._id === destination.droppableId) {
+        newStatus += element.jobstatus;
+      }
+    });
+
     if (
       source.droppableId === destination.droppableId &&
       source.index === destination.index
@@ -97,7 +107,9 @@ export default function MainBoard() {
           source.droppableId,
           source.index,
           destination.droppableId,
-          destination.index
+          destination.index,
+          oldStatus,
+          newStatus
         )
         .then((result) => {
           backendService

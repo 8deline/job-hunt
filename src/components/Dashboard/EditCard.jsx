@@ -100,6 +100,8 @@ export default function EditCard(props) {
   const index = info[1];
   const jobDetails = info[2];
   const jobDisplay = [];
+  const oldCompanyName = jobDetails?.companyname;
+  const oldJobName = jobDetails?.jobname;
 
   if (jobDetails) {
     Object.keys(jobDetails).forEach((key) => {
@@ -170,7 +172,9 @@ export default function EditCard(props) {
         jobDetails?.preparation,
         jobDetails?.interviewquestion,
         jobDetails?.interviewexperience,
-        jobDetails?.salary
+        jobDetails?.salary,
+        oldCompanyName,
+        oldJobName
       )
       .then((result) => {
         console.log(result);
