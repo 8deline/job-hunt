@@ -118,7 +118,6 @@ function DashboardSideBar(props) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [anchorNotification, setAnchorNotification] = useState(null);
   const [notification, setNotification] = useState(null);
-  const [seen, setSeen] = useState(0);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -129,23 +128,22 @@ function DashboardSideBar(props) {
   };
 
   const handleClickNotification = (event) => {
+    getNotification();
     setAnchorNotification(event.currentTarget);
   };
 
   const handleCloseNotification = () => {
+    getNotification();
     setAnchorNotification(null);
   };
 
   const handleDrawerOpen = () => {
     setOpen(true);
   };
+
   const handleDrawerClose = () => {
     setOpen(false);
   };
-
-  function getCurrentUser() {
-    return JSON.parse(localStorage.getItem("user"));
-  }
 
   function handleLogout(e) {
     e.preventDefault();
@@ -160,9 +158,9 @@ function DashboardSideBar(props) {
     if (!token || token === "undefined" || token === "null") {
       return false;
     }
-
     return true;
   }
+
   function getNotification() {
     backendAPI
       .notification()
@@ -177,9 +175,9 @@ function DashboardSideBar(props) {
   useEffect(() => {
     getNotification();
   }, []);
+
   const notificationMsg = [];
   notification?.forEach((element) => {
-    console.log();
     if (element.description === "deleted") {
       notificationMsg.push(
         <MenuItem>
@@ -272,11 +270,7 @@ function DashboardSideBar(props) {
           </Typography>
 
           <IconButton color="inherit">
-            <Badge
-              badgeContent={1}
-              color="secondary"
-              onClick={handleClickNotification}
-            >
+            <Badge color="secondary" onClick={handleClickNotification}>
               <NotificationsIcon />
             </Badge>
 
@@ -309,7 +303,9 @@ function DashboardSideBar(props) {
               aria-haspopup="true"
               onClick={handleClick}
             >
-              {isAuthenticated() && <span>{getCurrentUser().first_name}</span>}
+              {isAuthenticated() && (
+                <span>{backendAPI.getCurrentUser().first_name}</span>
+              )}
             </Button>
             <Menu
               id="simple-menu"
