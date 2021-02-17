@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
@@ -22,8 +22,12 @@ import LibraryBooksIcon from "@material-ui/icons/LibraryBooks";
 import Button from "@material-ui/core/Button";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
+import Badge from "@material-ui/core/Badge";
+import NotificationsIcon from "@material-ui/icons/Notifications";
 import { withCookies } from "react-cookie";
 import { withRouter } from "react-router-dom";
+import moment from "moment";
+import backendAPI from "../../services/backendAPI";
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -102,6 +106,9 @@ const useStyles = makeStyles((theme) => ({
       color: "black",
     },
   },
+  span: {
+    fontWeight: "bold",
+  },
 }));
 
 function DashboardSideBar(props) {
@@ -109,6 +116,9 @@ function DashboardSideBar(props) {
   const { url } = useRouteMatch();
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorNotification, setAnchorNotification] = useState(null);
+  const [notification, setNotification] = useState(null);
+  const [seen, setSeen] = useState(0);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -116,6 +126,14 @@ function DashboardSideBar(props) {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleClickNotification = (event) => {
+    setAnchorNotification(event.currentTarget);
+  };
+
+  const handleCloseNotification = () => {
+    setAnchorNotification(null);
   };
 
   const handleDrawerOpen = () => {
@@ -145,6 +163,83 @@ function DashboardSideBar(props) {
 
     return true;
   }
+  function getNotification() {
+    backendAPI
+      .notification()
+      .then((res) => {
+        setNotification(res.data.allResult.activity.reverse());
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  useEffect(() => {
+    getNotification();
+  }, []);
+  const notificationMsg = [];
+  notification?.forEach((element) => {
+    console.log();
+    if (element.description === "deleted") {
+      notificationMsg.push(
+        <MenuItem>
+          <Typography>
+            You {element.description}{" "}
+            <span className={classes.span}>
+              {element.status || element.companyname + ", " + element.jobname}
+            </span>
+          </Typography>
+          <Typography>{moment(element.created_at).fromNow()}</Typography>
+        </MenuItem>
+      );
+    } else if (element.description === "added") {
+      notificationMsg.push(
+        <MenuItem>
+          <Typography>
+            You {element.description}{" "}
+            <span className={classes.span}>
+              {element.companyname
+                ? element.companyname + ", " + element.jobname
+                : "" || element.status}
+            </span>{" "}
+            {element.companyname ? "to " + element.status : " to this board"}
+          </Typography>
+          <Typography>{moment(element.created_at).fromNow()}</Typography>
+        </MenuItem>
+      );
+    } else if (element.description === "moved") {
+      notificationMsg.push(
+        <MenuItem>
+          <Typography>
+            You {element.description}{" "}
+            <span className={classes.span}>
+              {element.companyname + ", " + element.jobname}
+            </span>{" "}
+            from {element.olditem} to {element.status}
+          </Typography>
+          <Typography>{moment(element.created_at).fromNow()}</Typography>
+        </MenuItem>
+      );
+    } else if (element.description === "updated") {
+      notificationMsg.push(
+        <MenuItem>
+          <Typography>
+            You {element.description}{" "}
+            {element.editnontitle
+              ? "details from "
+              : "from " +
+                element.olditem +
+                (element.olditemjob ? ", " + element.olditemjob : "") +
+                " to "}
+            <strong>
+              {element.status || element.companyname + ", " + element.jobname}{" "}
+            </strong>
+          </Typography>
+          <Typography>{moment(element.created_at).fromNow()}</Typography>
+        </MenuItem>
+      );
+    }
+  });
 
   return (
     <div className={classes.root}>
@@ -175,6 +270,37 @@ function DashboardSideBar(props) {
           >
             Dashboard
           </Typography>
+
+          <IconButton color="inherit">
+            <Badge
+              badgeContent={1}
+              color="secondary"
+              onClick={handleClickNotification}
+            >
+              <NotificationsIcon />
+            </Badge>
+
+            <Menu
+              id="simple-menu"
+              anchorEl={anchorNotification}
+              keepMounted
+              open={Boolean(anchorNotification)}
+              onClose={handleCloseNotification}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "right",
+              }}
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              elevation={0}
+              getContentAnchorEl={null}
+            >
+              {notificationMsg}
+            </Menu>
+          </IconButton>
+
           <IconButton>
             <Button
               className={classes.profileMenu}

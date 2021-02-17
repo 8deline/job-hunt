@@ -158,6 +158,15 @@ const backendAPI = {
       })
     );
   },
+  notification: () => {
+    return axiosInstance.post(
+      "/notification",
+      qs.stringify({
+        email: JSON.parse(localStorage.getItem("user")).email,
+      }),
+      {}
+    );
+  },
 };
 
 export default backendAPI;
