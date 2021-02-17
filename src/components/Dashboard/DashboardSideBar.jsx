@@ -236,6 +236,18 @@ function DashboardSideBar(props) {
           <Typography>{moment(element.created_at).fromNow()}</Typography>
         </MenuItem>
       );
+    } else if (element.description === "rearranged") {
+      notificationMsg.push(
+        <MenuItem>
+          <Typography>
+            You {element.description} order for{" "}
+            <strong>
+              {element.status || element.companyname + ", " + element.jobname}{" "}
+            </strong>
+          </Typography>
+          <Typography>{moment(element.created_at).fromNow()}</Typography>
+        </MenuItem>
+      );
     }
   });
 
@@ -291,7 +303,11 @@ function DashboardSideBar(props) {
               elevation={0}
               getContentAnchorEl={null}
             >
-              {notificationMsg}
+              {notificationMsg.length > 0 ? (
+                notificationMsg
+              ) : (
+                <MenuItem>No new notification</MenuItem>
+              )}
             </Menu>
           </IconButton>
 
