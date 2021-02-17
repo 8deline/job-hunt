@@ -187,7 +187,9 @@ function DashboardSideBar(props) {
               {element.status || element.companyname + ", " + element.jobname}
             </span>
           </Typography>
-          <Typography>{moment(element.created_at).fromNow()}</Typography>
+          <Typography variant="caption">
+            {moment(element.created_at).fromNow()}
+          </Typography>
         </MenuItem>
       );
     } else if (element.description === "added") {
@@ -202,20 +204,24 @@ function DashboardSideBar(props) {
             </span>{" "}
             {element.companyname ? "to " + element.status : " to this board"}
           </Typography>
-          <Typography>{moment(element.created_at).fromNow()}</Typography>
+          <Typography variant="caption">
+            {moment(element.created_at).fromNow()}
+          </Typography>
         </MenuItem>
       );
     } else if (element.description === "moved") {
       notificationMsg.push(
         <MenuItem>
-          <Typography>
+          <Typography gutterBottom>
             You {element.description}{" "}
             <span className={classes.span}>
               {element.companyname + ", " + element.jobname}
             </span>{" "}
             from {element.olditem} to {element.status}
           </Typography>
-          <Typography>{moment(element.created_at).fromNow()}</Typography>
+          <Typography variant="caption">
+            {moment(element.created_at).fromNow()}
+          </Typography>
         </MenuItem>
       );
     } else if (element.description === "updated") {
@@ -233,7 +239,9 @@ function DashboardSideBar(props) {
               {element.status || element.companyname + ", " + element.jobname}{" "}
             </strong>
           </Typography>
-          <Typography>{moment(element.created_at).fromNow()}</Typography>
+          <Typography variant="caption">
+            {moment(element.created_at).fromNow()}
+          </Typography>
         </MenuItem>
       );
     } else if (element.description === "rearranged") {
@@ -245,7 +253,9 @@ function DashboardSideBar(props) {
               {element.status || element.companyname + ", " + element.jobname}{" "}
             </strong>
           </Typography>
-          <Typography>{moment(element.created_at).fromNow()}</Typography>
+          <Typography variant="caption">
+            {moment(element.created_at).fromNow()}
+          </Typography>
         </MenuItem>
       );
     }
