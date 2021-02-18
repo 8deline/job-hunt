@@ -68,6 +68,7 @@ function SignInSide(props) {
         }
 
         localStorage.setItem("user", JSON.stringify(response.data.info));
+        localStorage.setItem("token", JSON.stringify(response.data.token));
 
         props.cookies.set("token", response.data.token, {
           path: "/",

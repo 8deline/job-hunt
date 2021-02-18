@@ -13,6 +13,9 @@ const backendAPI = {
   getCurrentUser: () => {
     return JSON.parse(localStorage.getItem("user"));
   },
+  getUserToken: () => {
+    return JSON.parse(localStorage.getItem("token"));
+  },
   login: (email, password) => {
     return axiosInstance.post(
       "/users/login",
@@ -39,18 +42,26 @@ const backendAPI = {
       qs.stringify({
         email: JSON.parse(localStorage.getItem("user")).email,
       }),
-      {}
+      {
+        headers: {
+          auth_token: JSON.parse(localStorage.getItem("token")),
+        },
+      }
     );
   },
   createStatus: (columnDetails) => {
-    return axiosInstance.post(
-      "/create/status",
-      qs.stringify(columnDetails),
-      {}
-    );
+    return axiosInstance.post("/create/status", qs.stringify(columnDetails), {
+      headers: {
+        auth_token: JSON.parse(localStorage.getItem("token")),
+      },
+    });
   },
   createJob: (newCompany) => {
-    return axiosInstance.post("/create/job", qs.stringify(newCompany), {});
+    return axiosInstance.post("/create/job", qs.stringify(newCompany), {
+      headers: {
+        auth_token: JSON.parse(localStorage.getItem("token")),
+      },
+    });
   },
 
   updateStatus: (email, statusid, jobstatus, oldjobstatus) => {
@@ -62,7 +73,11 @@ const backendAPI = {
         jobstatus: jobstatus,
         oldjobstatus: oldjobstatus,
       }),
-      {}
+      {
+        headers: {
+          auth_token: JSON.parse(localStorage.getItem("token")),
+        },
+      }
     );
   },
 
@@ -94,7 +109,11 @@ const backendAPI = {
         oldCompanyName: oldCompanyName,
         oldJobName: oldJobName,
       }),
-      {}
+      {
+        headers: {
+          auth_token: JSON.parse(localStorage.getItem("token")),
+        },
+      }
     );
   },
   dragStatus: (email, statusid, oldorder, neworder) => {
@@ -106,7 +125,11 @@ const backendAPI = {
         oldorder: oldorder,
         neworder: neworder,
       }),
-      {}
+      {
+        headers: {
+          auth_token: JSON.parse(localStorage.getItem("token")),
+        },
+      }
     );
   },
   dragJob: (
@@ -131,7 +154,11 @@ const backendAPI = {
         oldStatus: oldStatus,
         newStatus: newStatus,
       }),
-      {}
+      {
+        headers: {
+          auth_token: JSON.parse(localStorage.getItem("token")),
+        },
+      }
     );
   },
   deleteStatus: (email, id, jobstatus) => {
@@ -144,6 +171,7 @@ const backendAPI = {
       data,
       headers: {
         "content-type": "application/x-www-form-urlencoded;charset=utf-8",
+        auth_token: JSON.parse(localStorage.getItem("token")),
       },
     });
   },
@@ -156,7 +184,12 @@ const backendAPI = {
         jobid: jobid,
         companyname: companyname,
         jobname: jobname,
-      })
+      }),
+      {
+        headers: {
+          auth_token: JSON.parse(localStorage.getItem("token")),
+        },
+      }
     );
   },
   notification: () => {
@@ -165,7 +198,11 @@ const backendAPI = {
       qs.stringify({
         email: JSON.parse(localStorage.getItem("user")).email,
       }),
-      {}
+      {
+        headers: {
+          auth_token: JSON.parse(localStorage.getItem("token")),
+        },
+      }
     );
   },
 };
