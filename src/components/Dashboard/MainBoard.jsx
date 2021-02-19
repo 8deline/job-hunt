@@ -100,6 +100,20 @@ export default function MainBoard() {
       return;
     }
     if (type === "company") {
+      let newState = [...allresult];
+      let movingColumn = "";
+      newState.forEach((element) => {
+        if (element._id === source.droppableId) {
+          movingColumn = element.joblist.splice(source.index, 1);
+        }
+      });
+      newState.forEach((element) => {
+        if (element._id === destination.droppableId) {
+          element.joblist.splice(destination.index, 0, movingColumn[0]);
+        }
+      });
+      setAllResult(newState);
+
       backendService
         .dragJob(
           getCurrentUser().email,
@@ -120,6 +134,11 @@ export default function MainBoard() {
             .catch((err) => console.log(err));
         });
     } else {
+      let newState = [...allresult];
+      let movingColumn = newState.splice(source.index, 1);
+      newState.splice(destination.index, 0, movingColumn[0]);
+      setAllResult(newState);
+
       backendService
         .dragStatus(
           getCurrentUser().email,
