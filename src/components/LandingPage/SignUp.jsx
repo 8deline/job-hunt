@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -14,6 +14,7 @@ import { useForm } from "react-hook-form";
 import moment from "moment";
 import { withCookies } from "react-cookie";
 import { withRouter } from "react-router-dom";
+import CircularProgressWithLabel from "../Dashboard/Progress";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -58,12 +59,26 @@ function SignUp(props) {
   const [password, setPassword] = useState();
   const [formErr, setFormErr] = useState();
   const { register, handleSubmit, errors } = useForm();
-
+  const [progress, setProgress] = useState(10);
+  const [progressStatus, setProgressStatus] = useState(false);
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setProgress((prevProgress) =>
+        prevProgress >= 100 ? 100 : prevProgress + 10
+      );
+    }, 1000);
+    return () => {
+      clearInterval(timer);
+    };
+  }, [progressStatus]);
   function handleFormSubmission(e) {
+    setProgress(10);
+    setProgressStatus(true);
     backendService
       .register(firstName, lastName, email, password)
       .then((response) => {
         if (!response.data.success) {
+          setProgressStatus(false);
           let errorMessage = response.data.message;
           setFormErr(errorMessage);
           return;
@@ -75,8 +90,15 @@ function SignUp(props) {
           path: "/",
           expires: moment.unix(response.data.expiresAt).toDate(),
         });
+        setProgressStatus(false);
+        setProgress(10);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        setProgressStatus(false);
+        setProgress(10);
+        setFormErr("Error occured in form, please check values");
+        console.log(err);
+      });
   }
 
   function handleFirstNameChange(e) {
@@ -124,6 +146,7 @@ function SignUp(props) {
                   })}
                   type="text"
                   className={classes.box}
+                  disabled={progressStatus}
                   placeholder="First Name"
                 />
                 {errors.firstName && errors.firstName.type === "required" && (
@@ -144,6 +167,7 @@ function SignUp(props) {
                   })}
                   type="text"
                   className={classes.box}
+                  disabled={progressStatus}
                   placeholder="Last Name"
                 />
                 {errors.lastName && errors.lastName.type === "required" && (
@@ -167,6 +191,7 @@ function SignUp(props) {
                   })}
                   type="email"
                   className={classes.box}
+                  disabled={progressStatus}
                   placeholder="Email"
                 />
                 {errors.email && <span>{errors.email.message}</span>}
@@ -183,6 +208,7 @@ function SignUp(props) {
                   })}
                   className={classes.box}
                   placeholder="Password"
+                  disabled={progressStatus}
                 />
                 {errors.password && errors.password.type === "required" && (
                   <span className={classes.formErr}>This is required</span>
@@ -197,9 +223,11 @@ function SignUp(props) {
               fullWidth
               variant="contained"
               color="primary"
+              disabled={progressStatus}
               className={classes.submit}
             >
-              Sign Up
+              Sign Up{" "}
+              {progressStatus && <CircularProgressWithLabel value={progress} />}
             </Button>
             {formErr !== "" ? (
               <div className={classes.formErr}>

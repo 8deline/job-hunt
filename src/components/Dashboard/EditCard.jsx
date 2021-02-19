@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
@@ -7,6 +7,7 @@ import { useSpring, animated } from "react-spring/web.cjs";
 import backendService from "../../services/backendAPI";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import CircularProgressWithLabel from "./Progress";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -87,15 +88,35 @@ const fieldName = {
 export default function EditCard(props) {
   const classes = useStyles();
   const { open, setOpen, info, setShowNew, setModalInfo } = props;
+  const [progress, setProgress] = useState(10);
+  const [progressStatus, setProgressStatus] = useState(false);
   const handleClose = () => {
-    setOpen(false);
-    backendService
-      .render()
-      .then((newresult) => {
-        props.setAllResult(newresult.data.allResult);
-      })
-      .catch((err) => console.log(err));
+    if (!progressStatus) {
+      setOpen(false);
+      backendService
+        .render()
+        .then((newresult) => {
+          props.setAllResult(newresult.data.allResult);
+        })
+        .catch((err) => {
+          setProgressStatus(false);
+          setProgress(10);
+          console.log(err);
+        });
+    }
   };
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setProgress((prevProgress) =>
+        prevProgress >= 100 ? 100 : prevProgress + 10
+      );
+    }, 1000);
+    return () => {
+      clearInterval(timer);
+    };
+  }, [progressStatus]);
+
   const statusID = info[0];
   const index = info[1];
   const jobDetails = info[2];
@@ -117,6 +138,7 @@ export default function EditCard(props) {
             className={classes.textField}
             label={fieldName[key]}
             variant="outlined"
+            disabled={progressStatus}
           />
         );
       } else if (key === "salary") {
@@ -132,6 +154,7 @@ export default function EditCard(props) {
             className={classes.textField}
             label={fieldName[key]}
             variant="outlined"
+            disabled={progressStatus}
           />
         );
       } else if (key !== "_id") {
@@ -148,6 +171,7 @@ export default function EditCard(props) {
             variant="outlined"
             className={classes.textField}
             label={fieldName[key]}
+            disabled={progressStatus}
           />
         );
       }
@@ -161,7 +185,8 @@ export default function EditCard(props) {
       setModalInfo("Company or Position");
       return;
     }
-    setOpen(false);
+    setProgress(10);
+    setProgressStatus(true);
     backendService
       .updateJob(
         backendService.getCurrentUser().email,
@@ -177,15 +202,26 @@ export default function EditCard(props) {
         oldJobName
       )
       .then((result) => {
-        console.log(result);
+        setProgress(100);
         backendService
           .render()
           .then((newresult) => {
+            setProgressStatus(false);
+            setProgress(10);
             props.setAllResult(newresult.data.allResult);
+            setOpen(false);
           })
-          .catch((err) => console.log(err));
+          .catch((err) => {
+            setProgressStatus(false);
+            setProgress(10);
+            console.log(err);
+          });
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        setProgressStatus(false);
+        setProgress(10);
+        console.log(err);
+      });
   }
   return (
     <div>
@@ -212,6 +248,7 @@ export default function EditCard(props) {
                     type="submit"
                     color="primary"
                     fullWidth
+                    disabled={progressStatus}
                     className={classes.button}
                   >
                     Save
@@ -221,10 +258,14 @@ export default function EditCard(props) {
                     onClick={handleClose}
                     color="secondary"
                     fullWidth
+                    disabled={progressStatus}
                     className={classes.button}
                   >
                     Cancel
                   </Button>
+                  {progressStatus && (
+                    <CircularProgressWithLabel value={progress} />
+                  )}
                 </div>
               </form>
             </div>

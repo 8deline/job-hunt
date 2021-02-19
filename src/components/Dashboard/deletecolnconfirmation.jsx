@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
@@ -6,6 +6,7 @@ import Backdrop from "@material-ui/core/Backdrop";
 import { useSpring, animated } from "react-spring/web.cjs";
 import backendService from "../../services/backendAPI";
 import Button from "@material-ui/core/Button";
+import CircularProgressWithLabel from "./Progress";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -74,6 +75,8 @@ Fade.propTypes = {
 };
 
 export default function DeleteColumnConfirmation(props) {
+  const [progress, setProgress] = useState(10);
+  const [progressStatus, setProgressStatus] = useState(false);
   const classes = useStyles();
   const {
     columnBackendId,
@@ -82,24 +85,49 @@ export default function DeleteColumnConfirmation(props) {
     setDeleteColnConfirm,
   } = props;
   const handleClose = () => {
-    setDeleteColnConfirm(false);
+    if (!progressStatus) {
+      setDeleteColnConfirm(false);
+    }
   };
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setProgress((prevProgress) =>
+        prevProgress >= 100 ? 100 : prevProgress + 10
+      );
+    }, 1000);
+    return () => {
+      clearInterval(timer);
+    };
+  }, [progressStatus]);
+
   function submitEdit(e) {
     e.preventDefault();
-
+    setProgress(10);
+    setProgressStatus(true);
     backendService
       .deleteStatus(props.getCurrentUser().email, columnBackendId, columnTitle)
       .then((result) => {
-        console.log(result);
+        setProgress(100);
         backendService
           .render()
           .then((newresult) => {
+            setProgressStatus(false);
+            setProgress(10);
             props.setAllResult(newresult.data.allResult);
+            setDeleteColnConfirm(false);
           })
-          .catch((err) => console.log(err));
+          .catch((err) => {
+            setProgressStatus(false);
+            setProgress(10);
+            console.log(err);
+          });
       })
-      .catch((err) => console.log(err));
-    setDeleteColnConfirm(false);
+      .catch((err) => {
+        setProgressStatus(false);
+        setProgress(10);
+        console.log(err);
+      });
   }
   return (
     <div>
@@ -129,6 +157,7 @@ export default function DeleteColumnConfirmation(props) {
                   type="submit"
                   color="primary"
                   fullWidth
+                  disabled={progressStatus}
                   className={classes.button}
                 >
                   Confirm
@@ -138,10 +167,14 @@ export default function DeleteColumnConfirmation(props) {
                   onClick={handleClose}
                   color="secondary"
                   fullWidth
+                  disabled={progressStatus}
                   className={classes.button}
                 >
                   Cancel
                 </Button>
+                {progressStatus && (
+                  <CircularProgressWithLabel value={progress} />
+                )}
               </div>
             </form>
           </div>

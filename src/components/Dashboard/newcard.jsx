@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import backendService from "../../services/backendAPI";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import CloseIcon from "@material-ui/icons/Close";
+import CircularProgressWithLabel from "./Progress";
 
 const useStyles = makeStyles((theme) => ({
   addNewCard: {
@@ -30,6 +31,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Newcard(props) {
+  const [progress, setProgress] = useState(10);
+  const [progressStatus, setProgressStatus] = useState(false);
+
   const {
     setNewCard,
     getCurrentUser,
@@ -39,6 +43,18 @@ export default function Newcard(props) {
     setShowNew,
     setModalInfo,
   } = props;
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setProgress((prevProgress) =>
+        prevProgress >= 100 ? 100 : prevProgress + 10
+      );
+    }, 1000);
+    return () => {
+      clearInterval(timer);
+    };
+  }, [progressStatus]);
+
   const classes = useStyles();
   let [newCompany, setNewCompany] = useState({
     companyname: "",
@@ -58,19 +74,31 @@ export default function Newcard(props) {
       setModalInfo("Company or Position");
       return;
     }
+    setProgress(10);
+    setProgressStatus(true);
     backendService
       .createJob(newCompany)
       .then((result) => {
-        console.log(result);
+        setProgress(100);
         backendService
-          .render(getCurrentUser().email)
+          .render()
           .then((newresult) => {
+            setProgressStatus(false);
+            setProgress(10);
             setNewCard(false);
             setAllResult(newresult.data.allResult);
           })
-          .catch((err) => console.log(err));
+          .catch((err) => {
+            setProgressStatus(false);
+            setProgress(10);
+            console.log(err);
+          });
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        setProgressStatus(false);
+        setProgress(10);
+        console.log(err);
+      });
   };
 
   return (
@@ -82,6 +110,7 @@ export default function Newcard(props) {
           placeholder="Company name"
           name="companyname"
           className={classes.input}
+          disabled={progressStatus}
         />
         <input
           onChange={handleChange}
@@ -89,9 +118,15 @@ export default function Newcard(props) {
           placeholder="Position"
           name="jobname"
           className={classes.input}
+          disabled={progressStatus}
         />
 
-        <Button type="submit" variant="text" className={classes.addNewCard}>
+        <Button
+          type="submit"
+          variant="text"
+          className={classes.addNewCard}
+          disabled={progressStatus}
+        >
           <span className={classes.text}>Add Card</span>
         </Button>
         <Button
@@ -100,10 +135,12 @@ export default function Newcard(props) {
           }}
           className={classes.smallerButton}
           color="secondary"
+          disabled={progressStatus}
         >
           <CloseIcon className={classes.icon} />
         </Button>
       </form>
+      {progressStatus && <CircularProgressWithLabel value={progress} />}
     </div>
   );
 }

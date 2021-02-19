@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
@@ -14,6 +14,7 @@ import backendService from "../../services/backendAPI";
 import moment from "moment";
 import { withCookies } from "react-cookie";
 import { withRouter } from "react-router-dom";
+import CircularProgressWithLabel from "../Dashboard/Progress";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -56,17 +57,31 @@ function SignInSide(props) {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [formErr, setFormErr] = useState("");
-
+  const [progress, setProgress] = useState(10);
+  const [progressStatus, setProgressStatus] = useState(false);
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setProgress((prevProgress) =>
+        prevProgress >= 100 ? 100 : prevProgress + 10
+      );
+    }, 1000);
+    return () => {
+      clearInterval(timer);
+    };
+  }, [progressStatus]);
   function handleFormSubmission(e) {
     e.preventDefault();
+    setProgress(10);
+    setProgressStatus(true);
     backendService
       .login(email, password)
       .then((response) => {
+        setProgress(100);
         if (!response.data.success) {
+          setProgressStatus(false);
           setFormErr("Either email or password is wrong");
           return;
         }
-
         localStorage.setItem("user", JSON.stringify(response.data.info));
         localStorage.setItem("token", JSON.stringify(response.data.token));
 
@@ -74,10 +89,15 @@ function SignInSide(props) {
           path: "/",
           expires: moment.unix(response.data.expiresAt).toDate(),
         });
+        setProgressStatus(false);
+        setProgress(10);
       })
 
       .catch((err) => {
+        setProgressStatus(false);
+        setProgress(10);
         setFormErr("Error occured in form, please check values");
+        console.log(err);
       });
   }
 
@@ -115,6 +135,7 @@ function SignInSide(props) {
               name="email"
               autoComplete="email"
               autoFocus
+              disabled={progressStatus}
               onChange={handleEmailChange}
             />
             <TextField
@@ -127,6 +148,7 @@ function SignInSide(props) {
               type="password"
               id="password"
               autoComplete="current-password"
+              disabled={progressStatus}
               onChange={handlePasswordChange}
             />
             <Button
@@ -134,9 +156,11 @@ function SignInSide(props) {
               fullWidth
               variant="contained"
               color="primary"
+              disabled={progressStatus}
               className={classes.submit}
             >
-              Login
+              Login{" "}
+              {progressStatus && <CircularProgressWithLabel value={progress} />}
             </Button>
             <Grid container>
               <Grid item>

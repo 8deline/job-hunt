@@ -11,6 +11,7 @@ import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import DoneIcon from "@material-ui/icons/Done";
 import CloseIcon from "@material-ui/icons/Close";
 import AddIcon from "@material-ui/icons/Add";
+import CircularProgressWithLabel from "./Progress";
 
 const useStyles = makeStyles((theme) => ({
   editButton: {
@@ -60,6 +61,9 @@ function CategoriesColumn(props) {
   let [colnTitle, setColnTitle] = useState(props.title);
   let [editColn, setEditColn] = useState(false);
   const { columnEdit, setShowNew, setModalInfo } = props;
+  const [progress, setProgress] = useState(10);
+  const [progressStatus, setProgressStatus] = useState(false);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -69,8 +73,15 @@ function CategoriesColumn(props) {
   };
 
   useEffect(() => {
-    console.log(colnTitle);
-  }, [colnTitle]);
+    const timer = setInterval(() => {
+      setProgress((prevProgress) =>
+        prevProgress >= 100 ? 100 : prevProgress + 10
+      );
+    }, 1000);
+    return () => {
+      clearInterval(timer);
+    };
+  }, [progressStatus]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -90,6 +101,8 @@ function CategoriesColumn(props) {
       setModalInfo("Job Status");
       return;
     }
+    setProgress(10);
+    setProgressStatus(true);
     backendService
       .updateStatus(
         props.getCurrentUser().email,
@@ -98,13 +111,26 @@ function CategoriesColumn(props) {
         props.title
       )
       .then((result) => {
-        setEditColn(false);
+        setProgress(100);
         backendService
           .render()
-          .then((newresult) => props.setAllResult(newresult.data.allResult))
-          .catch((err) => console.log(err));
+          .then((newresult) => {
+            setProgressStatus(false);
+            setProgress(10);
+            props.setAllResult(newresult.data.allResult);
+            setEditColn(false);
+          })
+          .catch((err) => {
+            setProgressStatus(false);
+            setProgress(10);
+            console.log(err);
+          });
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        setProgressStatus(false);
+        setProgress(10);
+        console.log(err);
+      });
   };
 
   return (
@@ -122,23 +148,36 @@ function CategoriesColumn(props) {
                   onChange={(e) => setColnTitle(e.target.value)}
                   type="text"
                   className={classes.editColumnName}
+                  disabled={progressStatus}
                   value={colnTitle}
                 />
+
                 <span className={classes.buttons}>
-                  <Button
-                    className={classes.smallerButton}
-                    color="primary"
-                    type="submit"
-                  >
-                    <DoneIcon />
-                  </Button>
-                  <Button
-                    className={classes.smallerButton}
-                    onClick={() => setEditColn(false)}
-                    color="secondary"
-                  >
-                    <CloseIcon />
-                  </Button>
+                  {!progressStatus ? (
+                    <>
+                      <Button
+                        className={classes.smallerButton}
+                        color="primary"
+                        type="submit"
+                        disabled={progressStatus}
+                      >
+                        <DoneIcon />
+                      </Button>
+                      <Button
+                        className={classes.smallerButton}
+                        onClick={() => setEditColn(false)}
+                        color="secondary"
+                        disabled={progressStatus}
+                      >
+                        <CloseIcon />
+                      </Button>
+                    </>
+                  ) : (
+                    <CircularProgressWithLabel
+                      className={classes.buttons}
+                      value={progress}
+                    />
+                  )}
                 </span>
               </form>
             </>
