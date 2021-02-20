@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
@@ -6,6 +6,7 @@ import Backdrop from "@material-ui/core/Backdrop";
 import { useSpring, animated } from "react-spring/web.cjs";
 import backendService from "../../services/backendAPI";
 import Button from "@material-ui/core/Button";
+import CircularProgressWithLabel from "./Progress";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -70,6 +71,9 @@ Fade.propTypes = {
 };
 
 export default function DeleteCardConfirmation(props) {
+  const [progress, setProgress] = useState(10);
+  const [progressStatus, setProgressStatus] = useState(false);
+
   const classes = useStyles();
   const {
     deleteCardConfirm,
@@ -79,17 +83,30 @@ export default function DeleteCardConfirmation(props) {
     deleteCardInfo,
   } = props;
   const handleClose = () => {
-    setDeleteCardConfirm(false);
+    if (!progressStatus) {
+      setDeleteCardConfirm(false);
+    }
   };
   let statusBackendId = deleteCardInfo[1];
   let companyId = deleteCardInfo[2];
   let companyName = deleteCardInfo[3];
   let companyJobname = deleteCardInfo[4];
 
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setProgress((prevProgress) =>
+        prevProgress >= 100 ? 100 : prevProgress + 10
+      );
+    }, 1000);
+    return () => {
+      clearInterval(timer);
+    };
+  }, [progressStatus]);
+
   function submitEdit(e) {
     e.preventDefault();
-
-    setDeleteCardConfirm(false);
+    setProgress(10);
+    setProgressStatus(true);
     backendService
       .deleteJob(
         getCurrentUser().email,
@@ -99,14 +116,26 @@ export default function DeleteCardConfirmation(props) {
         companyJobname
       )
       .then((result) => {
+        setProgress(100);
         backendService
           .render()
           .then((newresult) => {
+            setProgressStatus(false);
+            setProgress(10);
             setAllResult(newresult.data.allResult);
+            setDeleteCardConfirm(false);
           })
-          .catch((err) => console.log(err));
+          .catch((err) => {
+            setProgressStatus(false);
+            setProgress(10);
+            console.log(err);
+          });
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        setProgressStatus(false);
+        setProgress(10);
+        console.log(err);
+      });
   }
   return (
     <div>
@@ -139,6 +168,7 @@ export default function DeleteCardConfirmation(props) {
                   type="submit"
                   color="primary"
                   fullWidth
+                  disabled={progressStatus}
                   className={classes.button}
                 >
                   Confirm
@@ -148,10 +178,14 @@ export default function DeleteCardConfirmation(props) {
                   onClick={handleClose}
                   color="secondary"
                   fullWidth
+                  disabled={progressStatus}
                   className={classes.button}
                 >
                   Cancel
                 </Button>
+                {progressStatus && (
+                  <CircularProgressWithLabel value={progress} />
+                )}
               </div>
             </form>
           </div>
