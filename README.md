@@ -1,70 +1,65 @@
-# Getting Started with Create React App
+# Job-hunt
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Project Name : Job-hunt
 
-## Available Scripts
+Purpose : To provide a platform that allows users to find job with interacting UI like trello.
 
-In the project directory, you can run:
+### Approach
 
-### `npm start`
+Version : 1.0
+Duration : 4 weeks
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+1. Research
+2. User stories
+3. Features
+4. Project approval
+5. Project planning
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- Agile - Identified the features that provide maximum values
+- Trello tracking of progress
+- Consensus to learn
 
-### `npm test`
+6. Logistics
+7. System setup
+8. Design
+9. Development
+10. Data preparation, Test, Bug-fix
+11. Basic styling
+12. Preparation for commit
+13. Document technical details
+14. Document technical challenges
+15. Document the Improvement
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Enhancement in upcoming version
 
-### `npm run build`
+16. Presentation and sharing of project
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Features
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+#### Create job status column
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- able to create job status like "Applying", "Done", etc
 
-### `npm run eject`
+#### Add Job into Job status column
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- able to create job and update the company name, position, preparation and etc
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+#### Drag and drop function
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+- able to move job from current column to another column like trello
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+#### Footer
 
-## Learn More
+1. Direct to other web site social media page (next version)
+2. Quick Links (PDPA, FAQ…) (next version)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Specifications / Technical Details
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- MERN stack
+- 4 models : job, notification, users.
+- Deploy online and accessible to the public via Heroku
 
-### Code Splitting
+### Reference
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Trello
+react dnd library
